@@ -22,31 +22,10 @@ Public Class frmMain
     Private Sub InitializeForm()
         miVersion.Text = String.Format("Version: {0}", Version)
         cbxEngCoolant.SelectedIndex = 0 : cbxPrimaryCir.SelectedIndex = 0 : FillGensetDGVCols(dgvGensets)
+        Setup_DGV(dgvCompare)
         'For Each tp As TabPage In tcMain.TabPages
         '    If tp.Text <> "Choose Application" Then tp.Enabled = False
         'Next
-    End Sub
-
-    Private Sub ToggleEnabled(ByVal Panel As String, ByVal Toggle As Boolean, ByVal Parent As Object)
-        Dim strPrefix As String = ""
-        ' SELECT PANEL TO TOGGLE
-        Select Case Panel
-            Case "chkMfr" : strPrefix = "chkMF" ' engineMFR
-            Case "chkRpm" : strPrefix = "chkER" ' engineRPM
-            Case "chkFuel" : strPrefix = "chkFT" ' fuelType
-            Case "chkEmit" : strPrefix = "chkBT" ' burnType (emissions)
-            Case "chkOlts" : strPrefix = "chkV" ' voltage
-            Case "chkPowAny" : strPrefix = "chkPF" ' power factor
-        End Select
-        ' BEGIN TOGGLE
-        For Each c As Control In Parent.controls
-            If c.Name.StartsWith(strPrefix) Then DirectCast(c, CheckBox).Enabled = Toggle
-            If Toggle Then
-                If c.Name.StartsWith(strPrefix) Then DirectCast(c, CheckBox).Checked = False
-            Else
-                If c.Name.StartsWith(strPrefix) Then DirectCast(c, CheckBox).Checked = True
-            End If
-        Next
     End Sub
 
     Private Sub TextBox_Click_SelectAll(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtEPmin.Click, txtEPmax.Click, txtMinExTemp.Click, txtSteam.Click, txtFeed.Click, txtPrimaryInlet.Click, txtPrimaryOutlet.Click, txt2ndInlet.Click, txt2ndOutlet.Click
@@ -78,14 +57,12 @@ Public Class frmMain
             query &= "ORDER BY ElePow100, RPM"
             'MsgBox(query)
             SQL.ExecQuery(query)
-            If String.IsNullOrEmpty(SQL.Exception) Then dgvCompare.DataSource = SQL.DBDS.Tables(0) Else MsgBox(SQL.Exception)
+            If String.IsNullOrEmpty(SQL.Exception) Then dgvCompare.DataSource = SQL.DBDS.Tables(0) : ColorDVG(dgvCompare) Else MsgBox(SQL.Exception)
             OptionsFound()
         Else
             Try
-                UpdateObj(lblStatus, "Not Ready", Color.Red)
-            Catch ex As Exception
-
-            End Try
+                UpdateObj(lblStatus, "Not Ready", Color.Red) : UpdateObj(lblRecords, 0, Color.Red, Color.Gainsboro) : SQL.DBDS.Clear()
+            Catch ex As Exception : End Try ' DO NOTHING
         End If
     End Sub
 
@@ -100,6 +77,11 @@ Public Class frmMain
         If isNullorNumeric(txtEPmin) AndAlso isNullorNumeric(txtEPmax) Then txtValid = True ' CHECK TEXTBOX VALUES
         If chksValid AndAlso txtValid Then Return True Else Return False ' FINAL CHECK
     End Function
+
+    Private Sub OptionsFound()
+        Dim count As Integer = SQL.RecordCount
+        If count > 0 Then UpdateObj(lblRecords, count, Color.LawnGreen, Color.DarkSlateGray) Else UpdateObj(lblRecords, count, Color.Red, Color.Gainsboro)
+    End Sub
 
 #Region "QUERY FILTERS"
     Private Enum Filter
@@ -197,11 +179,6 @@ Public Class frmMain
         Return partialQuery
     End Function
 #End Region
-    Private Sub OptionsFound()
-        With lblRecords : .Text = SQL.RecordCount : If SQL.RecordCount > 0 Then .BackColor = Color.DarkSlateGray : .ForeColor = Color.LawnGreen Else .BackColor = Color.Gainsboro : .ForeColor = Color.Red
-        End With
-        lblTotal.Text = SQL.RecordCount
-    End Sub
 #End Region
 
 #Region "FORM OBJECTS"
@@ -234,10 +211,85 @@ Public Class frmMain
             lblNox.Visible = False : chkNX1.Visible = False : chkNX2.Visible = False : chkNX3.Visible = False : chkNX1.Checked = False : chkNX2.Checked = False : chkNX3.Checked = False : SynthQuery()
         End If
     End Sub
+    Private Sub ToggleEnabled(ByVal Panel As String, ByVal Toggle As Boolean, ByVal Parent As Object)
+        Dim strPrefix As String = ""
+        Select Case Panel
+            Case "chkMfr" : strPrefix = "chkMF" ' engineMFR
+            Case "chkRpm" : strPrefix = "chkER" ' engineRPM
+            Case "chkFuel" : strPrefix = "chkFT" ' fuelType
+            Case "chkEmit" : strPrefix = "chkBT" ' burnType (emissions)
+            Case "chkOlts" : strPrefix = "chkV" ' voltage
+            Case "chkPowAny" : strPrefix = "chkPF" ' power factor
+        End Select
+        ' BEGIN TOGGLE
+        For Each c As Control In Parent.controls
+            If c.Name.StartsWith(strPrefix) Then DirectCast(c, CheckBox).Enabled = Toggle
+            If Toggle Then
+                If c.Name.StartsWith(strPrefix) Then DirectCast(c, CheckBox).Checked = False
+            Else
+                If c.Name.StartsWith(strPrefix) Then DirectCast(c, CheckBox).Checked = True
+            End If
+        Next
+    End Sub
 #End Region
 #Region "TabControl \ Heat Recovery"
     Private Sub TextBox_TextChanged_Validation(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtMinExTemp.TextChanged, txtSteam.TextChanged, txtFeed.TextChanged, txtPrimaryInlet.TextChanged, txtPrimaryOutlet.TextChanged, txt2ndInlet.TextChanged, txt2ndOutlet.TextChanged
         If Not isNotNullorInvalid(sender) Then DirectCast(sender, TextBox).Text = Nothing
+    End Sub
+
+    ' FLUID PERCENTILES
+    Private Sub CircuitFluid_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtEngCool.TextChanged, txtPrimaryCir.TextChanged, txt2ndCir.TextChanged
+        If isNotNullorInvalid(sender) Then
+            If withinRange(sender) Then lblRange.ForeColor = Color.Black Else lblRange.ForeColor = Color.Red
+        Else
+            DirectCast(sender, TextBox).ResetText() : lblRange.ForeColor = Color.Black
+        End if
+    End Sub
+    
+    ' CHECKBOXES (LEFT HALF)
+    Private Sub chkSteam_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkSteam.CheckedChanged
+        If chkSteam.Checked = True Then ToggleHeatControls(txtSteam, txtFeed, True, False, True) Else ToggleHeatControls(txtSteam, txtFeed, False, False, True) : txtSteam.Text = 0 : txtFeed.Text = 0
+    End Sub
+    Private Sub chkEhru_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEhru.CheckedChanged
+        If chkEhru.Checked = True Then : chkEHRUtoJW.Checked = True : ToggleHeatControls(chkEHRUtoJW, chkEHRUtoPrimary, True, False, True) : Else : ToggleHeatControls(chkEHRUtoJW, chkEHRUtoPrimary, False, True, True) : End If
+    End Sub
+    Private Sub chkJW_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEHRUtoJW.CheckedChanged
+        If chkEHRUtoJW.Checked = True Then chkEHRUtoPrimary.Checked = False
+    End Sub
+    Private Sub chkPrimary1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEHRUtoPrimary.CheckedChanged
+        If chkEHRUtoPrimary.Checked = True Then chkEHRUtoJW.Checked = False
+    End Sub
+    ' CHECKBOXES (RIGHT HALF)
+    Private Sub chkRecoverJW_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkRecoverJW.CheckedChanged
+        If chkRecoverJW.Checked = True Then : txtPrimaryInlet.Focus() : txtPrimaryInlet.SelectAll() : End If
+    End Sub
+    Private Sub chkOilToJw_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkOilToJw.CheckedChanged
+        If chkOilToJw.Checked = True Then chkOilToIc.Checked = False
+    End Sub
+    Private Sub chkOilToIc_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkOilToIc.CheckedChanged
+        If chkOilToIc.Checked = True Then chkOilToJw.Checked = False
+    End Sub
+    Private Sub chkRecoverLT_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkRecoverLT.CheckedChanged
+        If chkRecoverLT.Checked = True Then : chkAddTo2nd.Checked = True : ToggleHeatControls(chkAddToPrimary, chkAddTo2nd, True, False, True) : ToggleHeatControls(txt2ndInlet, txt2ndOutlet, True, False, True) : txt2ndInlet.Focus() : txt2ndOutlet.SelectAll()
+        Else : ToggleHeatControls(chkAddToPrimary, chkAddTo2nd, False, True, True) : ToggleHeatControls(txt2ndInlet, txt2ndOutlet, False, False, True, True) : End If
+    End Sub
+    Private Sub chkAddToPrimary_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAddToPrimary.CheckedChanged
+        If chkAddToPrimary.Checked = True Then chkAddTo2nd.Checked = False
+    End Sub
+    Private Sub chkAddTo2nd_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAddTo2nd.CheckedChanged
+        If chkAddTo2nd.Checked = True Then : chkAddToPrimary.Checked = False : cbx2ndCir.Enabled = True : cbx2ndCir.SelectedIndex = 0 : txt2ndInlet.Focus() : txt2ndInlet.SelectAll()
+        Else : cbx2ndCir.Enabled = False : cbx2ndCir.SelectedIndex = -1 : txt2ndInlet.Text = 0 : txt2ndOutlet.Text = 0 : End If
+    End Sub
+    ' COMBOBOXES
+    Private Sub cbxEngCoolant_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbxEngCoolant.SelectedIndexChanged
+        If cbxEngCoolant.SelectedIndex > 0 Then txtEngCool.Visible = True Else txtEngCool.ResetText() : txtEngCool.Visible = False
+    End Sub
+    Private Sub cbxPrimaryCir_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbxPrimaryCir.SelectedIndexChanged
+        If cbxPrimaryCir.SelectedIndex > 0 Then txtPrimaryCir.Visible = True Else txtPrimaryCir.ResetText() : txtPrimaryCir.Visible = False
+    End Sub
+    Private Sub cbx2ndCir_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbx2ndCir.SelectedIndexChanged
+        If cbx2ndCir.SelectedIndex > 0 Then : txt2ndCir.Visible = True ': txt2ndInlet.Enabled = True : txt2ndOutlet.Enabled = True
+        Else : txt2ndCir.ResetText() : txt2ndCir.Visible = False : End If ': txt2ndInlet.ResetText() : txt2ndInlet.Enabled = False : txt2ndOutlet.ResetText() : txt2ndOutlet.Enabled = False : End If
     End Sub
 #End Region
 #Region "TabControl \ Compare"
@@ -251,7 +303,7 @@ Public Class frmMain
 #End Region
 #Region "Buttons"
     Private Sub NavButtons_Click(sender As System.Object, e As System.EventArgs) Handles btnNext.Click, btnBack.Click
-        Navigate(DirectCast(sender, Button).Name, tcMain, 1)
+        Navigate(DirectCast(sender, Button).Name, tcMain, lblRecords.Text)
     End Sub
 #End Region
 #Region "Menu Strip"

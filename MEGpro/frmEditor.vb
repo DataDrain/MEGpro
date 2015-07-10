@@ -21,7 +21,8 @@
 
 #Region "UTILITY SUBS"
     Private Sub InitializeForm()
-        dgvData.Font = New Font("Arial", 9) : dgvData.ColumnHeadersDefaultCellStyle.Font = New Font("Arial", 9, FontStyle.Bold)
+        Setup_DGV(dgvData)
+        'dgvData.Font = New Font("Arial", 9) : dgvData.ColumnHeadersDefaultCellStyle.Font = New Font("Arial", 9, FontStyle.Bold)
         cbxFilter.SelectedIndex = 0 : RefreshForm() : dgvData.Focus()
     End Sub
 
@@ -47,7 +48,7 @@
 
     Private Sub Fill_DGV()
         If String.IsNullOrEmpty(SQL.Exception) Then dgvData.DataSource = SQL.DBDS.Tables(0) Else MsgBox(SQL.Exception)
-        ColorDVG()
+        ColorDVG(dgvData)
         If SQL.RecordCount > 0 Then dgvData.Columns(0).Frozen = True
         If SQL.RecordCount = 0 Then ClearText()
         lblRecords.Text = SQL.RecordCount
@@ -108,7 +109,7 @@
 
     Private Sub dgvData_Sorted(sender As Object, e As System.EventArgs) Handles dgvData.Sorted
         PopulateCBX()
-        ColorDVG()
+        ColorDVG(dgvData)
     End Sub
 
     Private Sub _cbx_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cbxGuDataSheet.SelectedIndexChanged, cbxMaDataSheet.SelectedIndexChanged, cbxMtDataSheet.SelectedIndexChanged
@@ -161,12 +162,6 @@
         For Each c As Control In tcMFR.SelectedTab.Controls
             If TypeOf c Is TextBox Then c.ResetText()
             If c.Name.EndsWith("Fuel") Or c.Name.EndsWith("Burn") Then c.ResetText()
-        Next
-    End Sub
-
-    Private Sub ColorDVG()
-        For i As Integer = 0 To dgvData.Rows.Count - 1
-            dgvData.Rows(i).Cells(0).Style.BackColor = Color.LightGray
         Next
     End Sub
 #End Region

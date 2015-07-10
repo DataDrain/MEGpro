@@ -392,6 +392,8 @@ Partial Class frmMain
         Me.Label58 = New System.Windows.Forms.Label()
         Me.lblStatus = New System.Windows.Forms.Label()
         Me.lblChk = New System.Windows.Forms.Label()
+        Me.Label75 = New System.Windows.Forms.Label()
+        Me.lblPF = New System.Windows.Forms.Label()
         Me.txtPrepare = New System.Windows.Forms.TextBox()
         Me.txtProjName = New System.Windows.Forms.TextBox()
         Me.btnFinal = New System.Windows.Forms.Button()
@@ -540,8 +542,6 @@ Partial Class frmMain
         Me.btnNext = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.Label75 = New System.Windows.Forms.Label()
-        Me.lblPF = New System.Windows.Forms.Label()
         Me.msMain.SuspendLayout()
         CType(Me.dgvGensets, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabView.SuspendLayout()
@@ -5801,14 +5801,15 @@ Partial Class frmMain
         Me.dgvCompare.AllowUserToResizeRows = False
         Me.dgvCompare.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
         Me.dgvCompare.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
+        Me.dgvCompare.BackgroundColor = System.Drawing.SystemColors.Control
         Me.dgvCompare.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvCompare.Location = New System.Drawing.Point(164, 36)
+        Me.dgvCompare.Location = New System.Drawing.Point(210, 36)
         Me.dgvCompare.MultiSelect = False
         Me.dgvCompare.Name = "dgvCompare"
         Me.dgvCompare.ReadOnly = True
         Me.dgvCompare.RowHeadersVisible = False
         Me.dgvCompare.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgvCompare.Size = New System.Drawing.Size(824, 450)
+        Me.dgvCompare.Size = New System.Drawing.Size(682, 450)
         Me.dgvCompare.TabIndex = 8
         Me.ToolTip.SetToolTip(Me.dgvCompare, "Engines")
         '
@@ -5850,6 +5851,32 @@ Partial Class frmMain
         Me.lblChk.Text = "Good"
         Me.lblChk.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.ToolTip.SetToolTip(Me.lblChk, "Current Mode")
+        '
+        'Label75
+        '
+        Me.Label75.BackColor = System.Drawing.Color.Transparent
+        Me.Label75.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label75.ForeColor = System.Drawing.Color.Black
+        Me.Label75.Location = New System.Drawing.Point(3, 1)
+        Me.Label75.Name = "Label75"
+        Me.Label75.Size = New System.Drawing.Size(37, 18)
+        Me.Label75.TabIndex = 638
+        Me.Label75.Text = "PF:"
+        Me.Label75.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ToolTip.SetToolTip(Me.Label75, "Current Mode")
+        '
+        'lblPF
+        '
+        Me.lblPF.BackColor = System.Drawing.Color.Transparent
+        Me.lblPF.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPF.ForeColor = System.Drawing.Color.Black
+        Me.lblPF.Location = New System.Drawing.Point(37, 1)
+        Me.lblPF.Name = "lblPF"
+        Me.lblPF.Size = New System.Drawing.Size(35, 18)
+        Me.lblPF.TabIndex = 639
+        Me.lblPF.Text = "1"
+        Me.lblPF.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ToolTip.SetToolTip(Me.lblPF, "Current Mode")
         '
         'txtPrepare
         '
@@ -7657,32 +7684,6 @@ Partial Class frmMain
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(81, 25)
         Me.Panel2.TabIndex = 513
-        '
-        'Label75
-        '
-        Me.Label75.BackColor = System.Drawing.Color.Transparent
-        Me.Label75.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label75.ForeColor = System.Drawing.Color.Black
-        Me.Label75.Location = New System.Drawing.Point(3, 1)
-        Me.Label75.Name = "Label75"
-        Me.Label75.Size = New System.Drawing.Size(37, 18)
-        Me.Label75.TabIndex = 638
-        Me.Label75.Text = "PF:"
-        Me.Label75.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolTip.SetToolTip(Me.Label75, "Current Mode")
-        '
-        'lblPF
-        '
-        Me.lblPF.BackColor = System.Drawing.Color.Transparent
-        Me.lblPF.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPF.ForeColor = System.Drawing.Color.Black
-        Me.lblPF.Location = New System.Drawing.Point(37, 1)
-        Me.lblPF.Name = "lblPF"
-        Me.lblPF.Size = New System.Drawing.Size(35, 18)
-        Me.lblPF.TabIndex = 639
-        Me.lblPF.Text = "1"
-        Me.lblPF.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolTip.SetToolTip(Me.lblPF, "Current Mode")
         '
         'frmMain
         '
