@@ -21,6 +21,18 @@
 
 #End Region
 
+#Region "CUSTOM GENSET COLUMNS"
+    Public Sub FillGensetDGVCols(dgv As DataGridView)
+        dgv.ColumnCount = 24
+        dgv.Columns(0).Name = "Product ID" : dgv.Columns(1).Name = "MFR" : dgv.Columns(2).Name = "Model" : dgv.Columns(3).Name = "RPM"
+        dgv.Columns(4).Name = "FuelType" : dgv.Columns(5).Name = "Engine_KW" : dgv.Columns(6).Name = "LT_Heat" : dgv.Columns(7).Name = "FuelCon"
+        dgv.Columns(8).Name = "FuelCon_bHP" : dgv.Columns(9).Name = "Steam_Recov" : dgv.Columns(10).Name = "JW_to_PRM" : dgv.Columns(11).Name = "ExHeatRecov_PRM"
+        dgv.Columns(12).Name = "OilCool_PRM" : dgv.Columns(13).Name = "Total_PRM" : dgv.Columns(14).Name = "IC_to_SEC" : dgv.Columns(15).Name = "Ele_Eff"
+        dgv.Columns(16).Name = "Therm_Eff" : dgv.Columns(17).Name = "Total_Eff" : dgv.Columns(18).Name = "PW_Flow" : dgv.Columns(19).Name = "PW_In"
+        dgv.Columns(20).Name = "PW_Out" : dgv.Columns(21).Name = "SW_Flow" : dgv.Columns(22).Name = "SW_In" : dgv.Columns(23).Name = "SW_Out"
+    End Sub
+#End Region
+
 #Region "MATH CONSTANTS"
     Public Const ELE_EFF_PERCENT As Double = 0.95
     Public Const ELE_CONVERSION As Double = 0.7457

@@ -92,7 +92,6 @@ Partial Class frmMain
         Me.miSave = New System.Windows.Forms.ToolStripMenuItem()
         Me.MainToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.miDB = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -390,11 +389,12 @@ Partial Class frmMain
         Me.txtComments = New System.Windows.Forms.TextBox()
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.dgvCompare = New System.Windows.Forms.DataGridView()
+        Me.Label58 = New System.Windows.Forms.Label()
+        Me.lblStatus = New System.Windows.Forms.Label()
+        Me.lblChk = New System.Windows.Forms.Label()
         Me.txtPrepare = New System.Windows.Forms.TextBox()
         Me.txtProjName = New System.Windows.Forms.TextBox()
-        Me.btnBack = New System.Windows.Forms.Button()
         Me.btnFinal = New System.Windows.Forms.Button()
-        Me.btnReset = New System.Windows.Forms.Button()
         Me.btnRestart = New System.Windows.Forms.Button()
         Me.tabDrawing = New System.Windows.Forms.TabPage()
         Me.picTest = New System.Windows.Forms.PictureBox()
@@ -403,14 +403,13 @@ Partial Class frmMain
         Me.lblPrepare = New System.Windows.Forms.Label()
         Me.lblProjName = New System.Windows.Forms.Label()
         Me.Label72 = New System.Windows.Forms.Label()
-        Me.btnNext = New System.Windows.Forms.Button()
         Me.btnPopulate = New System.Windows.Forms.Button()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.pnlEngines = New System.Windows.Forms.Panel()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
-        Me.lblFound = New System.Windows.Forms.Label()
+        Me.lblRecords = New System.Windows.Forms.Label()
         Me.Label30 = New System.Windows.Forms.Label()
         Me.chkV12470 = New System.Windows.Forms.CheckBox()
         Me.chkV4160 = New System.Windows.Forms.CheckBox()
@@ -453,7 +452,6 @@ Partial Class frmMain
         Me.chkRpm = New System.Windows.Forms.CheckBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.chkMFmtu = New System.Windows.Forms.CheckBox()
-        Me.chkMFman = New System.Windows.Forms.CheckBox()
         Me.chkMFgua = New System.Windows.Forms.CheckBox()
         Me.chkMfr = New System.Windows.Forms.CheckBox()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -537,6 +535,13 @@ Partial Class frmMain
         Me.radGensets = New System.Windows.Forms.RadioButton()
         Me.radEngines = New System.Windows.Forms.RadioButton()
         Me.sfdSaveFile = New System.Windows.Forms.SaveFileDialog()
+        Me.btnBack = New System.Windows.Forms.Button()
+        Me.btnReset = New System.Windows.Forms.Button()
+        Me.btnNext = New System.Windows.Forms.Button()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Label75 = New System.Windows.Forms.Label()
+        Me.lblPF = New System.Windows.Forms.Label()
         Me.msMain.SuspendLayout()
         CType(Me.dgvGensets, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabView.SuspendLayout()
@@ -549,6 +554,8 @@ Partial Class frmMain
         Me.tcMain.SuspendLayout()
         Me.tabHeat.SuspendLayout()
         Me.tabCompare.SuspendLayout()
+        Me.Panel1.SuspendLayout()
+        Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label64
@@ -1416,8 +1423,9 @@ Partial Class frmMain
         '
         'msMain
         '
-        Me.msMain.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.msMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GoToToolStripMenuItem, Me.EditToolStripMenuItem, Me.ToolsToolStripMenuItem, Me.HelpToolStripMenuItem})
+        Me.msMain.BackColor = System.Drawing.SystemColors.GradientInactiveCaption
+        Me.msMain.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.msMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GoToToolStripMenuItem, Me.ToolsToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.msMain.Location = New System.Drawing.Point(0, 0)
         Me.msMain.Name = "msMain"
         Me.msMain.Size = New System.Drawing.Size(1008, 24)
@@ -1428,72 +1436,66 @@ Partial Class frmMain
         '
         Me.GoToToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.miSave, Me.MainToolStripMenuItem, Me.ExitToolStripMenuItem})
         Me.GoToToolStripMenuItem.Name = "GoToToolStripMenuItem"
-        Me.GoToToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
+        Me.GoToToolStripMenuItem.Size = New System.Drawing.Size(41, 20)
         Me.GoToToolStripMenuItem.Text = "File"
         '
         'miSave
         '
         Me.miSave.Name = "miSave"
         Me.miSave.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.miSave.Size = New System.Drawing.Size(143, 22)
+        Me.miSave.Size = New System.Drawing.Size(151, 22)
         Me.miSave.Text = "Save"
         '
         'MainToolStripMenuItem
         '
         Me.MainToolStripMenuItem.Name = "MainToolStripMenuItem"
-        Me.MainToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
+        Me.MainToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.MainToolStripMenuItem.Text = "Print Preview"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(151, 22)
         Me.ExitToolStripMenuItem.Text = "E&xit"
-        '
-        'EditToolStripMenuItem
-        '
-        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
-        Me.EditToolStripMenuItem.Text = "Edit"
         '
         'ToolsToolStripMenuItem
         '
         Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.miDB})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
-        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(48, 20)
+        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(50, 20)
         Me.ToolsToolStripMenuItem.Text = "Tools"
         '
         'miDB
         '
         Me.miDB.Name = "miDB"
         Me.miDB.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.miDB.Size = New System.Drawing.Size(198, 22)
+        Me.miDB.Size = New System.Drawing.Size(214, 22)
         Me.miDB.Text = "Database Editor"
         '
         'HelpToolStripMenuItem
         '
         Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutToolStripMenuItem, Me.ToolStripSeparator1, Me.miVersion})
         Me.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem"
-        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(46, 20)
         Me.HelpToolStripMenuItem.Text = "Help"
         '
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
         Me.AboutToolStripMenuItem.Text = "About"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(104, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(127, 6)
         '
         'miVersion
         '
         Me.miVersion.Name = "miVersion"
-        Me.miVersion.Size = New System.Drawing.Size(107, 22)
-        Me.miVersion.Text = "v1.1.0"
+        Me.miVersion.Size = New System.Drawing.Size(130, 22)
+        Me.miVersion.Text = "Version #"
         '
         'Label121
         '
@@ -1582,7 +1584,7 @@ Partial Class frmMain
         'tabView
         '
         Me.tabView.AutoScroll = True
-        Me.tabView.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.tabView.BackColor = System.Drawing.SystemColors.Control
         Me.tabView.Controls.Add(Me.Label64)
         Me.tabView.Controls.Add(Me.btnLeft)
         Me.tabView.Controls.Add(Me.btnRight)
@@ -1933,7 +1935,7 @@ Partial Class frmMain
         Me.tabView.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tabView.Location = New System.Drawing.Point(4, 25)
         Me.tabView.Name = "tabView"
-        Me.tabView.Size = New System.Drawing.Size(992, 491)
+        Me.tabView.Size = New System.Drawing.Size(998, 512)
         Me.tabView.TabIndex = 3
         Me.tabView.Tag = ""
         Me.tabView.Text = "View Performance"
@@ -5810,6 +5812,45 @@ Partial Class frmMain
         Me.dgvCompare.TabIndex = 8
         Me.ToolTip.SetToolTip(Me.dgvCompare, "Engines")
         '
+        'Label58
+        '
+        Me.Label58.BackColor = System.Drawing.Color.Transparent
+        Me.Label58.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label58.ForeColor = System.Drawing.Color.Black
+        Me.Label58.Location = New System.Drawing.Point(3, 1)
+        Me.Label58.Name = "Label58"
+        Me.Label58.Size = New System.Drawing.Size(54, 18)
+        Me.Label58.TabIndex = 638
+        Me.Label58.Text = "Status:"
+        Me.Label58.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ToolTip.SetToolTip(Me.Label58, "Current Mode")
+        '
+        'lblStatus
+        '
+        Me.lblStatus.BackColor = System.Drawing.Color.Transparent
+        Me.lblStatus.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblStatus.ForeColor = System.Drawing.Color.Black
+        Me.lblStatus.Location = New System.Drawing.Point(58, 2)
+        Me.lblStatus.Name = "lblStatus"
+        Me.lblStatus.Size = New System.Drawing.Size(81, 18)
+        Me.lblStatus.TabIndex = 637
+        Me.lblStatus.Text = "Not Ready"
+        Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ToolTip.SetToolTip(Me.lblStatus, "Current Mode")
+        '
+        'lblChk
+        '
+        Me.lblChk.BackColor = System.Drawing.Color.Transparent
+        Me.lblChk.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblChk.ForeColor = System.Drawing.Color.Black
+        Me.lblChk.Location = New System.Drawing.Point(142, 1)
+        Me.lblChk.Name = "lblChk"
+        Me.lblChk.Size = New System.Drawing.Size(97, 18)
+        Me.lblChk.TabIndex = 637
+        Me.lblChk.Text = "Good"
+        Me.lblChk.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ToolTip.SetToolTip(Me.lblChk, "Current Mode")
+        '
         'txtPrepare
         '
         Me.txtPrepare.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -5828,16 +5869,6 @@ Partial Class frmMain
         Me.txtProjName.TabIndex = 1
         Me.txtProjName.Text = "Genset Project"
         '
-        'btnBack
-        '
-        Me.btnBack.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnBack.Location = New System.Drawing.Point(664, 628)
-        Me.btnBack.Name = "btnBack"
-        Me.btnBack.Size = New System.Drawing.Size(83, 27)
-        Me.btnBack.TabIndex = 507
-        Me.btnBack.Text = "< &Back"
-        Me.btnBack.UseVisualStyleBackColor = True
-        '
         'btnFinal
         '
         Me.btnFinal.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -5847,16 +5878,6 @@ Partial Class frmMain
         Me.btnFinal.TabIndex = 4
         Me.btnFinal.Text = "&Finalize"
         Me.btnFinal.UseVisualStyleBackColor = True
-        '
-        'btnReset
-        '
-        Me.btnReset.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(448, 628)
-        Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(105, 27)
-        Me.btnReset.TabIndex = 508
-        Me.btnReset.Text = "Clear Tab"
-        Me.btnReset.UseVisualStyleBackColor = True
         '
         'btnRestart
         '
@@ -5871,12 +5892,12 @@ Partial Class frmMain
         'tabDrawing
         '
         Me.tabDrawing.AutoScroll = True
-        Me.tabDrawing.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.tabDrawing.BackColor = System.Drawing.SystemColors.Control
         Me.tabDrawing.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
         Me.tabDrawing.Controls.Add(Me.picTest)
         Me.tabDrawing.Location = New System.Drawing.Point(4, 25)
         Me.tabDrawing.Name = "tabDrawing"
-        Me.tabDrawing.Size = New System.Drawing.Size(992, 491)
+        Me.tabDrawing.Size = New System.Drawing.Size(998, 512)
         Me.tabDrawing.TabIndex = 5
         Me.tabDrawing.Text = "View Diagram"
         '
@@ -5904,7 +5925,7 @@ Partial Class frmMain
         Me.tabPrint.Controls.Add(Me.Label72)
         Me.tabPrint.Location = New System.Drawing.Point(4, 25)
         Me.tabPrint.Name = "tabPrint"
-        Me.tabPrint.Size = New System.Drawing.Size(992, 491)
+        Me.tabPrint.Size = New System.Drawing.Size(998, 512)
         Me.tabPrint.TabIndex = 4
         Me.tabPrint.Text = "Print/Save"
         '
@@ -5949,7 +5970,7 @@ Partial Class frmMain
         '
         'Label72
         '
-        Me.Label72.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.Label72.BackColor = System.Drawing.SystemColors.Control
         Me.Label72.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.Label72.Font = New System.Drawing.Font("Arial", 9.5!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label72.Location = New System.Drawing.Point(21, 20)
@@ -5957,16 +5978,6 @@ Partial Class frmMain
         Me.Label72.Size = New System.Drawing.Size(949, 455)
         Me.Label72.TabIndex = 511
         Me.Label72.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'btnNext
-        '
-        Me.btnNext.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnNext.Location = New System.Drawing.Point(760, 628)
-        Me.btnNext.Name = "btnNext"
-        Me.btnNext.Size = New System.Drawing.Size(83, 27)
-        Me.btnNext.TabIndex = 506
-        Me.btnNext.Text = "&Next >"
-        Me.btnNext.UseVisualStyleBackColor = True
         '
         'btnPopulate
         '
@@ -6025,18 +6036,18 @@ Partial Class frmMain
         Me.Label9.Size = New System.Drawing.Size(2, 423)
         Me.Label9.TabIndex = 395
         '
-        'lblFound
+        'lblRecords
         '
-        Me.lblFound.BackColor = System.Drawing.Color.Gainsboro
-        Me.lblFound.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblFound.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblFound.ForeColor = System.Drawing.Color.Red
-        Me.lblFound.Location = New System.Drawing.Point(679, 384)
-        Me.lblFound.Name = "lblFound"
-        Me.lblFound.Size = New System.Drawing.Size(92, 31)
-        Me.lblFound.TabIndex = 264
-        Me.lblFound.Text = "0"
-        Me.lblFound.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.lblRecords.BackColor = System.Drawing.Color.Gainsboro
+        Me.lblRecords.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lblRecords.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRecords.ForeColor = System.Drawing.Color.Red
+        Me.lblRecords.Location = New System.Drawing.Point(679, 384)
+        Me.lblRecords.Name = "lblRecords"
+        Me.lblRecords.Size = New System.Drawing.Size(92, 31)
+        Me.lblRecords.TabIndex = 264
+        Me.lblRecords.Text = "1"
+        Me.lblRecords.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Label30
         '
@@ -6218,7 +6229,7 @@ Partial Class frmMain
         '
         'tabFilter
         '
-        Me.tabFilter.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.tabFilter.BackColor = System.Drawing.SystemColors.Control
         Me.tabFilter.Controls.Add(Me.chkV600)
         Me.tabFilter.Controls.Add(Me.Label27)
         Me.tabFilter.Controls.Add(Me.radPF9)
@@ -6234,7 +6245,7 @@ Partial Class frmMain
         Me.tabFilter.Controls.Add(Me.Label6)
         Me.tabFilter.Controls.Add(Me.Label4)
         Me.tabFilter.Controls.Add(Me.Label9)
-        Me.tabFilter.Controls.Add(Me.lblFound)
+        Me.tabFilter.Controls.Add(Me.lblRecords)
         Me.tabFilter.Controls.Add(Me.Label30)
         Me.tabFilter.Controls.Add(Me.chkV12470)
         Me.tabFilter.Controls.Add(Me.chkV4160)
@@ -6264,7 +6275,6 @@ Partial Class frmMain
         Me.tabFilter.Controls.Add(Me.chkRpm)
         Me.tabFilter.Controls.Add(Me.Label3)
         Me.tabFilter.Controls.Add(Me.chkMFmtu)
-        Me.tabFilter.Controls.Add(Me.chkMFman)
         Me.tabFilter.Controls.Add(Me.chkMFgua)
         Me.tabFilter.Controls.Add(Me.chkMfr)
         Me.tabFilter.Controls.Add(Me.Label2)
@@ -6279,7 +6289,7 @@ Partial Class frmMain
         Me.tabFilter.Location = New System.Drawing.Point(4, 25)
         Me.tabFilter.Name = "tabFilter"
         Me.tabFilter.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabFilter.Size = New System.Drawing.Size(992, 547)
+        Me.tabFilter.Size = New System.Drawing.Size(998, 512)
         Me.tabFilter.TabIndex = 0
         Me.tabFilter.Text = "Choose Application"
         '
@@ -6561,24 +6571,12 @@ Partial Class frmMain
         '
         Me.chkMFmtu.AutoSize = True
         Me.chkMFmtu.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkMFmtu.Location = New System.Drawing.Point(400, 92)
+        Me.chkMFmtu.Location = New System.Drawing.Point(278, 91)
         Me.chkMFmtu.Name = "chkMFmtu"
         Me.chkMFmtu.Size = New System.Drawing.Size(57, 21)
         Me.chkMFmtu.TabIndex = 206
         Me.chkMFmtu.Text = "MTU"
         Me.chkMFmtu.UseVisualStyleBackColor = True
-        '
-        'chkMFman
-        '
-        Me.chkMFman.AutoSize = True
-        Me.chkMFman.Enabled = False
-        Me.chkMFman.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkMFman.Location = New System.Drawing.Point(278, 92)
-        Me.chkMFman.Name = "chkMFman"
-        Me.chkMFman.Size = New System.Drawing.Size(57, 21)
-        Me.chkMFman.TabIndex = 205
-        Me.chkMFman.Text = "MAN"
-        Me.chkMFman.UseVisualStyleBackColor = True
         '
         'chkMFgua
         '
@@ -6594,7 +6592,6 @@ Partial Class frmMain
         'chkMfr
         '
         Me.chkMfr.AutoSize = True
-        Me.chkMfr.Enabled = False
         Me.chkMfr.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.chkMfr.Location = New System.Drawing.Point(47, 92)
         Me.chkMfr.Name = "chkMfr"
@@ -6713,6 +6710,9 @@ Partial Class frmMain
         '
         'tcMain
         '
+        Me.tcMain.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tcMain.Controls.Add(Me.tabFilter)
         Me.tcMain.Controls.Add(Me.tabHeat)
         Me.tcMain.Controls.Add(Me.tabCompare)
@@ -6720,15 +6720,15 @@ Partial Class frmMain
         Me.tcMain.Controls.Add(Me.tabDrawing)
         Me.tcMain.Controls.Add(Me.tabPrint)
         Me.tcMain.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tcMain.Location = New System.Drawing.Point(9, 40)
+        Me.tcMain.Location = New System.Drawing.Point(2, 50)
         Me.tcMain.Name = "tcMain"
         Me.tcMain.SelectedIndex = 0
-        Me.tcMain.Size = New System.Drawing.Size(1000, 576)
+        Me.tcMain.Size = New System.Drawing.Size(1006, 541)
         Me.tcMain.TabIndex = 503
         '
         'tabHeat
         '
-        Me.tabHeat.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.tabHeat.BackColor = System.Drawing.SystemColors.Control
         Me.tabHeat.Controls.Add(Me.Label94)
         Me.tabHeat.Controls.Add(Me.chkOilToIc)
         Me.tabHeat.Controls.Add(Me.chkOilToJw)
@@ -6797,7 +6797,7 @@ Partial Class frmMain
         Me.tabHeat.Location = New System.Drawing.Point(4, 25)
         Me.tabHeat.Name = "tabHeat"
         Me.tabHeat.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabHeat.Size = New System.Drawing.Size(992, 491)
+        Me.tabHeat.Size = New System.Drawing.Size(998, 512)
         Me.tabHeat.TabIndex = 1
         Me.tabHeat.Text = "Enter Conditions"
         '
@@ -7566,7 +7566,7 @@ Partial Class frmMain
         Me.tabCompare.Controls.Add(Me.dgvGensets)
         Me.tabCompare.Location = New System.Drawing.Point(4, 25)
         Me.tabCompare.Name = "tabCompare"
-        Me.tabCompare.Size = New System.Drawing.Size(992, 491)
+        Me.tabCompare.Size = New System.Drawing.Size(998, 512)
         Me.tabCompare.TabIndex = 2
         Me.tabCompare.Text = "Compare Models"
         '
@@ -7603,15 +7603,98 @@ Partial Class frmMain
         Me.radEngines.Text = "Engines"
         Me.radEngines.UseVisualStyleBackColor = True
         '
+        'btnBack
+        '
+        Me.btnBack.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.btnBack.Enabled = False
+        Me.btnBack.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnBack.Location = New System.Drawing.Point(666, 599)
+        Me.btnBack.Name = "btnBack"
+        Me.btnBack.Size = New System.Drawing.Size(83, 27)
+        Me.btnBack.TabIndex = 510
+        Me.btnBack.Text = "< &Back"
+        Me.btnBack.UseVisualStyleBackColor = True
+        '
+        'btnReset
+        '
+        Me.btnReset.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.btnReset.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReset.Location = New System.Drawing.Point(450, 599)
+        Me.btnReset.Name = "btnReset"
+        Me.btnReset.Size = New System.Drawing.Size(105, 27)
+        Me.btnReset.TabIndex = 511
+        Me.btnReset.Text = "Clear Tab"
+        Me.btnReset.UseVisualStyleBackColor = True
+        '
+        'btnNext
+        '
+        Me.btnNext.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.btnNext.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnNext.Location = New System.Drawing.Point(762, 599)
+        Me.btnNext.Name = "btnNext"
+        Me.btnNext.Size = New System.Drawing.Size(83, 27)
+        Me.btnNext.TabIndex = 509
+        Me.btnNext.Text = "&Next >"
+        Me.btnNext.UseVisualStyleBackColor = True
+        '
+        'Panel1
+        '
+        Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Panel1.Controls.Add(Me.lblChk)
+        Me.Panel1.Controls.Add(Me.Label58)
+        Me.Panel1.Controls.Add(Me.lblStatus)
+        Me.Panel1.Location = New System.Drawing.Point(6, 631)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(292, 25)
+        Me.Panel1.TabIndex = 512
+        '
+        'Panel2
+        '
+        Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Panel2.Controls.Add(Me.lblPF)
+        Me.Panel2.Controls.Add(Me.Label75)
+        Me.Panel2.Location = New System.Drawing.Point(304, 631)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(81, 25)
+        Me.Panel2.TabIndex = 513
+        '
+        'Label75
+        '
+        Me.Label75.BackColor = System.Drawing.Color.Transparent
+        Me.Label75.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label75.ForeColor = System.Drawing.Color.Black
+        Me.Label75.Location = New System.Drawing.Point(3, 1)
+        Me.Label75.Name = "Label75"
+        Me.Label75.Size = New System.Drawing.Size(37, 18)
+        Me.Label75.TabIndex = 638
+        Me.Label75.Text = "PF:"
+        Me.Label75.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ToolTip.SetToolTip(Me.Label75, "Current Mode")
+        '
+        'lblPF
+        '
+        Me.lblPF.BackColor = System.Drawing.Color.Transparent
+        Me.lblPF.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPF.ForeColor = System.Drawing.Color.Black
+        Me.lblPF.Location = New System.Drawing.Point(37, 1)
+        Me.lblPF.Name = "lblPF"
+        Me.lblPF.Size = New System.Drawing.Size(35, 18)
+        Me.lblPF.TabIndex = 639
+        Me.lblPF.Text = "1"
+        Me.lblPF.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ToolTip.SetToolTip(Me.lblPF, "Current Mode")
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1008, 661)
-        Me.Controls.Add(Me.msMain)
+        Me.Controls.Add(Me.Panel2)
+        Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.btnBack)
         Me.Controls.Add(Me.btnReset)
         Me.Controls.Add(Me.btnNext)
+        Me.Controls.Add(Me.msMain)
         Me.Controls.Add(Me.tcMain)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmMain"
@@ -7636,6 +7719,8 @@ Partial Class frmMain
         Me.tabHeat.PerformLayout()
         Me.tabCompare.ResumeLayout(False)
         Me.tabCompare.PerformLayout()
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -7708,7 +7793,6 @@ Partial Class frmMain
     Friend WithEvents miSave As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MainToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ExitToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents EditToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents miDB As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents HelpToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
@@ -8008,9 +8092,7 @@ Partial Class frmMain
     Friend WithEvents dgvCompare As System.Windows.Forms.DataGridView
     Friend WithEvents txtPrepare As System.Windows.Forms.TextBox
     Friend WithEvents txtProjName As System.Windows.Forms.TextBox
-    Friend WithEvents btnBack As System.Windows.Forms.Button
     Friend WithEvents btnFinal As System.Windows.Forms.Button
-    Friend WithEvents btnReset As System.Windows.Forms.Button
     Friend WithEvents btnRestart As System.Windows.Forms.Button
     Friend WithEvents tabDrawing As System.Windows.Forms.TabPage
     Friend WithEvents picTest As System.Windows.Forms.PictureBox
@@ -8019,14 +8101,13 @@ Partial Class frmMain
     Friend WithEvents lblPrepare As System.Windows.Forms.Label
     Friend WithEvents lblProjName As System.Windows.Forms.Label
     Friend WithEvents Label72 As System.Windows.Forms.Label
-    Friend WithEvents btnNext As System.Windows.Forms.Button
     Friend WithEvents btnPopulate As System.Windows.Forms.Button
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents pnlEngines As System.Windows.Forms.Panel
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents Label9 As System.Windows.Forms.Label
-    Friend WithEvents lblFound As System.Windows.Forms.Label
+    Friend WithEvents lblRecords As System.Windows.Forms.Label
     Friend WithEvents Label30 As System.Windows.Forms.Label
     Friend WithEvents chkV12470 As System.Windows.Forms.CheckBox
     Friend WithEvents chkV4160 As System.Windows.Forms.CheckBox
@@ -8069,7 +8150,6 @@ Partial Class frmMain
     Friend WithEvents chkRpm As System.Windows.Forms.CheckBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents chkMFmtu As System.Windows.Forms.CheckBox
-    Friend WithEvents chkMFman As System.Windows.Forms.CheckBox
     Friend WithEvents chkMFgua As System.Windows.Forms.CheckBox
     Friend WithEvents chkMfr As System.Windows.Forms.CheckBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
@@ -8153,4 +8233,14 @@ Partial Class frmMain
     Friend WithEvents radGensets As System.Windows.Forms.RadioButton
     Friend WithEvents radEngines As System.Windows.Forms.RadioButton
     Friend WithEvents sfdSaveFile As System.Windows.Forms.SaveFileDialog
+    Friend WithEvents btnBack As System.Windows.Forms.Button
+    Friend WithEvents btnReset As System.Windows.Forms.Button
+    Friend WithEvents btnNext As System.Windows.Forms.Button
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents Label58 As System.Windows.Forms.Label
+    Friend WithEvents lblStatus As System.Windows.Forms.Label
+    Friend WithEvents lblChk As System.Windows.Forms.Label
+    Friend WithEvents Panel2 As System.Windows.Forms.Panel
+    Friend WithEvents lblPF As System.Windows.Forms.Label
+    Friend WithEvents Label75 As System.Windows.Forms.Label
 End Class
