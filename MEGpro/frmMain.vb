@@ -233,7 +233,7 @@ Public Class frmMain
     End Sub
 #End Region
 #Region "TabControl \ Heat Recovery"
-    Private Sub TextBox_TextChanged_Validation(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtMinExTemp.TextChanged, txtSteam.TextChanged, txtFeed.TextChanged, txtPrimaryInlet.TextChanged, txtPrimaryOutlet.TextChanged, txt2ndInlet.TextChanged, txt2ndOutlet.TextChanged
+    Private Sub TextBox_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtMinExTemp.TextChanged, txtSteam.TextChanged, txtFeed.TextChanged, txtPrimaryInlet.TextChanged, txtPrimaryOutlet.TextChanged, txt2ndInlet.TextChanged, txt2ndOutlet.TextChanged
         If Not isNotNullorInvalid(sender) Then DirectCast(sender, TextBox).Text = Nothing
     End Sub
 
@@ -241,34 +241,22 @@ Public Class frmMain
     Private Sub CircuitFluid_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtEngCool.TextChanged, txtPrimaryCir.TextChanged, txt2ndCir.TextChanged
         If isNotNullorInvalid(sender) Then
             If withinRange(sender) Then lblRange.ForeColor = Color.Black Else lblRange.ForeColor = Color.Red
-        Else
-            DirectCast(sender, TextBox).ResetText() : lblRange.ForeColor = Color.Black
-        End if
+        Else : DirectCast(sender, TextBox).ResetText() : lblRange.ForeColor = Color.Black : End If
     End Sub
-    
+
     ' CHECKBOXES (LEFT HALF)
     Private Sub chkSteam_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkSteam.CheckedChanged
         If chkSteam.Checked = True Then ToggleHeatControls(txtSteam, txtFeed, True, False, True) Else ToggleHeatControls(txtSteam, txtFeed, False, False, True) : txtSteam.Text = 0 : txtFeed.Text = 0
     End Sub
     Private Sub chkEhru_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEhru.CheckedChanged
-        If chkEhru.Checked = True Then : chkEHRUtoJW.Checked = True : ToggleHeatControls(chkEHRUtoJW, chkEHRUtoPrimary, True, False, True) : Else : ToggleHeatControls(chkEHRUtoJW, chkEHRUtoPrimary, False, True, True) : End If
+        If chkEhru.Checked Then : radEHRUtoJW.Checked = True : ToggleHeatControls(radEHRUtoJW, radEHRUtoPrimary, True, False, True) : Else : ToggleHeatControls(radEHRUtoJW, radEHRUtoPrimary, False, True, True) : End If
     End Sub
-    Private Sub chkJW_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEHRUtoJW.CheckedChanged
-        If chkEHRUtoJW.Checked = True Then chkEHRUtoPrimary.Checked = False
-    End Sub
-    Private Sub chkPrimary1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEHRUtoPrimary.CheckedChanged
-        If chkEHRUtoPrimary.Checked = True Then chkEHRUtoJW.Checked = False
-    End Sub
+
     ' CHECKBOXES (RIGHT HALF)
     Private Sub chkRecoverJW_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkRecoverJW.CheckedChanged
         If chkRecoverJW.Checked = True Then : txtPrimaryInlet.Focus() : txtPrimaryInlet.SelectAll() : End If
     End Sub
-    Private Sub chkOilToJw_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkOilToJw.CheckedChanged
-        If chkOilToJw.Checked = True Then chkOilToIc.Checked = False
-    End Sub
-    Private Sub chkOilToIc_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkOilToIc.CheckedChanged
-        If chkOilToIc.Checked = True Then chkOilToJw.Checked = False
-    End Sub
+
     Private Sub chkRecoverLT_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkRecoverLT.CheckedChanged
         If chkRecoverLT.Checked = True Then : chkAddTo2nd.Checked = True : ToggleHeatControls(chkAddToPrimary, chkAddTo2nd, True, False, True) : ToggleHeatControls(txt2ndInlet, txt2ndOutlet, True, False, True) : txt2ndInlet.Focus() : txt2ndOutlet.SelectAll()
         Else : ToggleHeatControls(chkAddToPrimary, chkAddTo2nd, False, True, True) : ToggleHeatControls(txt2ndInlet, txt2ndOutlet, False, False, True, True) : End If

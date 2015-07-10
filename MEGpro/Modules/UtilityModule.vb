@@ -41,9 +41,9 @@
     End Function
 
     Public Sub ToggleHeatControls(ByVal c1 As Control, ByVal c2 As Control, ByVal Toggle As Boolean, ByVal Checked As Boolean, ByVal Enabled As Boolean, Optional ByVal ResetText As Boolean = False)
-        If Checked = True Then : DirectCast(c1, CheckBox).Checked = Toggle : DirectCast(c2, CheckBox).Checked = Toggle : End If
-        If Enabled = True Then : c1.Enabled = Toggle : c2.Enabled = Toggle : End If
-        If ResetText = True Then c1.Text = 0 : c2.Text = 0
+        If Checked Then : DirectCast(c1, RadioButton).Checked = Toggle : DirectCast(c2, RadioButton).Checked = Toggle : End If
+        If Enabled Then : c1.Enabled = Toggle : c2.Enabled = Toggle : End If
+        If ResetText Then c1.Text = 0 : c2.Text = 0
     End Sub
 
     ' MAIN FORM NAVIGATION

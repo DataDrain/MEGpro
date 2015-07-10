@@ -467,10 +467,12 @@ Partial Class frmMain
         Me.Label19 = New System.Windows.Forms.Label()
         Me.tcMain = New System.Windows.Forms.TabControl()
         Me.tabHeat = New System.Windows.Forms.TabPage()
-        Me.Label94 = New System.Windows.Forms.Label()
-        Me.chkOilToIc = New System.Windows.Forms.CheckBox()
-        Me.chkOilToJw = New System.Windows.Forms.CheckBox()
-        Me.Label92 = New System.Windows.Forms.Label()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.radEHRUtoJW = New System.Windows.Forms.RadioButton()
+        Me.radEHRUtoPrimary = New System.Windows.Forms.RadioButton()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.radOilToJw = New System.Windows.Forms.RadioButton()
+        Me.radOilToIc = New System.Windows.Forms.RadioButton()
         Me.Label89 = New System.Windows.Forms.Label()
         Me.Label91 = New System.Windows.Forms.Label()
         Me.lblRange = New System.Windows.Forms.Label()
@@ -488,8 +490,6 @@ Partial Class frmMain
         Me.chkRecoverLT = New System.Windows.Forms.CheckBox()
         Me.chkAddToPrimary = New System.Windows.Forms.CheckBox()
         Me.chkAddTo2nd = New System.Windows.Forms.CheckBox()
-        Me.chkEHRUtoPrimary = New System.Windows.Forms.CheckBox()
-        Me.chkEHRUtoJW = New System.Windows.Forms.CheckBox()
         Me.Label53 = New System.Windows.Forms.Label()
         Me.Label49 = New System.Windows.Forms.Label()
         Me.Label48 = New System.Windows.Forms.Label()
@@ -504,7 +504,6 @@ Partial Class frmMain
         Me.Label40 = New System.Windows.Forms.Label()
         Me.Label46 = New System.Windows.Forms.Label()
         Me.Label45 = New System.Windows.Forms.Label()
-        Me.Label33 = New System.Windows.Forms.Label()
         Me.txtFeed = New System.Windows.Forms.TextBox()
         Me.Label56 = New System.Windows.Forms.Label()
         Me.txtSteam = New System.Windows.Forms.TextBox()
@@ -553,6 +552,8 @@ Partial Class frmMain
         Me.tabFilter.SuspendLayout()
         Me.tcMain.SuspendLayout()
         Me.tabHeat.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         Me.tabCompare.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -6756,10 +6757,8 @@ Partial Class frmMain
         'tabHeat
         '
         Me.tabHeat.BackColor = System.Drawing.SystemColors.Control
-        Me.tabHeat.Controls.Add(Me.Label94)
-        Me.tabHeat.Controls.Add(Me.chkOilToIc)
-        Me.tabHeat.Controls.Add(Me.chkOilToJw)
-        Me.tabHeat.Controls.Add(Me.Label92)
+        Me.tabHeat.Controls.Add(Me.GroupBox2)
+        Me.tabHeat.Controls.Add(Me.GroupBox1)
         Me.tabHeat.Controls.Add(Me.Label89)
         Me.tabHeat.Controls.Add(Me.Label91)
         Me.tabHeat.Controls.Add(Me.lblRange)
@@ -6777,8 +6776,6 @@ Partial Class frmMain
         Me.tabHeat.Controls.Add(Me.chkRecoverLT)
         Me.tabHeat.Controls.Add(Me.chkAddToPrimary)
         Me.tabHeat.Controls.Add(Me.chkAddTo2nd)
-        Me.tabHeat.Controls.Add(Me.chkEHRUtoPrimary)
-        Me.tabHeat.Controls.Add(Me.chkEHRUtoJW)
         Me.tabHeat.Controls.Add(Me.Label53)
         Me.tabHeat.Controls.Add(Me.Label49)
         Me.tabHeat.Controls.Add(Me.Label48)
@@ -6793,7 +6790,6 @@ Partial Class frmMain
         Me.tabHeat.Controls.Add(Me.Label40)
         Me.tabHeat.Controls.Add(Me.Label46)
         Me.tabHeat.Controls.Add(Me.Label45)
-        Me.tabHeat.Controls.Add(Me.Label33)
         Me.tabHeat.Controls.Add(Me.txtFeed)
         Me.tabHeat.Controls.Add(Me.Label56)
         Me.tabHeat.Controls.Add(Me.txtSteam)
@@ -6828,56 +6824,77 @@ Partial Class frmMain
         Me.tabHeat.TabIndex = 1
         Me.tabHeat.Text = "Enter Conditions"
         '
-        'Label94
+        'GroupBox2
         '
-        Me.Label94.AutoSize = True
-        Me.Label94.BackColor = System.Drawing.Color.Transparent
-        Me.Label94.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label94.ForeColor = System.Drawing.Color.Black
-        Me.Label94.Location = New System.Drawing.Point(649, 211)
-        Me.Label94.Name = "Label94"
-        Me.Label94.Size = New System.Drawing.Size(174, 20)
-        Me.Label94.TabIndex = 526
-        Me.Label94.Text = "NOTE: Guascor feature only"
-        Me.Label94.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.Label94.UseCompatibleTextRendering = True
+        Me.GroupBox2.Controls.Add(Me.radEHRUtoJW)
+        Me.GroupBox2.Controls.Add(Me.radEHRUtoPrimary)
+        Me.GroupBox2.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox2.Location = New System.Drawing.Point(103, 287)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(317, 47)
+        Me.GroupBox2.TabIndex = 530
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Add EHRU to:"
         '
-        'chkOilToIc
+        'radEHRUtoJW
         '
-        Me.chkOilToIc.AutoSize = True
-        Me.chkOilToIc.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkOilToIc.Location = New System.Drawing.Point(770, 182)
-        Me.chkOilToIc.Name = "chkOilToIc"
-        Me.chkOilToIc.Size = New System.Drawing.Size(95, 21)
-        Me.chkOilToIc.TabIndex = 524
-        Me.chkOilToIc.Text = "Intercooler"
-        Me.chkOilToIc.UseVisualStyleBackColor = True
+        Me.radEHRUtoJW.AutoSize = True
+        Me.radEHRUtoJW.Checked = True
+        Me.radEHRUtoJW.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.radEHRUtoJW.Location = New System.Drawing.Point(99, 20)
+        Me.radEHRUtoJW.Name = "radEHRUtoJW"
+        Me.radEHRUtoJW.Size = New System.Drawing.Size(111, 21)
+        Me.radEHRUtoJW.TabIndex = 531
+        Me.radEHRUtoJW.TabStop = True
+        Me.radEHRUtoJW.Text = "Jacket Water"
+        Me.radEHRUtoJW.UseVisualStyleBackColor = True
         '
-        'chkOilToJw
+        'radEHRUtoPrimary
         '
-        Me.chkOilToJw.AutoSize = True
-        Me.chkOilToJw.Checked = True
-        Me.chkOilToJw.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkOilToJw.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkOilToJw.Location = New System.Drawing.Point(651, 182)
-        Me.chkOilToJw.Name = "chkOilToJw"
-        Me.chkOilToJw.Size = New System.Drawing.Size(112, 21)
-        Me.chkOilToJw.TabIndex = 523
-        Me.chkOilToJw.Text = "Jacket Water"
-        Me.chkOilToJw.UseVisualStyleBackColor = True
+        Me.radEHRUtoPrimary.AutoSize = True
+        Me.radEHRUtoPrimary.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.radEHRUtoPrimary.Location = New System.Drawing.Point(230, 20)
+        Me.radEHRUtoPrimary.Name = "radEHRUtoPrimary"
+        Me.radEHRUtoPrimary.Size = New System.Drawing.Size(77, 21)
+        Me.radEHRUtoPrimary.TabIndex = 530
+        Me.radEHRUtoPrimary.Text = "Primary"
+        Me.radEHRUtoPrimary.UseVisualStyleBackColor = True
         '
-        'Label92
+        'GroupBox1
         '
-        Me.Label92.AutoSize = True
-        Me.Label92.BackColor = System.Drawing.Color.Transparent
-        Me.Label92.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label92.ForeColor = System.Drawing.Color.Black
-        Me.Label92.Location = New System.Drawing.Point(514, 183)
-        Me.Label92.Name = "Label92"
-        Me.Label92.Size = New System.Drawing.Size(122, 17)
-        Me.Label92.TabIndex = 525
-        Me.Label92.Text = "Add Oil Cooler to:"
-        Me.Label92.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.GroupBox1.Controls.Add(Me.radOilToJw)
+        Me.GroupBox1.Controls.Add(Me.radOilToIc)
+        Me.GroupBox1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox1.Location = New System.Drawing.Point(560, 159)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(346, 69)
+        Me.GroupBox1.TabIndex = 529
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "For Guascor, add Oil Cooler to:"
+        '
+        'radOilToJw
+        '
+        Me.radOilToJw.AutoSize = True
+        Me.radOilToJw.Checked = True
+        Me.radOilToJw.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.radOilToJw.Location = New System.Drawing.Point(98, 32)
+        Me.radOilToJw.Name = "radOilToJw"
+        Me.radOilToJw.Size = New System.Drawing.Size(111, 21)
+        Me.radOilToJw.TabIndex = 531
+        Me.radOilToJw.TabStop = True
+        Me.radOilToJw.Text = "Jacket Water"
+        Me.radOilToJw.UseVisualStyleBackColor = True
+        '
+        'radOilToIc
+        '
+        Me.radOilToIc.AutoSize = True
+        Me.radOilToIc.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.radOilToIc.Location = New System.Drawing.Point(229, 32)
+        Me.radOilToIc.Name = "radOilToIc"
+        Me.radOilToIc.Size = New System.Drawing.Size(94, 21)
+        Me.radOilToIc.TabIndex = 530
+        Me.radOilToIc.Text = "Intercooler"
+        Me.radOilToIc.UseVisualStyleBackColor = True
         '
         'Label89
         '
@@ -6903,7 +6920,7 @@ Partial Class frmMain
         Me.lblRange.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblRange.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRange.ForeColor = System.Drawing.Color.Black
-        Me.lblRange.Location = New System.Drawing.Point(374, 383)
+        Me.lblRange.Location = New System.Drawing.Point(374, 385)
         Me.lblRange.Name = "lblRange"
         Me.lblRange.Size = New System.Drawing.Size(68, 58)
         Me.lblRange.TabIndex = 520
@@ -6934,7 +6951,7 @@ Partial Class frmMain
         Me.Label68.BackColor = System.Drawing.Color.Transparent
         Me.Label68.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label68.ForeColor = System.Drawing.Color.Black
-        Me.Label68.Location = New System.Drawing.Point(198, 354)
+        Me.Label68.Location = New System.Drawing.Point(198, 356)
         Me.Label68.Name = "Label68"
         Me.Label68.Size = New System.Drawing.Size(120, 17)
         Me.Label68.TabIndex = 516
@@ -6944,7 +6961,7 @@ Partial Class frmMain
         'txt2ndCir
         '
         Me.txt2ndCir.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txt2ndCir.Location = New System.Drawing.Point(335, 429)
+        Me.txt2ndCir.Location = New System.Drawing.Point(335, 431)
         Me.txt2ndCir.Name = "txt2ndCir"
         Me.txt2ndCir.Size = New System.Drawing.Size(35, 25)
         Me.txt2ndCir.TabIndex = 511
@@ -6953,7 +6970,7 @@ Partial Class frmMain
         'txtPrimaryCir
         '
         Me.txtPrimaryCir.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPrimaryCir.Location = New System.Drawing.Point(335, 403)
+        Me.txtPrimaryCir.Location = New System.Drawing.Point(335, 405)
         Me.txtPrimaryCir.Name = "txtPrimaryCir"
         Me.txtPrimaryCir.Size = New System.Drawing.Size(35, 25)
         Me.txtPrimaryCir.TabIndex = 509
@@ -6961,7 +6978,7 @@ Partial Class frmMain
         'txtEngCool
         '
         Me.txtEngCool.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtEngCool.Location = New System.Drawing.Point(335, 377)
+        Me.txtEngCool.Location = New System.Drawing.Point(335, 379)
         Me.txtEngCool.Name = "txtEngCool"
         Me.txtEngCool.Size = New System.Drawing.Size(35, 25)
         Me.txtEngCool.TabIndex = 507
@@ -6974,7 +6991,7 @@ Partial Class frmMain
         Me.cbx2ndCir.Font = New System.Drawing.Font("Palatino Linotype", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cbx2ndCir.FormattingEnabled = True
         Me.cbx2ndCir.Items.AddRange(New Object() {"Water", "Ethylene Glycol", "Propylene Glycol"})
-        Me.cbx2ndCir.Location = New System.Drawing.Point(183, 428)
+        Me.cbx2ndCir.Location = New System.Drawing.Point(183, 430)
         Me.cbx2ndCir.Name = "cbx2ndCir"
         Me.cbx2ndCir.Size = New System.Drawing.Size(147, 26)
         Me.cbx2ndCir.TabIndex = 506
@@ -6986,7 +7003,7 @@ Partial Class frmMain
         Me.cbxPrimaryCir.Font = New System.Drawing.Font("Palatino Linotype", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cbxPrimaryCir.FormattingEnabled = True
         Me.cbxPrimaryCir.Items.AddRange(New Object() {"Water", "Ethylene Glycol", "Propylene Glycol"})
-        Me.cbxPrimaryCir.Location = New System.Drawing.Point(183, 402)
+        Me.cbxPrimaryCir.Location = New System.Drawing.Point(183, 404)
         Me.cbxPrimaryCir.Name = "cbxPrimaryCir"
         Me.cbxPrimaryCir.Size = New System.Drawing.Size(147, 26)
         Me.cbxPrimaryCir.TabIndex = 505
@@ -6998,7 +7015,7 @@ Partial Class frmMain
         Me.cbxEngCoolant.Font = New System.Drawing.Font("Palatino Linotype", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cbxEngCoolant.FormattingEnabled = True
         Me.cbxEngCoolant.Items.AddRange(New Object() {"Water", "Ethylene Glycol", "Propylene Glycol"})
-        Me.cbxEngCoolant.Location = New System.Drawing.Point(183, 376)
+        Me.cbxEngCoolant.Location = New System.Drawing.Point(183, 378)
         Me.cbxEngCoolant.Name = "cbxEngCoolant"
         Me.cbxEngCoolant.Size = New System.Drawing.Size(147, 26)
         Me.cbxEngCoolant.TabIndex = 504
@@ -7061,32 +7078,6 @@ Partial Class frmMain
         Me.chkAddTo2nd.TabIndex = 13
         Me.chkAddTo2nd.Text = "Secondary"
         Me.chkAddTo2nd.UseVisualStyleBackColor = True
-        '
-        'chkEHRUtoPrimary
-        '
-        Me.chkEHRUtoPrimary.AutoSize = True
-        Me.chkEHRUtoPrimary.Enabled = False
-        Me.chkEHRUtoPrimary.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkEHRUtoPrimary.Location = New System.Drawing.Point(349, 301)
-        Me.chkEHRUtoPrimary.Name = "chkEHRUtoPrimary"
-        Me.chkEHRUtoPrimary.Size = New System.Drawing.Size(78, 21)
-        Me.chkEHRUtoPrimary.TabIndex = 7
-        Me.chkEHRUtoPrimary.Text = "Primary"
-        Me.chkEHRUtoPrimary.UseVisualStyleBackColor = True
-        '
-        'chkEHRUtoJW
-        '
-        Me.chkEHRUtoJW.AutoSize = True
-        Me.chkEHRUtoJW.Checked = True
-        Me.chkEHRUtoJW.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkEHRUtoJW.Enabled = False
-        Me.chkEHRUtoJW.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkEHRUtoJW.Location = New System.Drawing.Point(230, 301)
-        Me.chkEHRUtoJW.Name = "chkEHRUtoJW"
-        Me.chkEHRUtoJW.Size = New System.Drawing.Size(112, 21)
-        Me.chkEHRUtoJW.TabIndex = 6
-        Me.chkEHRUtoJW.Text = "Jacket Water"
-        Me.chkEHRUtoJW.UseVisualStyleBackColor = True
         '
         'Label53
         '
@@ -7261,19 +7252,6 @@ Partial Class frmMain
         Me.Label45.TabIndex = 480
         Me.Label45.Text = "Inlet"
         Me.Label45.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label33
-        '
-        Me.Label33.AutoSize = True
-        Me.Label33.BackColor = System.Drawing.Color.Transparent
-        Me.Label33.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label33.ForeColor = System.Drawing.Color.Black
-        Me.Label33.Location = New System.Drawing.Point(94, 302)
-        Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(132, 17)
-        Me.Label33.TabIndex = 477
-        Me.Label33.Text = "Add EHRU Heat to:"
-        Me.Label33.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'txtFeed
         '
@@ -7478,7 +7456,7 @@ Partial Class frmMain
         Me.chkEhru.Checked = True
         Me.chkEhru.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkEhru.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkEhru.Location = New System.Drawing.Point(65, 266)
+        Me.chkEhru.Location = New System.Drawing.Point(45, 260)
         Me.chkEhru.Name = "chkEhru"
         Me.chkEhru.Size = New System.Drawing.Size(264, 21)
         Me.chkEhru.TabIndex = 5
@@ -7491,11 +7469,11 @@ Partial Class frmMain
         Me.chkSteam.Checked = True
         Me.chkSteam.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkSteam.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkSteam.Location = New System.Drawing.Point(65, 154)
+        Me.chkSteam.Location = New System.Drawing.Point(45, 153)
         Me.chkSteam.Name = "chkSteam"
-        Me.chkSteam.Size = New System.Drawing.Size(239, 38)
+        Me.chkSteam.Size = New System.Drawing.Size(295, 21)
         Me.chkSteam.TabIndex = 2
-        Me.chkSteam.Text = "Heat Recovery Steam Generator" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "(HRSG)"
+        Me.chkSteam.Text = "Heat Recovery Steam Generator (HRSG)"
         Me.chkSteam.UseVisualStyleBackColor = True
         '
         'Label51
@@ -7536,7 +7514,7 @@ Partial Class frmMain
         Me.Label65.BackColor = System.Drawing.Color.Transparent
         Me.Label65.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label65.ForeColor = System.Drawing.Color.Black
-        Me.Label65.Location = New System.Drawing.Point(77, 381)
+        Me.Label65.Location = New System.Drawing.Point(77, 383)
         Me.Label65.Name = "Label65"
         Me.Label65.Size = New System.Drawing.Size(107, 17)
         Me.Label65.TabIndex = 513
@@ -7549,7 +7527,7 @@ Partial Class frmMain
         Me.Label67.BackColor = System.Drawing.Color.Transparent
         Me.Label67.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label67.ForeColor = System.Drawing.Color.Black
-        Me.Label67.Location = New System.Drawing.Point(60, 431)
+        Me.Label67.Location = New System.Drawing.Point(60, 433)
         Me.Label67.Name = "Label67"
         Me.Label67.Size = New System.Drawing.Size(124, 17)
         Me.Label67.TabIndex = 515
@@ -7562,7 +7540,7 @@ Partial Class frmMain
         Me.Label66.BackColor = System.Drawing.Color.Transparent
         Me.Label66.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label66.ForeColor = System.Drawing.Color.Black
-        Me.Label66.Location = New System.Drawing.Point(79, 406)
+        Me.Label66.Location = New System.Drawing.Point(79, 408)
         Me.Label66.Name = "Label66"
         Me.Label66.Size = New System.Drawing.Size(105, 17)
         Me.Label66.TabIndex = 514
@@ -7575,7 +7553,7 @@ Partial Class frmMain
         Me.Label18.BackColor = System.Drawing.Color.Transparent
         Me.Label18.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label18.ForeColor = System.Drawing.Color.Black
-        Me.Label18.Location = New System.Drawing.Point(341, 361)
+        Me.Label18.Location = New System.Drawing.Point(341, 363)
         Me.Label18.Name = "Label18"
         Me.Label18.Size = New System.Drawing.Size(21, 17)
         Me.Label18.TabIndex = 519
@@ -7718,6 +7696,10 @@ Partial Class frmMain
         Me.tcMain.ResumeLayout(False)
         Me.tabHeat.ResumeLayout(False)
         Me.tabHeat.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         Me.tabCompare.ResumeLayout(False)
         Me.tabCompare.PerformLayout()
         Me.Panel1.ResumeLayout(False)
@@ -8164,10 +8146,6 @@ Partial Class frmMain
     Friend WithEvents Label19 As System.Windows.Forms.Label
     Friend WithEvents tcMain As System.Windows.Forms.TabControl
     Friend WithEvents tabHeat As System.Windows.Forms.TabPage
-    Friend WithEvents Label94 As System.Windows.Forms.Label
-    Friend WithEvents chkOilToIc As System.Windows.Forms.CheckBox
-    Friend WithEvents chkOilToJw As System.Windows.Forms.CheckBox
-    Friend WithEvents Label92 As System.Windows.Forms.Label
     Friend WithEvents Label89 As System.Windows.Forms.Label
     Friend WithEvents Label91 As System.Windows.Forms.Label
     Friend WithEvents lblRange As System.Windows.Forms.Label
@@ -8185,8 +8163,6 @@ Partial Class frmMain
     Friend WithEvents chkRecoverLT As System.Windows.Forms.CheckBox
     Friend WithEvents chkAddToPrimary As System.Windows.Forms.CheckBox
     Friend WithEvents chkAddTo2nd As System.Windows.Forms.CheckBox
-    Friend WithEvents chkEHRUtoPrimary As System.Windows.Forms.CheckBox
-    Friend WithEvents chkEHRUtoJW As System.Windows.Forms.CheckBox
     Friend WithEvents Label53 As System.Windows.Forms.Label
     Friend WithEvents Label49 As System.Windows.Forms.Label
     Friend WithEvents Label48 As System.Windows.Forms.Label
@@ -8201,7 +8177,6 @@ Partial Class frmMain
     Friend WithEvents Label40 As System.Windows.Forms.Label
     Friend WithEvents Label46 As System.Windows.Forms.Label
     Friend WithEvents Label45 As System.Windows.Forms.Label
-    Friend WithEvents Label33 As System.Windows.Forms.Label
     Friend WithEvents txtFeed As System.Windows.Forms.TextBox
     Friend WithEvents Label56 As System.Windows.Forms.Label
     Friend WithEvents txtSteam As System.Windows.Forms.TextBox
@@ -8244,4 +8219,10 @@ Partial Class frmMain
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents lblPF As System.Windows.Forms.Label
     Friend WithEvents Label75 As System.Windows.Forms.Label
+    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
+    Friend WithEvents radEHRUtoJW As System.Windows.Forms.RadioButton
+    Friend WithEvents radEHRUtoPrimary As System.Windows.Forms.RadioButton
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents radOilToJw As System.Windows.Forms.RadioButton
+    Friend WithEvents radOilToIc As System.Windows.Forms.RadioButton
 End Class
