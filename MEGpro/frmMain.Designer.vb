@@ -404,11 +404,6 @@ Partial Class frmMain
         Me.lblProjName = New System.Windows.Forms.Label()
         Me.Label72 = New System.Windows.Forms.Label()
         Me.btnNext = New System.Windows.Forms.Button()
-        Me.lblTxt = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.lblPF = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.lblChk = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.lblStatus = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.ssMain = New System.Windows.Forms.StatusStrip()
         Me.btnPopulate = New System.Windows.Forms.Button()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.pnlEngines = New System.Windows.Forms.Panel()
@@ -549,7 +544,6 @@ Partial Class frmMain
         Me.tabDrawing.SuspendLayout()
         CType(Me.picTest, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabPrint.SuspendLayout()
-        Me.ssMain.SuspendLayout()
         Me.pnlEngines.SuspendLayout()
         Me.tabFilter.SuspendLayout()
         Me.tcMain.SuspendLayout()
@@ -1441,20 +1435,20 @@ Partial Class frmMain
         '
         Me.miSave.Name = "miSave"
         Me.miSave.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.miSave.Size = New System.Drawing.Size(152, 22)
+        Me.miSave.Size = New System.Drawing.Size(143, 22)
         Me.miSave.Text = "Save"
         '
         'MainToolStripMenuItem
         '
         Me.MainToolStripMenuItem.Name = "MainToolStripMenuItem"
-        Me.MainToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.MainToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
         Me.MainToolStripMenuItem.Text = "Print Preview"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(143, 22)
         Me.ExitToolStripMenuItem.Text = "E&xit"
         '
         'EditToolStripMenuItem
@@ -1487,18 +1481,18 @@ Partial Class frmMain
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
         Me.AboutToolStripMenuItem.Text = "About"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(149, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(104, 6)
         '
         'miVersion
         '
         Me.miVersion.Name = "miVersion"
-        Me.miVersion.Size = New System.Drawing.Size(152, 22)
+        Me.miVersion.Size = New System.Drawing.Size(107, 22)
         Me.miVersion.Text = "v1.1.0"
         '
         'Label121
@@ -5837,9 +5831,9 @@ Partial Class frmMain
         'btnBack
         '
         Me.btnBack.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnBack.Location = New System.Drawing.Point(664, 616)
+        Me.btnBack.Location = New System.Drawing.Point(664, 628)
         Me.btnBack.Name = "btnBack"
-        Me.btnBack.Size = New System.Drawing.Size(83, 25)
+        Me.btnBack.Size = New System.Drawing.Size(83, 27)
         Me.btnBack.TabIndex = 507
         Me.btnBack.Text = "< &Back"
         Me.btnBack.UseVisualStyleBackColor = True
@@ -5857,9 +5851,9 @@ Partial Class frmMain
         'btnReset
         '
         Me.btnReset.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(448, 616)
+        Me.btnReset.Location = New System.Drawing.Point(448, 628)
         Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(105, 25)
+        Me.btnReset.Size = New System.Drawing.Size(105, 27)
         Me.btnReset.TabIndex = 508
         Me.btnReset.Text = "Clear Tab"
         Me.btnReset.UseVisualStyleBackColor = True
@@ -5967,41 +5961,12 @@ Partial Class frmMain
         'btnNext
         '
         Me.btnNext.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnNext.Location = New System.Drawing.Point(760, 616)
+        Me.btnNext.Location = New System.Drawing.Point(760, 628)
         Me.btnNext.Name = "btnNext"
-        Me.btnNext.Size = New System.Drawing.Size(83, 25)
+        Me.btnNext.Size = New System.Drawing.Size(83, 27)
         Me.btnNext.TabIndex = 506
         Me.btnNext.Text = "&Next >"
         Me.btnNext.UseVisualStyleBackColor = True
-        '
-        'lblTxt
-        '
-        Me.lblTxt.Name = "lblTxt"
-        Me.lblTxt.Size = New System.Drawing.Size(0, 17)
-        '
-        'lblPF
-        '
-        Me.lblPF.Name = "lblPF"
-        Me.lblPF.Size = New System.Drawing.Size(0, 17)
-        '
-        'lblChk
-        '
-        Me.lblChk.Name = "lblChk"
-        Me.lblChk.Size = New System.Drawing.Size(0, 17)
-        '
-        'lblStatus
-        '
-        Me.lblStatus.Name = "lblStatus"
-        Me.lblStatus.Size = New System.Drawing.Size(23, 17)
-        Me.lblStatus.Text = "OK"
-        '
-        'ssMain
-        '
-        Me.ssMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.lblStatus, Me.lblChk, Me.lblTxt, Me.lblPF})
-        Me.ssMain.Location = New System.Drawing.Point(0, 639)
-        Me.ssMain.Name = "ssMain"
-        Me.ssMain.Size = New System.Drawing.Size(1008, 22)
-        Me.ssMain.TabIndex = 505
         '
         'btnPopulate
         '
@@ -6314,7 +6279,7 @@ Partial Class frmMain
         Me.tabFilter.Location = New System.Drawing.Point(4, 25)
         Me.tabFilter.Name = "tabFilter"
         Me.tabFilter.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabFilter.Size = New System.Drawing.Size(992, 491)
+        Me.tabFilter.Size = New System.Drawing.Size(992, 547)
         Me.tabFilter.TabIndex = 0
         Me.tabFilter.Text = "Choose Application"
         '
@@ -6755,10 +6720,10 @@ Partial Class frmMain
         Me.tcMain.Controls.Add(Me.tabDrawing)
         Me.tcMain.Controls.Add(Me.tabPrint)
         Me.tcMain.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tcMain.Location = New System.Drawing.Point(9, 91)
+        Me.tcMain.Location = New System.Drawing.Point(9, 40)
         Me.tcMain.Name = "tcMain"
         Me.tcMain.SelectedIndex = 0
-        Me.tcMain.Size = New System.Drawing.Size(1000, 520)
+        Me.tcMain.Size = New System.Drawing.Size(1000, 576)
         Me.tcMain.TabIndex = 503
         '
         'tabHeat
@@ -7647,7 +7612,6 @@ Partial Class frmMain
         Me.Controls.Add(Me.btnBack)
         Me.Controls.Add(Me.btnReset)
         Me.Controls.Add(Me.btnNext)
-        Me.Controls.Add(Me.ssMain)
         Me.Controls.Add(Me.tcMain)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmMain"
@@ -7663,8 +7627,6 @@ Partial Class frmMain
         CType(Me.picTest, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabPrint.ResumeLayout(False)
         Me.tabPrint.PerformLayout()
-        Me.ssMain.ResumeLayout(False)
-        Me.ssMain.PerformLayout()
         Me.pnlEngines.ResumeLayout(False)
         Me.pnlEngines.PerformLayout()
         Me.tabFilter.ResumeLayout(False)
@@ -8058,11 +8020,6 @@ Partial Class frmMain
     Friend WithEvents lblProjName As System.Windows.Forms.Label
     Friend WithEvents Label72 As System.Windows.Forms.Label
     Friend WithEvents btnNext As System.Windows.Forms.Button
-    Friend WithEvents lblTxt As System.Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents lblPF As System.Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents lblChk As System.Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents lblStatus As System.Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents ssMain As System.Windows.Forms.StatusStrip
     Friend WithEvents btnPopulate As System.Windows.Forms.Button
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents pnlEngines As System.Windows.Forms.Panel
