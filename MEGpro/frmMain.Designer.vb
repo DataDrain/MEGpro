@@ -100,7 +100,6 @@ Partial Class frmMain
         Me.miVersion = New System.Windows.Forms.ToolStripMenuItem()
         Me.Label121 = New System.Windows.Forms.Label()
         Me.lblTotalEff50 = New System.Windows.Forms.Label()
-        Me.txtSearch = New System.Windows.Forms.TextBox()
         Me.Label124 = New System.Windows.Forms.Label()
         Me.dgvGensets = New System.Windows.Forms.DataGridView()
         Me.prgMain = New System.Windows.Forms.ProgressBar()
@@ -389,11 +388,15 @@ Partial Class frmMain
         Me.txtComments = New System.Windows.Forms.TextBox()
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.dgvCompare = New System.Windows.Forms.DataGridView()
-        Me.Label58 = New System.Windows.Forms.Label()
-        Me.lblStatus = New System.Windows.Forms.Label()
         Me.lblChk = New System.Windows.Forms.Label()
-        Me.Label75 = New System.Windows.Forms.Label()
-        Me.lblPF = New System.Windows.Forms.Label()
+        Me.cbxFilter = New System.Windows.Forms.ComboBox()
+        Me.txtSearch = New System.Windows.Forms.ComboBox()
+        Me.btnWipe = New System.Windows.Forms.Button()
+        Me.pnlMode = New System.Windows.Forms.Panel()
+        Me.lblMode = New System.Windows.Forms.Label()
+        Me.radEngines = New System.Windows.Forms.RadioButton()
+        Me.radGensets = New System.Windows.Forms.RadioButton()
+        Me.Label10 = New System.Windows.Forms.Label()
         Me.txtPrepare = New System.Windows.Forms.TextBox()
         Me.txtProjName = New System.Windows.Forms.TextBox()
         Me.btnFinal = New System.Windows.Forms.Button()
@@ -406,8 +409,8 @@ Partial Class frmMain
         Me.lblProjName = New System.Windows.Forms.Label()
         Me.Label72 = New System.Windows.Forms.Label()
         Me.btnPopulate = New System.Windows.Forms.Button()
-        Me.Label10 = New System.Windows.Forms.Label()
         Me.pnlEngines = New System.Windows.Forms.Panel()
+        Me.lbl10 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
@@ -467,12 +470,15 @@ Partial Class frmMain
         Me.Label19 = New System.Windows.Forms.Label()
         Me.tcMain = New System.Windows.Forms.TabControl()
         Me.tabHeat = New System.Windows.Forms.TabPage()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.radEHRUtoJW = New System.Windows.Forms.RadioButton()
-        Me.radEHRUtoPrimary = New System.Windows.Forms.RadioButton()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.radAddToPrimary = New System.Windows.Forms.RadioButton()
+        Me.radAddTo2nd = New System.Windows.Forms.RadioButton()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.radOilToJw = New System.Windows.Forms.RadioButton()
         Me.radOilToIc = New System.Windows.Forms.RadioButton()
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.radEHRUtoJW = New System.Windows.Forms.RadioButton()
+        Me.radEHRUtoPrimary = New System.Windows.Forms.RadioButton()
         Me.Label89 = New System.Windows.Forms.Label()
         Me.Label91 = New System.Windows.Forms.Label()
         Me.lblRange = New System.Windows.Forms.Label()
@@ -488,8 +494,6 @@ Partial Class frmMain
         Me.Label8 = New System.Windows.Forms.Label()
         Me.chkRecoverJW = New System.Windows.Forms.CheckBox()
         Me.chkRecoverLT = New System.Windows.Forms.CheckBox()
-        Me.chkAddToPrimary = New System.Windows.Forms.CheckBox()
-        Me.chkAddTo2nd = New System.Windows.Forms.CheckBox()
         Me.Label53 = New System.Windows.Forms.Label()
         Me.Label49 = New System.Windows.Forms.Label()
         Me.Label48 = New System.Windows.Forms.Label()
@@ -500,7 +504,6 @@ Partial Class frmMain
         Me.Label42 = New System.Windows.Forms.Label()
         Me.txt2ndInlet = New System.Windows.Forms.TextBox()
         Me.Label47 = New System.Windows.Forms.Label()
-        Me.Label41 = New System.Windows.Forms.Label()
         Me.Label40 = New System.Windows.Forms.Label()
         Me.Label46 = New System.Windows.Forms.Label()
         Me.Label45 = New System.Windows.Forms.Label()
@@ -532,19 +535,15 @@ Partial Class frmMain
         Me.Label66 = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
         Me.tabCompare = New System.Windows.Forms.TabPage()
-        Me.chkExpand = New System.Windows.Forms.CheckBox()
-        Me.radGensets = New System.Windows.Forms.RadioButton()
-        Me.radEngines = New System.Windows.Forms.RadioButton()
         Me.sfdSaveFile = New System.Windows.Forms.SaveFileDialog()
         Me.btnBack = New System.Windows.Forms.Button()
         Me.btnReset = New System.Windows.Forms.Button()
         Me.btnNext = New System.Windows.Forms.Button()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.Panel2 = New System.Windows.Forms.Panel()
         Me.msMain.SuspendLayout()
         CType(Me.dgvGensets, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabView.SuspendLayout()
         CType(Me.dgvCompare, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlMode.SuspendLayout()
         Me.tabDrawing.SuspendLayout()
         CType(Me.picTest, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabPrint.SuspendLayout()
@@ -552,11 +551,10 @@ Partial Class frmMain
         Me.tabFilter.SuspendLayout()
         Me.tcMain.SuspendLayout()
         Me.tabHeat.SuspendLayout()
-        Me.GroupBox2.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.GroupBox2.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
         Me.tabCompare.SuspendLayout()
-        Me.Panel1.SuspendLayout()
-        Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label64
@@ -1527,13 +1525,6 @@ Partial Class frmMain
         Me.lblTotalEff50.Text = "86.5"
         Me.lblTotalEff50.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'txtSearch
-        '
-        Me.txtSearch.Location = New System.Drawing.Point(64, 11)
-        Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(80, 22)
-        Me.txtSearch.TabIndex = 401
-        '
         'Label124
         '
         Me.Label124.BackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(128, Byte), Integer), CType(CType(191, Byte), Integer))
@@ -1556,16 +1547,21 @@ Partial Class frmMain
         Me.dgvGensets.AllowUserToOrderColumns = True
         Me.dgvGensets.AllowUserToResizeColumns = False
         Me.dgvGensets.AllowUserToResizeRows = False
+        Me.dgvGensets.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgvGensets.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
         Me.dgvGensets.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
+        Me.dgvGensets.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.dgvGensets.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvGensets.Location = New System.Drawing.Point(5, 36)
+        Me.dgvGensets.GridColor = System.Drawing.Color.White
+        Me.dgvGensets.Location = New System.Drawing.Point(8, 55)
         Me.dgvGensets.MultiSelect = False
         Me.dgvGensets.Name = "dgvGensets"
         Me.dgvGensets.ReadOnly = True
         Me.dgvGensets.RowHeadersVisible = False
         Me.dgvGensets.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgvGensets.Size = New System.Drawing.Size(983, 449)
+        Me.dgvGensets.Size = New System.Drawing.Size(980, 476)
         Me.dgvGensets.TabIndex = 402
         Me.ToolTip.SetToolTip(Me.dgvGensets, "Gensets")
         Me.dgvGensets.Visible = False
@@ -1574,7 +1570,7 @@ Partial Class frmMain
         '
         Me.prgMain.BackColor = System.Drawing.Color.White
         Me.prgMain.ForeColor = System.Drawing.Color.White
-        Me.prgMain.Location = New System.Drawing.Point(11, 124)
+        Me.prgMain.Location = New System.Drawing.Point(46, 234)
         Me.prgMain.Name = "prgMain"
         Me.prgMain.Size = New System.Drawing.Size(132, 19)
         Me.prgMain.Step = 1
@@ -1936,7 +1932,7 @@ Partial Class frmMain
         Me.tabView.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tabView.Location = New System.Drawing.Point(4, 25)
         Me.tabView.Name = "tabView"
-        Me.tabView.Size = New System.Drawing.Size(998, 512)
+        Me.tabView.Size = New System.Drawing.Size(998, 543)
         Me.tabView.TabIndex = 3
         Me.tabView.Tag = ""
         Me.tabView.Text = "View Performance"
@@ -5800,84 +5796,145 @@ Partial Class frmMain
         Me.dgvCompare.AllowUserToOrderColumns = True
         Me.dgvCompare.AllowUserToResizeColumns = False
         Me.dgvCompare.AllowUserToResizeRows = False
+        Me.dgvCompare.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgvCompare.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
         Me.dgvCompare.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.dgvCompare.BackgroundColor = System.Drawing.SystemColors.Control
+        Me.dgvCompare.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.dgvCompare.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvCompare.Location = New System.Drawing.Point(210, 36)
+        Me.dgvCompare.GridColor = System.Drawing.Color.White
+        Me.dgvCompare.Location = New System.Drawing.Point(259, 55)
         Me.dgvCompare.MultiSelect = False
         Me.dgvCompare.Name = "dgvCompare"
         Me.dgvCompare.ReadOnly = True
         Me.dgvCompare.RowHeadersVisible = False
         Me.dgvCompare.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgvCompare.Size = New System.Drawing.Size(682, 450)
+        Me.dgvCompare.Size = New System.Drawing.Size(583, 476)
         Me.dgvCompare.TabIndex = 8
         Me.ToolTip.SetToolTip(Me.dgvCompare, "Engines")
-        '
-        'Label58
-        '
-        Me.Label58.BackColor = System.Drawing.Color.Transparent
-        Me.Label58.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label58.ForeColor = System.Drawing.Color.Black
-        Me.Label58.Location = New System.Drawing.Point(3, 1)
-        Me.Label58.Name = "Label58"
-        Me.Label58.Size = New System.Drawing.Size(54, 18)
-        Me.Label58.TabIndex = 638
-        Me.Label58.Text = "Status:"
-        Me.Label58.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolTip.SetToolTip(Me.Label58, "Current Mode")
-        '
-        'lblStatus
-        '
-        Me.lblStatus.BackColor = System.Drawing.Color.Transparent
-        Me.lblStatus.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblStatus.ForeColor = System.Drawing.Color.Black
-        Me.lblStatus.Location = New System.Drawing.Point(58, 2)
-        Me.lblStatus.Name = "lblStatus"
-        Me.lblStatus.Size = New System.Drawing.Size(81, 18)
-        Me.lblStatus.TabIndex = 637
-        Me.lblStatus.Text = "Not Ready"
-        Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolTip.SetToolTip(Me.lblStatus, "Current Mode")
         '
         'lblChk
         '
         Me.lblChk.BackColor = System.Drawing.Color.Transparent
         Me.lblChk.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblChk.ForeColor = System.Drawing.Color.Black
-        Me.lblChk.Location = New System.Drawing.Point(142, 1)
+        Me.lblChk.ForeColor = System.Drawing.Color.Red
+        Me.lblChk.Location = New System.Drawing.Point(129, 114)
         Me.lblChk.Name = "lblChk"
-        Me.lblChk.Size = New System.Drawing.Size(97, 18)
+        Me.lblChk.Size = New System.Drawing.Size(292, 18)
         Me.lblChk.TabIndex = 637
-        Me.lblChk.Text = "Good"
+        Me.lblChk.Text = "Choose at least one MFR before continuing"
         Me.lblChk.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.ToolTip.SetToolTip(Me.lblChk, "Current Mode")
         '
-        'Label75
+        'cbxFilter
         '
-        Me.Label75.BackColor = System.Drawing.Color.Transparent
-        Me.Label75.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label75.ForeColor = System.Drawing.Color.Black
-        Me.Label75.Location = New System.Drawing.Point(3, 1)
-        Me.Label75.Name = "Label75"
-        Me.Label75.Size = New System.Drawing.Size(37, 18)
-        Me.Label75.TabIndex = 638
-        Me.Label75.Text = "PF:"
-        Me.Label75.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolTip.SetToolTip(Me.Label75, "Current Mode")
+        Me.cbxFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbxFilter.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbxFilter.FormattingEnabled = True
+        Me.cbxFilter.Items.AddRange(New Object() {"ID", "Model", "RPM", "Fuel"})
+        Me.cbxFilter.Location = New System.Drawing.Point(16, 73)
+        Me.cbxFilter.Name = "cbxFilter"
+        Me.cbxFilter.Size = New System.Drawing.Size(78, 24)
+        Me.cbxFilter.TabIndex = 652
+        Me.cbxFilter.Tag = "id"
+        Me.ToolTip.SetToolTip(Me.cbxFilter, "Filter selector")
         '
-        'lblPF
+        'txtSearch
         '
-        Me.lblPF.BackColor = System.Drawing.Color.Transparent
-        Me.lblPF.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPF.ForeColor = System.Drawing.Color.Black
-        Me.lblPF.Location = New System.Drawing.Point(37, 1)
-        Me.lblPF.Name = "lblPF"
-        Me.lblPF.Size = New System.Drawing.Size(35, 18)
-        Me.lblPF.TabIndex = 639
-        Me.lblPF.Text = "1"
-        Me.lblPF.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolTip.SetToolTip(Me.lblPF, "Current Mode")
+        Me.txtSearch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple
+        Me.txtSearch.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSearch.FormattingEnabled = True
+        Me.txtSearch.Items.AddRange(New Object() {"ID", "Model", "RPM", "Fuel"})
+        Me.txtSearch.Location = New System.Drawing.Point(93, 73)
+        Me.txtSearch.Name = "txtSearch"
+        Me.txtSearch.Size = New System.Drawing.Size(69, 24)
+        Me.txtSearch.TabIndex = 661
+        Me.txtSearch.Tag = "id"
+        Me.ToolTip.SetToolTip(Me.txtSearch, "Filter Search Bar")
+        '
+        'btnWipe
+        '
+        Me.btnWipe.BackColor = System.Drawing.Color.Transparent
+        Me.btnWipe.FlatAppearance.BorderSize = 0
+        Me.btnWipe.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.GradientInactiveCaption
+        Me.btnWipe.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnWipe.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnWipe.Image = Global.MEGpro.My.Resources.Resources.X
+        Me.btnWipe.Location = New System.Drawing.Point(162, 73)
+        Me.btnWipe.Name = "btnWipe"
+        Me.btnWipe.Size = New System.Drawing.Size(25, 25)
+        Me.btnWipe.TabIndex = 407
+        Me.ToolTip.SetToolTip(Me.btnWipe, "Clear Filter and Refresh Results")
+        Me.btnWipe.UseVisualStyleBackColor = False
+        '
+        'pnlMode
+        '
+        Me.pnlMode.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pnlMode.BackColor = System.Drawing.SystemColors.Control
+        Me.pnlMode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pnlMode.Controls.Add(Me.lblMode)
+        Me.pnlMode.Controls.Add(Me.radEngines)
+        Me.pnlMode.Controls.Add(Me.radGensets)
+        Me.pnlMode.Location = New System.Drawing.Point(8, 10)
+        Me.pnlMode.Name = "pnlMode"
+        Me.pnlMode.Size = New System.Drawing.Size(980, 32)
+        Me.pnlMode.TabIndex = 626
+        Me.ToolTip.SetToolTip(Me.pnlMode, "Current Mode")
+        '
+        'lblMode
+        '
+        Me.lblMode.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblMode.BackColor = System.Drawing.Color.Transparent
+        Me.lblMode.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMode.ForeColor = System.Drawing.Color.Black
+        Me.lblMode.Location = New System.Drawing.Point(432, 4)
+        Me.lblMode.Name = "lblMode"
+        Me.lblMode.Size = New System.Drawing.Size(146, 20)
+        Me.lblMode.TabIndex = 637
+        Me.lblMode.Text = "ENGINE MODE"
+        Me.lblMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.ToolTip.SetToolTip(Me.lblMode, "Current Mode")
+        '
+        'radEngines
+        '
+        Me.radEngines.AutoSize = True
+        Me.radEngines.Checked = True
+        Me.radEngines.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.radEngines.ForeColor = System.Drawing.Color.Black
+        Me.radEngines.Location = New System.Drawing.Point(29, 4)
+        Me.radEngines.Name = "radEngines"
+        Me.radEngines.Size = New System.Drawing.Size(76, 20)
+        Me.radEngines.TabIndex = 409
+        Me.radEngines.TabStop = True
+        Me.radEngines.Text = "Engines"
+        Me.radEngines.UseVisualStyleBackColor = True
+        '
+        'radGensets
+        '
+        Me.radGensets.AutoSize = True
+        Me.radGensets.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.radGensets.ForeColor = System.Drawing.Color.Black
+        Me.radGensets.Location = New System.Drawing.Point(109, 4)
+        Me.radGensets.Name = "radGensets"
+        Me.radGensets.Size = New System.Drawing.Size(76, 20)
+        Me.radGensets.TabIndex = 410
+        Me.radGensets.Text = "Gensets"
+        Me.radGensets.UseVisualStyleBackColor = True
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label10.Location = New System.Drawing.Point(19, 52)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(41, 16)
+        Me.Label10.TabIndex = 662
+        Me.Label10.Text = "Filter:"
+        Me.ToolTip.SetToolTip(Me.Label10, "Override current search to look for specific engines")
         '
         'txtPrepare
         '
@@ -5925,7 +5982,7 @@ Partial Class frmMain
         Me.tabDrawing.Controls.Add(Me.picTest)
         Me.tabDrawing.Location = New System.Drawing.Point(4, 25)
         Me.tabDrawing.Name = "tabDrawing"
-        Me.tabDrawing.Size = New System.Drawing.Size(998, 512)
+        Me.tabDrawing.Size = New System.Drawing.Size(998, 543)
         Me.tabDrawing.TabIndex = 5
         Me.tabDrawing.Text = "View Diagram"
         '
@@ -5953,7 +6010,7 @@ Partial Class frmMain
         Me.tabPrint.Controls.Add(Me.Label72)
         Me.tabPrint.Location = New System.Drawing.Point(4, 25)
         Me.tabPrint.Name = "tabPrint"
-        Me.tabPrint.Size = New System.Drawing.Size(998, 512)
+        Me.tabPrint.Size = New System.Drawing.Size(998, 543)
         Me.tabPrint.TabIndex = 4
         Me.tabPrint.Text = "Print/Save"
         '
@@ -6010,32 +6067,37 @@ Partial Class frmMain
         'btnPopulate
         '
         Me.btnPopulate.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPopulate.Location = New System.Drawing.Point(40, 58)
+        Me.btnPopulate.Location = New System.Drawing.Point(76, 167)
         Me.btnPopulate.Name = "btnPopulate"
         Me.btnPopulate.Size = New System.Drawing.Size(76, 62)
         Me.btnPopulate.TabIndex = 404
         Me.btnPopulate.Text = "Convert" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "  to " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Gensets"
         Me.btnPopulate.UseVisualStyleBackColor = True
         '
-        'Label10
-        '
-        Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(2, 13)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(62, 16)
-        Me.Label10.TabIndex = 405
-        Me.Label10.Text = "Find ID's:"
-        '
         'pnlEngines
         '
+        Me.pnlEngines.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.pnlEngines.Controls.Add(Me.Label10)
+        Me.pnlEngines.Controls.Add(Me.lbl10)
+        Me.pnlEngines.Controls.Add(Me.txtSearch)
+        Me.pnlEngines.Controls.Add(Me.cbxFilter)
+        Me.pnlEngines.Controls.Add(Me.btnWipe)
         Me.pnlEngines.Controls.Add(Me.btnPopulate)
         Me.pnlEngines.Controls.Add(Me.prgMain)
-        Me.pnlEngines.Controls.Add(Me.txtSearch)
-        Me.pnlEngines.Location = New System.Drawing.Point(11, 46)
+        Me.pnlEngines.Location = New System.Drawing.Point(8, 55)
         Me.pnlEngines.Name = "pnlEngines"
-        Me.pnlEngines.Size = New System.Drawing.Size(149, 151)
+        Me.pnlEngines.Size = New System.Drawing.Size(234, 280)
         Me.pnlEngines.TabIndex = 412
+        '
+        'lbl10
+        '
+        Me.lbl10.AutoSize = True
+        Me.lbl10.Font = New System.Drawing.Font("Arial", 11.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbl10.Location = New System.Drawing.Point(58, 10)
+        Me.lbl10.Name = "lbl10"
+        Me.lbl10.Size = New System.Drawing.Size(119, 18)
+        Me.lbl10.TabIndex = 413
+        Me.lbl10.Text = "Engine Toolbox"
         '
         'Label6
         '
@@ -6070,7 +6132,7 @@ Partial Class frmMain
         Me.lblRecords.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lblRecords.Font = New System.Drawing.Font("Arial", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRecords.ForeColor = System.Drawing.Color.Red
-        Me.lblRecords.Location = New System.Drawing.Point(679, 384)
+        Me.lblRecords.Location = New System.Drawing.Point(679, 397)
         Me.lblRecords.Name = "lblRecords"
         Me.lblRecords.Size = New System.Drawing.Size(92, 31)
         Me.lblRecords.TabIndex = 264
@@ -6081,7 +6143,7 @@ Partial Class frmMain
         '
         Me.Label30.AutoSize = True
         Me.Label30.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label30.Location = New System.Drawing.Point(675, 356)
+        Me.Label30.Location = New System.Drawing.Point(675, 369)
         Me.Label30.Name = "Label30"
         Me.Label30.Size = New System.Drawing.Size(104, 17)
         Me.Label30.TabIndex = 263
@@ -6258,6 +6320,7 @@ Partial Class frmMain
         'tabFilter
         '
         Me.tabFilter.BackColor = System.Drawing.SystemColors.Control
+        Me.tabFilter.Controls.Add(Me.lblChk)
         Me.tabFilter.Controls.Add(Me.chkV600)
         Me.tabFilter.Controls.Add(Me.Label27)
         Me.tabFilter.Controls.Add(Me.radPF9)
@@ -6317,7 +6380,7 @@ Partial Class frmMain
         Me.tabFilter.Location = New System.Drawing.Point(4, 25)
         Me.tabFilter.Name = "tabFilter"
         Me.tabFilter.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabFilter.Size = New System.Drawing.Size(998, 512)
+        Me.tabFilter.Size = New System.Drawing.Size(998, 543)
         Me.tabFilter.TabIndex = 0
         Me.tabFilter.Text = "Choose Application"
         '
@@ -6599,7 +6662,7 @@ Partial Class frmMain
         '
         Me.chkMFmtu.AutoSize = True
         Me.chkMFmtu.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkMFmtu.Location = New System.Drawing.Point(278, 91)
+        Me.chkMFmtu.Location = New System.Drawing.Point(278, 86)
         Me.chkMFmtu.Name = "chkMFmtu"
         Me.chkMFmtu.Size = New System.Drawing.Size(57, 21)
         Me.chkMFmtu.TabIndex = 206
@@ -6610,7 +6673,7 @@ Partial Class frmMain
         '
         Me.chkMFgua.AutoSize = True
         Me.chkMFgua.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkMFgua.Location = New System.Drawing.Point(166, 92)
+        Me.chkMFgua.Location = New System.Drawing.Point(166, 87)
         Me.chkMFgua.Name = "chkMFgua"
         Me.chkMFgua.Size = New System.Drawing.Size(83, 21)
         Me.chkMFgua.TabIndex = 203
@@ -6621,7 +6684,7 @@ Partial Class frmMain
         '
         Me.chkMfr.AutoSize = True
         Me.chkMfr.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkMfr.Location = New System.Drawing.Point(47, 92)
+        Me.chkMfr.Location = New System.Drawing.Point(47, 87)
         Me.chkMfr.Name = "chkMfr"
         Me.chkMfr.Size = New System.Drawing.Size(51, 21)
         Me.chkMfr.TabIndex = 200
@@ -6751,14 +6814,15 @@ Partial Class frmMain
         Me.tcMain.Location = New System.Drawing.Point(2, 50)
         Me.tcMain.Name = "tcMain"
         Me.tcMain.SelectedIndex = 0
-        Me.tcMain.Size = New System.Drawing.Size(1006, 541)
+        Me.tcMain.Size = New System.Drawing.Size(1006, 572)
         Me.tcMain.TabIndex = 503
         '
         'tabHeat
         '
         Me.tabHeat.BackColor = System.Drawing.SystemColors.Control
-        Me.tabHeat.Controls.Add(Me.GroupBox2)
         Me.tabHeat.Controls.Add(Me.GroupBox1)
+        Me.tabHeat.Controls.Add(Me.GroupBox2)
+        Me.tabHeat.Controls.Add(Me.GroupBox3)
         Me.tabHeat.Controls.Add(Me.Label89)
         Me.tabHeat.Controls.Add(Me.Label91)
         Me.tabHeat.Controls.Add(Me.lblRange)
@@ -6774,8 +6838,6 @@ Partial Class frmMain
         Me.tabHeat.Controls.Add(Me.Label8)
         Me.tabHeat.Controls.Add(Me.chkRecoverJW)
         Me.tabHeat.Controls.Add(Me.chkRecoverLT)
-        Me.tabHeat.Controls.Add(Me.chkAddToPrimary)
-        Me.tabHeat.Controls.Add(Me.chkAddTo2nd)
         Me.tabHeat.Controls.Add(Me.Label53)
         Me.tabHeat.Controls.Add(Me.Label49)
         Me.tabHeat.Controls.Add(Me.Label48)
@@ -6786,7 +6848,6 @@ Partial Class frmMain
         Me.tabHeat.Controls.Add(Me.Label42)
         Me.tabHeat.Controls.Add(Me.txt2ndInlet)
         Me.tabHeat.Controls.Add(Me.Label47)
-        Me.tabHeat.Controls.Add(Me.Label41)
         Me.tabHeat.Controls.Add(Me.Label40)
         Me.tabHeat.Controls.Add(Me.Label46)
         Me.tabHeat.Controls.Add(Me.Label45)
@@ -6820,64 +6881,64 @@ Partial Class frmMain
         Me.tabHeat.Location = New System.Drawing.Point(4, 25)
         Me.tabHeat.Name = "tabHeat"
         Me.tabHeat.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabHeat.Size = New System.Drawing.Size(998, 512)
+        Me.tabHeat.Size = New System.Drawing.Size(998, 543)
         Me.tabHeat.TabIndex = 1
         Me.tabHeat.Text = "Enter Conditions"
         '
-        'GroupBox2
-        '
-        Me.GroupBox2.Controls.Add(Me.radEHRUtoJW)
-        Me.GroupBox2.Controls.Add(Me.radEHRUtoPrimary)
-        Me.GroupBox2.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox2.Location = New System.Drawing.Point(103, 287)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(317, 47)
-        Me.GroupBox2.TabIndex = 530
-        Me.GroupBox2.TabStop = False
-        Me.GroupBox2.Text = "Add EHRU to:"
-        '
-        'radEHRUtoJW
-        '
-        Me.radEHRUtoJW.AutoSize = True
-        Me.radEHRUtoJW.Checked = True
-        Me.radEHRUtoJW.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.radEHRUtoJW.Location = New System.Drawing.Point(99, 20)
-        Me.radEHRUtoJW.Name = "radEHRUtoJW"
-        Me.radEHRUtoJW.Size = New System.Drawing.Size(111, 21)
-        Me.radEHRUtoJW.TabIndex = 531
-        Me.radEHRUtoJW.TabStop = True
-        Me.radEHRUtoJW.Text = "Jacket Water"
-        Me.radEHRUtoJW.UseVisualStyleBackColor = True
-        '
-        'radEHRUtoPrimary
-        '
-        Me.radEHRUtoPrimary.AutoSize = True
-        Me.radEHRUtoPrimary.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.radEHRUtoPrimary.Location = New System.Drawing.Point(230, 20)
-        Me.radEHRUtoPrimary.Name = "radEHRUtoPrimary"
-        Me.radEHRUtoPrimary.Size = New System.Drawing.Size(77, 21)
-        Me.radEHRUtoPrimary.TabIndex = 530
-        Me.radEHRUtoPrimary.Text = "Primary"
-        Me.radEHRUtoPrimary.UseVisualStyleBackColor = True
-        '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.radOilToJw)
-        Me.GroupBox1.Controls.Add(Me.radOilToIc)
+        Me.GroupBox1.Controls.Add(Me.radAddToPrimary)
+        Me.GroupBox1.Controls.Add(Me.radAddTo2nd)
         Me.GroupBox1.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(560, 159)
+        Me.GroupBox1.Location = New System.Drawing.Point(566, 286)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(346, 69)
-        Me.GroupBox1.TabIndex = 529
+        Me.GroupBox1.Size = New System.Drawing.Size(320, 50)
+        Me.GroupBox1.TabIndex = 535
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "For Guascor, add Oil Cooler to:"
+        Me.GroupBox1.Text = "Add To"
+        '
+        'radAddToPrimary
+        '
+        Me.radAddToPrimary.AutoSize = True
+        Me.radAddToPrimary.Enabled = False
+        Me.radAddToPrimary.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.radAddToPrimary.Location = New System.Drawing.Point(52, 22)
+        Me.radAddToPrimary.Name = "radAddToPrimary"
+        Me.radAddToPrimary.Size = New System.Drawing.Size(77, 21)
+        Me.radAddToPrimary.TabIndex = 531
+        Me.radAddToPrimary.Text = "Primary"
+        Me.radAddToPrimary.UseVisualStyleBackColor = True
+        '
+        'radAddTo2nd
+        '
+        Me.radAddTo2nd.AutoSize = True
+        Me.radAddTo2nd.Enabled = False
+        Me.radAddTo2nd.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.radAddTo2nd.Location = New System.Drawing.Point(183, 22)
+        Me.radAddTo2nd.Name = "radAddTo2nd"
+        Me.radAddTo2nd.Size = New System.Drawing.Size(96, 21)
+        Me.radAddTo2nd.TabIndex = 530
+        Me.radAddTo2nd.Text = "Secondary"
+        Me.radAddTo2nd.UseVisualStyleBackColor = True
+        '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.radOilToJw)
+        Me.GroupBox2.Controls.Add(Me.radOilToIc)
+        Me.GroupBox2.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox2.Location = New System.Drawing.Point(566, 163)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(320, 60)
+        Me.GroupBox2.TabIndex = 534
+        Me.GroupBox2.TabStop = False
+        Me.GroupBox2.Text = "Add Oil Cooler To: (Guascor Only)"
         '
         'radOilToJw
         '
         Me.radOilToJw.AutoSize = True
         Me.radOilToJw.Checked = True
         Me.radOilToJw.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.radOilToJw.Location = New System.Drawing.Point(98, 32)
+        Me.radOilToJw.Location = New System.Drawing.Point(52, 28)
         Me.radOilToJw.Name = "radOilToJw"
         Me.radOilToJw.Size = New System.Drawing.Size(111, 21)
         Me.radOilToJw.TabIndex = 531
@@ -6889,12 +6950,48 @@ Partial Class frmMain
         '
         Me.radOilToIc.AutoSize = True
         Me.radOilToIc.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.radOilToIc.Location = New System.Drawing.Point(229, 32)
+        Me.radOilToIc.Location = New System.Drawing.Point(183, 28)
         Me.radOilToIc.Name = "radOilToIc"
         Me.radOilToIc.Size = New System.Drawing.Size(94, 21)
         Me.radOilToIc.TabIndex = 530
         Me.radOilToIc.Text = "Intercooler"
         Me.radOilToIc.UseVisualStyleBackColor = True
+        '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.radEHRUtoJW)
+        Me.GroupBox3.Controls.Add(Me.radEHRUtoPrimary)
+        Me.GroupBox3.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox3.Location = New System.Drawing.Point(113, 286)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(320, 50)
+        Me.GroupBox3.TabIndex = 533
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Add To"
+        '
+        'radEHRUtoJW
+        '
+        Me.radEHRUtoJW.AutoSize = True
+        Me.radEHRUtoJW.Checked = True
+        Me.radEHRUtoJW.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.radEHRUtoJW.Location = New System.Drawing.Point(52, 21)
+        Me.radEHRUtoJW.Name = "radEHRUtoJW"
+        Me.radEHRUtoJW.Size = New System.Drawing.Size(111, 21)
+        Me.radEHRUtoJW.TabIndex = 531
+        Me.radEHRUtoJW.TabStop = True
+        Me.radEHRUtoJW.Text = "Jacket Water"
+        Me.radEHRUtoJW.UseVisualStyleBackColor = True
+        '
+        'radEHRUtoPrimary
+        '
+        Me.radEHRUtoPrimary.AutoSize = True
+        Me.radEHRUtoPrimary.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.radEHRUtoPrimary.Location = New System.Drawing.Point(183, 21)
+        Me.radEHRUtoPrimary.Name = "radEHRUtoPrimary"
+        Me.radEHRUtoPrimary.Size = New System.Drawing.Size(77, 21)
+        Me.radEHRUtoPrimary.TabIndex = 530
+        Me.radEHRUtoPrimary.Text = "Primary"
+        Me.radEHRUtoPrimary.UseVisualStyleBackColor = True
         '
         'Label89
         '
@@ -7035,49 +7132,23 @@ Partial Class frmMain
         Me.chkRecoverJW.Checked = True
         Me.chkRecoverJW.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkRecoverJW.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkRecoverJW.Location = New System.Drawing.Point(529, 61)
+        Me.chkRecoverJW.Location = New System.Drawing.Point(523, 59)
         Me.chkRecoverJW.Name = "chkRecoverJW"
-        Me.chkRecoverJW.Size = New System.Drawing.Size(82, 38)
+        Me.chkRecoverJW.Size = New System.Drawing.Size(108, 21)
         Me.chkRecoverJW.TabIndex = 8
-        Me.chkRecoverJW.Text = "Recover" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "   JW"
+        Me.chkRecoverJW.Text = "Recover JW"
         Me.chkRecoverJW.UseVisualStyleBackColor = True
         '
         'chkRecoverLT
         '
         Me.chkRecoverLT.AutoSize = True
-        Me.chkRecoverLT.Checked = True
-        Me.chkRecoverLT.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkRecoverLT.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkRecoverLT.Location = New System.Drawing.Point(539, 256)
+        Me.chkRecoverLT.Location = New System.Drawing.Point(523, 260)
         Me.chkRecoverLT.Name = "chkRecoverLT"
-        Me.chkRecoverLT.Size = New System.Drawing.Size(82, 38)
+        Me.chkRecoverLT.Size = New System.Drawing.Size(102, 21)
         Me.chkRecoverLT.TabIndex = 11
-        Me.chkRecoverLT.Text = "Recover" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "   LT"
+        Me.chkRecoverLT.Text = "Recover LT"
         Me.chkRecoverLT.UseVisualStyleBackColor = True
-        '
-        'chkAddToPrimary
-        '
-        Me.chkAddToPrimary.AutoSize = True
-        Me.chkAddToPrimary.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkAddToPrimary.Location = New System.Drawing.Point(653, 317)
-        Me.chkAddToPrimary.Name = "chkAddToPrimary"
-        Me.chkAddToPrimary.Size = New System.Drawing.Size(78, 21)
-        Me.chkAddToPrimary.TabIndex = 12
-        Me.chkAddToPrimary.Text = "Primary"
-        Me.chkAddToPrimary.UseVisualStyleBackColor = True
-        '
-        'chkAddTo2nd
-        '
-        Me.chkAddTo2nd.AutoSize = True
-        Me.chkAddTo2nd.Checked = True
-        Me.chkAddTo2nd.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkAddTo2nd.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkAddTo2nd.Location = New System.Drawing.Point(751, 317)
-        Me.chkAddTo2nd.Name = "chkAddTo2nd"
-        Me.chkAddTo2nd.Size = New System.Drawing.Size(97, 21)
-        Me.chkAddTo2nd.TabIndex = 13
-        Me.chkAddTo2nd.Text = "Secondary"
-        Me.chkAddTo2nd.UseVisualStyleBackColor = True
         '
         'Label53
         '
@@ -7200,19 +7271,6 @@ Partial Class frmMain
         Me.Label47.TabIndex = 486
         Me.Label47.Text = "Secondary Process Water Circuit"
         Me.Label47.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label41
-        '
-        Me.Label41.AutoSize = True
-        Me.Label41.BackColor = System.Drawing.Color.Transparent
-        Me.Label41.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label41.ForeColor = System.Drawing.Color.Black
-        Me.Label41.Location = New System.Drawing.Point(689, 289)
-        Me.Label41.Name = "Label41"
-        Me.Label41.Size = New System.Drawing.Size(110, 17)
-        Me.Label41.TabIndex = 483
-        Me.Label41.Text = "Add LT Heat To:"
-        Me.Label41.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Label40
         '
@@ -7562,58 +7620,23 @@ Partial Class frmMain
         '
         'tabCompare
         '
-        Me.tabCompare.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.tabCompare.BackColor = System.Drawing.SystemColors.Control
+        Me.tabCompare.Controls.Add(Me.pnlMode)
         Me.tabCompare.Controls.Add(Me.dgvCompare)
-        Me.tabCompare.Controls.Add(Me.chkExpand)
-        Me.tabCompare.Controls.Add(Me.radGensets)
-        Me.tabCompare.Controls.Add(Me.radEngines)
         Me.tabCompare.Controls.Add(Me.pnlEngines)
         Me.tabCompare.Controls.Add(Me.dgvGensets)
         Me.tabCompare.Location = New System.Drawing.Point(4, 25)
         Me.tabCompare.Name = "tabCompare"
-        Me.tabCompare.Size = New System.Drawing.Size(998, 512)
+        Me.tabCompare.Size = New System.Drawing.Size(998, 543)
         Me.tabCompare.TabIndex = 2
         Me.tabCompare.Text = "Compare Models"
-        '
-        'chkExpand
-        '
-        Me.chkExpand.AutoSize = True
-        Me.chkExpand.Location = New System.Drawing.Point(164, 10)
-        Me.chkExpand.Name = "chkExpand"
-        Me.chkExpand.Size = New System.Drawing.Size(71, 20)
-        Me.chkExpand.TabIndex = 411
-        Me.chkExpand.Text = "Expand"
-        Me.chkExpand.UseVisualStyleBackColor = True
-        Me.chkExpand.Visible = False
-        '
-        'radGensets
-        '
-        Me.radGensets.AutoSize = True
-        Me.radGensets.Location = New System.Drawing.Point(85, 10)
-        Me.radGensets.Name = "radGensets"
-        Me.radGensets.Size = New System.Drawing.Size(75, 20)
-        Me.radGensets.TabIndex = 410
-        Me.radGensets.Text = "Gensets"
-        Me.radGensets.UseVisualStyleBackColor = True
-        '
-        'radEngines
-        '
-        Me.radEngines.AutoSize = True
-        Me.radEngines.Checked = True
-        Me.radEngines.Location = New System.Drawing.Point(11, 9)
-        Me.radEngines.Name = "radEngines"
-        Me.radEngines.Size = New System.Drawing.Size(73, 20)
-        Me.radEngines.TabIndex = 409
-        Me.radEngines.TabStop = True
-        Me.radEngines.Text = "Engines"
-        Me.radEngines.UseVisualStyleBackColor = True
         '
         'btnBack
         '
         Me.btnBack.Anchor = System.Windows.Forms.AnchorStyles.Bottom
         Me.btnBack.Enabled = False
         Me.btnBack.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnBack.Location = New System.Drawing.Point(666, 599)
+        Me.btnBack.Location = New System.Drawing.Point(666, 628)
         Me.btnBack.Name = "btnBack"
         Me.btnBack.Size = New System.Drawing.Size(83, 27)
         Me.btnBack.TabIndex = 510
@@ -7624,7 +7647,7 @@ Partial Class frmMain
         '
         Me.btnReset.Anchor = System.Windows.Forms.AnchorStyles.Bottom
         Me.btnReset.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(450, 599)
+        Me.btnReset.Location = New System.Drawing.Point(450, 628)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(105, 27)
         Me.btnReset.TabIndex = 511
@@ -7635,41 +7658,18 @@ Partial Class frmMain
         '
         Me.btnNext.Anchor = System.Windows.Forms.AnchorStyles.Bottom
         Me.btnNext.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnNext.Location = New System.Drawing.Point(762, 599)
+        Me.btnNext.Location = New System.Drawing.Point(762, 628)
         Me.btnNext.Name = "btnNext"
         Me.btnNext.Size = New System.Drawing.Size(83, 27)
         Me.btnNext.TabIndex = 509
         Me.btnNext.Text = "&Next >"
         Me.btnNext.UseVisualStyleBackColor = True
         '
-        'Panel1
-        '
-        Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Panel1.Controls.Add(Me.lblChk)
-        Me.Panel1.Controls.Add(Me.Label58)
-        Me.Panel1.Controls.Add(Me.lblStatus)
-        Me.Panel1.Location = New System.Drawing.Point(6, 631)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(292, 25)
-        Me.Panel1.TabIndex = 512
-        '
-        'Panel2
-        '
-        Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Panel2.Controls.Add(Me.lblPF)
-        Me.Panel2.Controls.Add(Me.Label75)
-        Me.Panel2.Location = New System.Drawing.Point(304, 631)
-        Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(81, 25)
-        Me.Panel2.TabIndex = 513
-        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1008, 661)
-        Me.Controls.Add(Me.Panel2)
-        Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.btnBack)
         Me.Controls.Add(Me.btnReset)
         Me.Controls.Add(Me.btnNext)
@@ -7685,6 +7685,8 @@ Partial Class frmMain
         Me.tabView.ResumeLayout(False)
         Me.tabView.PerformLayout()
         CType(Me.dgvCompare, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlMode.ResumeLayout(False)
+        Me.pnlMode.PerformLayout()
         Me.tabDrawing.ResumeLayout(False)
         CType(Me.picTest, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabPrint.ResumeLayout(False)
@@ -7696,14 +7698,13 @@ Partial Class frmMain
         Me.tcMain.ResumeLayout(False)
         Me.tabHeat.ResumeLayout(False)
         Me.tabHeat.PerformLayout()
-        Me.GroupBox2.ResumeLayout(False)
-        Me.GroupBox2.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
+        Me.GroupBox3.ResumeLayout(False)
+        Me.GroupBox3.PerformLayout()
         Me.tabCompare.ResumeLayout(False)
-        Me.tabCompare.PerformLayout()
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -7784,7 +7785,6 @@ Partial Class frmMain
     Friend WithEvents miVersion As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Label121 As System.Windows.Forms.Label
     Friend WithEvents lblTotalEff50 As System.Windows.Forms.Label
-    Friend WithEvents txtSearch As System.Windows.Forms.TextBox
     Friend WithEvents Label124 As System.Windows.Forms.Label
     Friend WithEvents dgvGensets As System.Windows.Forms.DataGridView
     Friend WithEvents ToolTip As System.Windows.Forms.ToolTip
@@ -8085,7 +8085,6 @@ Partial Class frmMain
     Friend WithEvents lblProjName As System.Windows.Forms.Label
     Friend WithEvents Label72 As System.Windows.Forms.Label
     Friend WithEvents btnPopulate As System.Windows.Forms.Button
-    Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents pnlEngines As System.Windows.Forms.Panel
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents Label4 As System.Windows.Forms.Label
@@ -8161,8 +8160,6 @@ Partial Class frmMain
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents chkRecoverJW As System.Windows.Forms.CheckBox
     Friend WithEvents chkRecoverLT As System.Windows.Forms.CheckBox
-    Friend WithEvents chkAddToPrimary As System.Windows.Forms.CheckBox
-    Friend WithEvents chkAddTo2nd As System.Windows.Forms.CheckBox
     Friend WithEvents Label53 As System.Windows.Forms.Label
     Friend WithEvents Label49 As System.Windows.Forms.Label
     Friend WithEvents Label48 As System.Windows.Forms.Label
@@ -8173,7 +8170,6 @@ Partial Class frmMain
     Friend WithEvents Label42 As System.Windows.Forms.Label
     Friend WithEvents txt2ndInlet As System.Windows.Forms.TextBox
     Friend WithEvents Label47 As System.Windows.Forms.Label
-    Friend WithEvents Label41 As System.Windows.Forms.Label
     Friend WithEvents Label40 As System.Windows.Forms.Label
     Friend WithEvents Label46 As System.Windows.Forms.Label
     Friend WithEvents Label45 As System.Windows.Forms.Label
@@ -8205,24 +8201,27 @@ Partial Class frmMain
     Friend WithEvents Label66 As System.Windows.Forms.Label
     Friend WithEvents Label18 As System.Windows.Forms.Label
     Friend WithEvents tabCompare As System.Windows.Forms.TabPage
-    Friend WithEvents chkExpand As System.Windows.Forms.CheckBox
     Friend WithEvents radGensets As System.Windows.Forms.RadioButton
     Friend WithEvents radEngines As System.Windows.Forms.RadioButton
     Friend WithEvents sfdSaveFile As System.Windows.Forms.SaveFileDialog
     Friend WithEvents btnBack As System.Windows.Forms.Button
     Friend WithEvents btnReset As System.Windows.Forms.Button
     Friend WithEvents btnNext As System.Windows.Forms.Button
-    Friend WithEvents Panel1 As System.Windows.Forms.Panel
-    Friend WithEvents Label58 As System.Windows.Forms.Label
-    Friend WithEvents lblStatus As System.Windows.Forms.Label
     Friend WithEvents lblChk As System.Windows.Forms.Label
-    Friend WithEvents Panel2 As System.Windows.Forms.Panel
-    Friend WithEvents lblPF As System.Windows.Forms.Label
-    Friend WithEvents Label75 As System.Windows.Forms.Label
-    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
     Friend WithEvents radEHRUtoJW As System.Windows.Forms.RadioButton
     Friend WithEvents radEHRUtoPrimary As System.Windows.Forms.RadioButton
-    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
     Friend WithEvents radOilToJw As System.Windows.Forms.RadioButton
     Friend WithEvents radOilToIc As System.Windows.Forms.RadioButton
+    Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents radAddToPrimary As System.Windows.Forms.RadioButton
+    Friend WithEvents radAddTo2nd As System.Windows.Forms.RadioButton
+    Friend WithEvents btnWipe As System.Windows.Forms.Button
+    Friend WithEvents cbxFilter As System.Windows.Forms.ComboBox
+    Friend WithEvents txtSearch As System.Windows.Forms.ComboBox
+    Friend WithEvents lbl10 As System.Windows.Forms.Label
+    Friend WithEvents pnlMode As System.Windows.Forms.Panel
+    Friend WithEvents lblMode As System.Windows.Forms.Label
+    Friend WithEvents Label10 As System.Windows.Forms.Label
 End Class

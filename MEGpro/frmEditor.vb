@@ -262,8 +262,7 @@
 #Region "Other Tools"
     ' FILTER DATA
     Private Sub tsSearch_TextChanged(sender As System.Object, e As System.EventArgs) Handles txtSearch.TextChanged
-        If String.IsNullOrEmpty(txtSearch.Text) Then RefreshForm() : Exit Sub
-        WildCard(txtSearch.Text, cbxFilter.Text)
+        If txtSearch.Text <> "" Then WildCard(txtSearch.Text, cbxFilter.Text) Else RefreshForm()
     End Sub
     Public Sub WildCard(Key As String, Filter As String)
         GetMFR()

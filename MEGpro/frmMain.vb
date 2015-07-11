@@ -21,7 +21,7 @@ Public Class frmMain
 #Region "HOUSEKEEPING & UTILITY"
     Private Sub InitializeForm()
         miVersion.Text = String.Format("Version: {0}", Version)
-        cbxEngCoolant.SelectedIndex = 0 : cbxPrimaryCir.SelectedIndex = 0 : FillGensetDGVCols(dgvGensets)
+        cbxEngCoolant.SelectedIndex = 0 : cbxPrimaryCir.SelectedIndex = 0 : cbxFilter.SelectedIndex = 0 : FillGensetDGVCols(dgvGensets)
         Setup_DGV(dgvCompare)
         'For Each tp As TabPage In tcMain.TabPages
         '    If tp.Text <> "Choose Application" Then tp.Enabled = False
@@ -36,7 +36,6 @@ Public Class frmMain
 #Region "QUERY SYNTHESIS"
     Private Sub SynthQuery()
         If canQuery() Then
-            UpdateObj(lblStatus, "Ready", Color.Green)
             Dim strMFR As String = getFilters(Filter.mfr)
             Dim strRPM As String = getFilters(Filter.rpm)
             Dim strFuel As String = getFilters(Filter.fuel)
@@ -55,15 +54,16 @@ Public Class frmMain
             If Not String.IsNullOrEmpty(strMax) Then query &= "AND " & strMax & vbCrLf
             If Not String.IsNullOrEmpty(strVolts) Then query &= "AND " & strVolts & vbCrLf
             query &= "ORDER BY ElePow100, RPM"
-            'MsgBox(query)
+            'MsgBox(query) ' <---- VIEW THE QUERY
             SQL.ExecQuery(query)
-            If String.IsNullOrEmpty(SQL.Exception) Then dgvCompare.DataSource = SQL.DBDS.Tables(0) : ColorDVG(dgvCompare) Else MsgBox(SQL.Exception)
+            If String.IsNullOrEmpty(SQL.Exception) Then dgvCompare.DataSource = SQL.DBDS.Tables(0) Else MsgBox(SQL.Exception)
             OptionsFound()
         Else
             Try
-                UpdateObj(lblStatus, "Not Ready", Color.Red) : UpdateObj(lblRecords, 0, Color.Red, Color.Gainsboro) : SQL.DBDS.Clear()
+                UpdateObj(lblRecords, 0, Color.Red, Color.Gainsboro) : SQL.DBDS.Clear()
             Catch ex As Exception : End Try ' DO NOTHING
         End If
+        ColorDVG(dgvCompare)
     End Sub
 
     Private Function canQuery() As Boolean
@@ -73,7 +73,7 @@ Public Class frmMain
                 If DirectCast(c, CheckBox).Checked = True Then chksValid = True
             End If
         Next
-        If chksValid Then lblChk.Text = "" Else lblChk.Text = "Choose MFR"
+        If chksValid Then lblChk.Visible = False Else lblChk.Visible = True
         If isNullorNumeric(txtEPmin) AndAlso isNullorNumeric(txtEPmax) Then txtValid = True ' CHECK TEXTBOX VALUES
         If chksValid AndAlso txtValid Then Return True Else Return False ' FINAL CHECK
     End Function
@@ -193,7 +193,6 @@ Public Class frmMain
                 Case "radPF9" : PowFactor = 0.9
                 Case "radPF1" : PowFactor = 1
             End Select
-            lblPF.Text = PowFactor
         End If
         SynthQuery()
     End Sub
@@ -236,14 +235,12 @@ Public Class frmMain
     Private Sub TextBox_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtMinExTemp.TextChanged, txtSteam.TextChanged, txtFeed.TextChanged, txtPrimaryInlet.TextChanged, txtPrimaryOutlet.TextChanged, txt2ndInlet.TextChanged, txt2ndOutlet.TextChanged
         If Not isNotNullorInvalid(sender) Then DirectCast(sender, TextBox).Text = Nothing
     End Sub
-
     ' FLUID PERCENTILES
     Private Sub CircuitFluid_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtEngCool.TextChanged, txtPrimaryCir.TextChanged, txt2ndCir.TextChanged
         If isNotNullorInvalid(sender) Then
             If withinRange(sender) Then lblRange.ForeColor = Color.Black Else lblRange.ForeColor = Color.Red
         Else : DirectCast(sender, TextBox).ResetText() : lblRange.ForeColor = Color.Black : End If
     End Sub
-
     ' CHECKBOXES (LEFT HALF)
     Private Sub chkSteam_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkSteam.CheckedChanged
         If chkSteam.Checked = True Then ToggleHeatControls(txtSteam, txtFeed, True, False, True) Else ToggleHeatControls(txtSteam, txtFeed, False, False, True) : txtSteam.Text = 0 : txtFeed.Text = 0
@@ -251,21 +248,16 @@ Public Class frmMain
     Private Sub chkEhru_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEhru.CheckedChanged
         If chkEhru.Checked Then : radEHRUtoJW.Checked = True : ToggleHeatControls(radEHRUtoJW, radEHRUtoPrimary, True, False, True) : Else : ToggleHeatControls(radEHRUtoJW, radEHRUtoPrimary, False, True, True) : End If
     End Sub
-
     ' CHECKBOXES (RIGHT HALF)
     Private Sub chkRecoverJW_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkRecoverJW.CheckedChanged
-        If chkRecoverJW.Checked = True Then : txtPrimaryInlet.Focus() : txtPrimaryInlet.SelectAll() : End If
+        If chkRecoverJW.Checked Then txtPrimaryInlet.Focus() : txtPrimaryInlet.SelectAll()
     End Sub
-
     Private Sub chkRecoverLT_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkRecoverLT.CheckedChanged
-        If chkRecoverLT.Checked = True Then : chkAddTo2nd.Checked = True : ToggleHeatControls(chkAddToPrimary, chkAddTo2nd, True, False, True) : ToggleHeatControls(txt2ndInlet, txt2ndOutlet, True, False, True) : txt2ndInlet.Focus() : txt2ndOutlet.SelectAll()
-        Else : ToggleHeatControls(chkAddToPrimary, chkAddTo2nd, False, True, True) : ToggleHeatControls(txt2ndInlet, txt2ndOutlet, False, False, True, True) : End If
+        If chkRecoverLT.Checked Then : radAddTo2nd.Checked = True : ToggleHeatControls(radAddToPrimary, radAddTo2nd, True, False, True) : ToggleHeatControls(txt2ndInlet, txt2ndOutlet, True, False, True) : txt2ndInlet.Focus() : txt2ndOutlet.SelectAll()
+        Else : ToggleHeatControls(radAddToPrimary, radAddTo2nd, False, True, True) : ToggleHeatControls(txt2ndInlet, txt2ndOutlet, False, False, True, True) : End If
     End Sub
-    Private Sub chkAddToPrimary_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAddToPrimary.CheckedChanged
-        If chkAddToPrimary.Checked = True Then chkAddTo2nd.Checked = False
-    End Sub
-    Private Sub chkAddTo2nd_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkAddTo2nd.CheckedChanged
-        If chkAddTo2nd.Checked = True Then : chkAddToPrimary.Checked = False : cbx2ndCir.Enabled = True : cbx2ndCir.SelectedIndex = 0 : txt2ndInlet.Focus() : txt2ndInlet.SelectAll()
+    Private Sub radAddTo2nd_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles radAddTo2nd.CheckedChanged
+        If radAddTo2nd.Checked Then : cbx2ndCir.Enabled = True : cbx2ndCir.SelectedIndex = 0 : txt2ndInlet.SelectAll()
         Else : cbx2ndCir.Enabled = False : cbx2ndCir.SelectedIndex = -1 : txt2ndInlet.Text = 0 : txt2ndOutlet.Text = 0 : End If
     End Sub
     ' COMBOBOXES
@@ -276,12 +268,100 @@ Public Class frmMain
         If cbxPrimaryCir.SelectedIndex > 0 Then txtPrimaryCir.Visible = True Else txtPrimaryCir.ResetText() : txtPrimaryCir.Visible = False
     End Sub
     Private Sub cbx2ndCir_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbx2ndCir.SelectedIndexChanged
-        If cbx2ndCir.SelectedIndex > 0 Then : txt2ndCir.Visible = True ': txt2ndInlet.Enabled = True : txt2ndOutlet.Enabled = True
-        Else : txt2ndCir.ResetText() : txt2ndCir.Visible = False : End If ': txt2ndInlet.ResetText() : txt2ndInlet.Enabled = False : txt2ndOutlet.ResetText() : txt2ndOutlet.Enabled = False : End If
+        If cbx2ndCir.SelectedIndex > 0 Then txt2ndCir.Visible = True Else txt2ndCir.ResetText() : txt2ndCir.Visible = False
     End Sub
 #End Region
 #Region "TabControl \ Compare"
+    Private Sub EngineMode()
+        dgvGensets.Visible = False : pnlEngines.Visible = True : dgvCompare.Visible = True : UpdateObj(lblMode, "ENGINE MODE", Color.Black) : pnlMode.BackColor = Color.Transparent
+    End Sub
+    Private Sub GensetMode()
+        dgvCompare.Visible = False : pnlEngines.Visible = False : dgvGensets.Visible = True : UpdateObj(lblMode, "GENSET MODE", Color.Chartreuse) : pnlMode.BackColor = Color.DarkSlateGray
+    End Sub
+    Private Sub radEngines_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles radEngines.CheckedChanged
+        If radEngines.Checked Then EngineMode() Else GensetMode()
+    End Sub
+    Private Sub radGensets_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles radGensets.CheckedChanged
+        If radGensets.Checked = True Then GensetMode() Else EngineMode()
+    End Sub
 
+    ' WILDCARD SEARCH
+    Private Sub txtSearch_TextChanged(sender As System.Object, e As System.EventArgs) Handles txtSearch.TextChanged, cbxFilter.SelectedIndexChanged
+        If txtSearch.Text <> "" Then Search(txtSearch.Text, cbxFilter.Text) Else SynthQuery()
+    End Sub
+    Private Sub Search(key As String, filter As String)
+        'If SQL.RecordCount > 0 Then SQL.DBDS.Clear()
+        SQL.AddParam("@key", String.Format("%{0}%", key))
+        SQL.ExecQuery(String.Format("SELECT id, mfr, model, rpm, fuel, burn_type, nox, elepow100 FROM Engines WHERE {0} LIKE @key ORDER BY elepow100, rpm", filter))
+        If Not String.IsNullOrEmpty(SQL.Exception) Then MsgBox(SQL.Exception) : Exit Sub
+        dgvCompare.DataSource = SQL.DBDS.Tables(0) : ColorDVG(dgvCompare) : lblTotal.Text = SQL.RecordCount
+        'If GensetList.Count > 0 Then GensetList.Clear()
+    End Sub
+    Private Sub btnWipe_Click(sender As System.Object, e As System.EventArgs) Handles btnWipe.Click
+        txtSearch.ResetText()
+    End Sub
+    Private Sub dgvCompare_Sorted(sender As Object, e As System.EventArgs) Handles dgvCompare.Sorted
+        ColorDVG(dgvCompare)
+    End Sub
+
+    ' BEGIN GENSET CREATION
+    Private Sub btnPopulate_Click(sender As System.Object, e As System.EventArgs) Handles btnPopulate.Click
+        If SQL.RecordCount > 0 Then
+            PopulateList()
+            radGensets.Enabled = True : radGensets.Checked = True
+        End If
+    End Sub
+    Private Sub PopulateList()
+        Me.Cursor = Cursors.WaitCursor
+        ' MANAGE PROGRESS BAR AND TIMER
+        prgMain.Value = 0 : prgMain.Maximum = SQL.RecordCount : prgMain.Visible = True
+        Dim TimerStart As DateTime = Now : Dim TimeSpent As System.TimeSpan
+
+        ' CLEAR CURRENT ROWS/LIST AND ALLOCATE NEW ROWS
+        dgvGensets.Rows.Clear() : GensetList.Clear()
+        dgvGensets.Rows.Add(SQL.RecordCount)
+
+        ' SET FLUID PERCENTAGE VALUES
+        Dim F1type As Integer = cbxEngCoolant.SelectedIndex : Dim F1pct As Integer : If cbxEngCoolant.SelectedIndex > 0 Then F1pct = txtEngCool.Text
+        Dim F2type As Integer = cbxPrimaryCir.SelectedIndex : Dim F2pct As Integer : If cbxPrimaryCir.SelectedIndex > 0 Then F2pct = txtPrimaryCir.Text
+        Dim F3type As Integer : Dim F3pct As Integer
+        If cbx2ndCir.SelectedIndex = -1 Then
+            F3type = 3
+        Else
+            F3type = cbx2ndCir.SelectedIndex
+            If cbx2ndCir.SelectedIndex > 0 Then F3pct = txt2ndCir.Text
+        End If
+
+        ' BEGIN GENSET LIST CREATION
+        Dim i As Integer = 0
+        For Each r As DataRow In SQL.DBDS.Tables(i).Rows
+            prgMain.Value += 1
+            'MyGenset = New Genset(SQL.DBDS.Tables(0).Rows(i)("Product_ID").ToString, SQL.DBDS.Tables(0).Rows(i)("MFR").ToString, PowFactor, SQL.DBDS.Tables(0).Rows(i)("GenModel").ToString, _
+            '                      CDbl(txtMinExTemp.Text), CDbl(txtSteam.Text), CDbl(txtFeed.Text), CDbl(txtPrimaryInlet.Text), CDbl(txtPrimaryOutlet.Text), _
+            '                      CDbl(txt2ndInlet.Text), CDbl(txt2ndOutlet.Text), chkSteam.Checked, chkEhru.Checked, radEHRUtoJW.Checked, radEHRUtoPrimary.Checked, _
+            '                      chkRecoverJW.Checked, chkRecoverLT.Checked, radAddToPrimary.Checked, radAddTo2nd.Checked, F1type, F2type, F3type, F1pct, F2pct, F3pct, _
+            '                      radOilToJw.Checked, radOilToIc.Checked)
+            ' OUTPUT INFO
+            'lblCase.Text = MyGenSet.CalcCase : PrintAllStats()
+
+            'GensetList.Add(MyGenset)
+
+            ' POPULATE ROWS
+            'With MyGenset
+            '    dgvGensets.Rows(i).Cells(0).Value = ._EngineID : dgvGensets.Rows(i).Cells(1).Value = ._MFR : dgvGensets.Rows(i).Cells(2).Value = ._Model : dgvGensets.Rows(i).Cells(3).Value = .RPM
+            '    dgvGensets.Rows(i).Cells(4).Value = ._Fuel : dgvGensets.Rows(i).Cells(5).Value = .EngKW : dgvGensets.Rows(i).Cells(6).Value = ._LTheat100u : dgvGensets.Rows(i).Cells(7).Value = ._FuelCon100u
+            '    dgvGensets.Rows(i).Cells(8).Value = .bHPhr : dgvGensets.Rows(i).Cells(9).Value = .QSteam : dgvGensets.Rows(i).Cells(10).Value = ._HeatMain100u : dgvGensets.Rows(i).Cells(11).Value = .QEHRU
+            '    dgvGensets.Rows(i).Cells(12).Value = ._OilCool100u : dgvGensets.Rows(i).Cells(13).Value = .QHX : dgvGensets.Rows(i).Cells(14).Value = .QICHX : dgvGensets.Rows(i).Cells(15).Value = String.Format("{0:n1}", .EleEff)
+            '    dgvGensets.Rows(i).Cells(16).Value = String.Format("{0:n1}", .ThermEff) : dgvGensets.Rows(i).Cells(17).Value = String.Format("{0:n1}", .TotalEff) : dgvGensets.Rows(i).Cells(18).Value = .PwFlow : dgvGensets.Rows(i).Cells(19).Value = .PwInActual
+            '    dgvGensets.Rows(i).Cells(20).Value = .PwOutActual : dgvGensets.Rows(i).Cells(21).Value = .SWFlow : dgvGensets.Rows(i).Cells(22).Value = .SwInActual : dgvGensets.Rows(i).Cells(23).Value = .SwOutActual
+            'End With
+            i += 1
+        Next
+
+        ' FINALIZE PROGRESS BAR AND REPORT TIME SPENT
+        TimeSpent = Now.Subtract(TimerStart) : MsgBox(String.Format("Time spent = {0:n3} seconds", TimeSpent.TotalSeconds)) : prgMain.Visible = False
+        Me.Cursor = Cursors.Default
+    End Sub
 #End Region
 #Region "TabControl \ View"
 
