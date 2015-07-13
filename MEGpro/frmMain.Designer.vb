@@ -397,6 +397,12 @@ Partial Class frmMain
         Me.radEngines = New System.Windows.Forms.RadioButton()
         Me.radGensets = New System.Windows.Forms.RadioButton()
         Me.Label10 = New System.Windows.Forms.Label()
+        Me.btnPopulate = New System.Windows.Forms.Button()
+        Me.radSelected = New System.Windows.Forms.RadioButton()
+        Me.radTop5 = New System.Windows.Forms.RadioButton()
+        Me.radTop10 = New System.Windows.Forms.RadioButton()
+        Me.radAll = New System.Windows.Forms.RadioButton()
+        Me.Label33 = New System.Windows.Forms.Label()
         Me.txtPrepare = New System.Windows.Forms.TextBox()
         Me.txtProjName = New System.Windows.Forms.TextBox()
         Me.btnFinal = New System.Windows.Forms.Button()
@@ -408,7 +414,6 @@ Partial Class frmMain
         Me.lblPrepare = New System.Windows.Forms.Label()
         Me.lblProjName = New System.Windows.Forms.Label()
         Me.Label72 = New System.Windows.Forms.Label()
-        Me.btnPopulate = New System.Windows.Forms.Button()
         Me.pnlEngines = New System.Windows.Forms.Panel()
         Me.lbl10 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -1570,7 +1575,7 @@ Partial Class frmMain
         '
         Me.prgMain.BackColor = System.Drawing.Color.White
         Me.prgMain.ForeColor = System.Drawing.Color.White
-        Me.prgMain.Location = New System.Drawing.Point(46, 234)
+        Me.prgMain.Location = New System.Drawing.Point(41, 334)
         Me.prgMain.Name = "prgMain"
         Me.prgMain.Size = New System.Drawing.Size(132, 19)
         Me.prgMain.Step = 1
@@ -5804,14 +5809,13 @@ Partial Class frmMain
         Me.dgvCompare.BackgroundColor = System.Drawing.SystemColors.Control
         Me.dgvCompare.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.dgvCompare.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvCompare.GridColor = System.Drawing.Color.White
         Me.dgvCompare.Location = New System.Drawing.Point(259, 55)
         Me.dgvCompare.MultiSelect = False
         Me.dgvCompare.Name = "dgvCompare"
         Me.dgvCompare.ReadOnly = True
         Me.dgvCompare.RowHeadersVisible = False
         Me.dgvCompare.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgvCompare.Size = New System.Drawing.Size(583, 476)
+        Me.dgvCompare.Size = New System.Drawing.Size(599, 476)
         Me.dgvCompare.TabIndex = 8
         Me.ToolTip.SetToolTip(Me.dgvCompare, "Engines")
         '
@@ -5834,7 +5838,7 @@ Partial Class frmMain
         Me.cbxFilter.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cbxFilter.FormattingEnabled = True
         Me.cbxFilter.Items.AddRange(New Object() {"ID", "Model", "RPM", "Fuel"})
-        Me.cbxFilter.Location = New System.Drawing.Point(16, 73)
+        Me.cbxFilter.Location = New System.Drawing.Point(22, 70)
         Me.cbxFilter.Name = "cbxFilter"
         Me.cbxFilter.Size = New System.Drawing.Size(78, 24)
         Me.cbxFilter.TabIndex = 652
@@ -5847,9 +5851,9 @@ Partial Class frmMain
         Me.txtSearch.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSearch.FormattingEnabled = True
         Me.txtSearch.Items.AddRange(New Object() {"ID", "Model", "RPM", "Fuel"})
-        Me.txtSearch.Location = New System.Drawing.Point(93, 73)
+        Me.txtSearch.Location = New System.Drawing.Point(99, 70)
         Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(69, 24)
+        Me.txtSearch.Size = New System.Drawing.Size(96, 24)
         Me.txtSearch.TabIndex = 661
         Me.txtSearch.Tag = "id"
         Me.ToolTip.SetToolTip(Me.txtSearch, "Filter Search Bar")
@@ -5862,9 +5866,9 @@ Partial Class frmMain
         Me.btnWipe.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.btnWipe.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnWipe.Image = Global.MEGpro.My.Resources.Resources.X
-        Me.btnWipe.Location = New System.Drawing.Point(162, 73)
+        Me.btnWipe.Location = New System.Drawing.Point(196, 70)
         Me.btnWipe.Name = "btnWipe"
-        Me.btnWipe.Size = New System.Drawing.Size(25, 25)
+        Me.btnWipe.Size = New System.Drawing.Size(24, 24)
         Me.btnWipe.TabIndex = 407
         Me.ToolTip.SetToolTip(Me.btnWipe, "Clear Filter and Refresh Results")
         Me.btnWipe.UseVisualStyleBackColor = False
@@ -5911,6 +5915,7 @@ Partial Class frmMain
         Me.radEngines.TabIndex = 409
         Me.radEngines.TabStop = True
         Me.radEngines.Text = "Engines"
+        Me.ToolTip.SetToolTip(Me.radEngines, "Compare Engine Stats")
         Me.radEngines.UseVisualStyleBackColor = True
         '
         'radGensets
@@ -5923,18 +5928,87 @@ Partial Class frmMain
         Me.radGensets.Size = New System.Drawing.Size(76, 20)
         Me.radGensets.TabIndex = 410
         Me.radGensets.Text = "Gensets"
+        Me.ToolTip.SetToolTip(Me.radGensets, "Compare Genset Stats")
         Me.radGensets.UseVisualStyleBackColor = True
         '
         'Label10
         '
         Me.Label10.AutoSize = True
         Me.Label10.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label10.Location = New System.Drawing.Point(19, 52)
+        Me.Label10.Location = New System.Drawing.Point(19, 48)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(41, 16)
         Me.Label10.TabIndex = 662
         Me.Label10.Text = "Filter:"
         Me.ToolTip.SetToolTip(Me.Label10, "Override current search to look for specific engines")
+        '
+        'btnPopulate
+        '
+        Me.btnPopulate.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPopulate.Location = New System.Drawing.Point(71, 264)
+        Me.btnPopulate.Name = "btnPopulate"
+        Me.btnPopulate.Size = New System.Drawing.Size(76, 62)
+        Me.btnPopulate.TabIndex = 404
+        Me.btnPopulate.Text = "Convert" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "  to " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Gensets"
+        Me.ToolTip.SetToolTip(Me.btnPopulate, "Begin calculating and converting")
+        Me.btnPopulate.UseVisualStyleBackColor = True
+        '
+        'radSelected
+        '
+        Me.radSelected.AutoSize = True
+        Me.radSelected.Checked = True
+        Me.radSelected.Location = New System.Drawing.Point(71, 156)
+        Me.radSelected.Name = "radSelected"
+        Me.radSelected.Size = New System.Drawing.Size(108, 20)
+        Me.radSelected.TabIndex = 663
+        Me.radSelected.TabStop = True
+        Me.radSelected.Text = "Selected Only"
+        Me.ToolTip.SetToolTip(Me.radSelected, "Convert selected row")
+        Me.radSelected.UseVisualStyleBackColor = True
+        '
+        'radTop5
+        '
+        Me.radTop5.AutoSize = True
+        Me.radTop5.Location = New System.Drawing.Point(71, 181)
+        Me.radTop5.Name = "radTop5"
+        Me.radTop5.Size = New System.Drawing.Size(57, 20)
+        Me.radTop5.TabIndex = 664
+        Me.radTop5.Text = "Top 5"
+        Me.ToolTip.SetToolTip(Me.radTop5, "Convert first 5 of the datagrid")
+        Me.radTop5.UseVisualStyleBackColor = True
+        '
+        'radTop10
+        '
+        Me.radTop10.AutoSize = True
+        Me.radTop10.Location = New System.Drawing.Point(71, 206)
+        Me.radTop10.Name = "radTop10"
+        Me.radTop10.Size = New System.Drawing.Size(64, 20)
+        Me.radTop10.TabIndex = 665
+        Me.radTop10.Text = "Top 10"
+        Me.ToolTip.SetToolTip(Me.radTop10, "Convert first 10 of the datagrid")
+        Me.radTop10.UseVisualStyleBackColor = True
+        '
+        'radAll
+        '
+        Me.radAll.AutoSize = True
+        Me.radAll.Location = New System.Drawing.Point(71, 231)
+        Me.radAll.Name = "radAll"
+        Me.radAll.Size = New System.Drawing.Size(87, 20)
+        Me.radAll.TabIndex = 666
+        Me.radAll.Text = "Convert All"
+        Me.ToolTip.SetToolTip(Me.radAll, "Convert every engine in the datagrid")
+        Me.radAll.UseVisualStyleBackColor = True
+        '
+        'Label33
+        '
+        Me.Label33.AutoSize = True
+        Me.Label33.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label33.Location = New System.Drawing.Point(19, 135)
+        Me.Label33.Name = "Label33"
+        Me.Label33.Size = New System.Drawing.Size(202, 16)
+        Me.Label33.TabIndex = 667
+        Me.Label33.Text = "Choose which engines to convert:"
+        Me.ToolTip.SetToolTip(Me.Label33, "Genset conversion selection")
         '
         'txtPrepare
         '
@@ -6064,19 +6138,15 @@ Partial Class frmMain
         Me.Label72.TabIndex = 511
         Me.Label72.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'btnPopulate
-        '
-        Me.btnPopulate.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPopulate.Location = New System.Drawing.Point(76, 167)
-        Me.btnPopulate.Name = "btnPopulate"
-        Me.btnPopulate.Size = New System.Drawing.Size(76, 62)
-        Me.btnPopulate.TabIndex = 404
-        Me.btnPopulate.Text = "Convert" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "  to " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Gensets"
-        Me.btnPopulate.UseVisualStyleBackColor = True
-        '
         'pnlEngines
         '
+        Me.pnlEngines.BackColor = System.Drawing.SystemColors.GradientActiveCaption
         Me.pnlEngines.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pnlEngines.Controls.Add(Me.Label33)
+        Me.pnlEngines.Controls.Add(Me.radAll)
+        Me.pnlEngines.Controls.Add(Me.radTop10)
+        Me.pnlEngines.Controls.Add(Me.radTop5)
+        Me.pnlEngines.Controls.Add(Me.radSelected)
         Me.pnlEngines.Controls.Add(Me.Label10)
         Me.pnlEngines.Controls.Add(Me.lbl10)
         Me.pnlEngines.Controls.Add(Me.txtSearch)
@@ -6086,18 +6156,19 @@ Partial Class frmMain
         Me.pnlEngines.Controls.Add(Me.prgMain)
         Me.pnlEngines.Location = New System.Drawing.Point(8, 55)
         Me.pnlEngines.Name = "pnlEngines"
-        Me.pnlEngines.Size = New System.Drawing.Size(234, 280)
+        Me.pnlEngines.Size = New System.Drawing.Size(234, 371)
         Me.pnlEngines.TabIndex = 412
         '
         'lbl10
         '
-        Me.lbl10.AutoSize = True
-        Me.lbl10.Font = New System.Drawing.Font("Arial", 11.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Underline), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl10.Location = New System.Drawing.Point(58, 10)
+        Me.lbl10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lbl10.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbl10.Location = New System.Drawing.Point(-1, 0)
         Me.lbl10.Name = "lbl10"
-        Me.lbl10.Size = New System.Drawing.Size(119, 18)
+        Me.lbl10.Size = New System.Drawing.Size(232, 24)
         Me.lbl10.TabIndex = 413
         Me.lbl10.Text = "Engine Toolbox"
+        Me.lbl10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Label6
         '
@@ -7630,6 +7701,7 @@ Partial Class frmMain
         Me.tabCompare.Size = New System.Drawing.Size(998, 543)
         Me.tabCompare.TabIndex = 2
         Me.tabCompare.Text = "Compare Models"
+        Me.ToolTip.SetToolTip(Me.tabCompare, "View Engines Only (Engine Mode)")
         '
         'btnBack
         '
@@ -8224,4 +8296,9 @@ Partial Class frmMain
     Friend WithEvents pnlMode As System.Windows.Forms.Panel
     Friend WithEvents lblMode As System.Windows.Forms.Label
     Friend WithEvents Label10 As System.Windows.Forms.Label
+    Friend WithEvents Label33 As System.Windows.Forms.Label
+    Friend WithEvents radAll As System.Windows.Forms.RadioButton
+    Friend WithEvents radTop10 As System.Windows.Forms.RadioButton
+    Friend WithEvents radTop5 As System.Windows.Forms.RadioButton
+    Friend WithEvents radSelected As System.Windows.Forms.RadioButton
 End Class

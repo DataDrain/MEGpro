@@ -12,7 +12,7 @@
         Return ParamDict
     End Function
 
-    ' DGV SETUP
+    ' DGV SETUP / UTLITY
     Public Sub Setup_DGV(dgv As DataGridView)
         dgv.Font = New Font("Arial", 9) : dgv.ColumnHeadersDefaultCellStyle.Font = New Font("Arial", 9, FontStyle.Bold)
     End Sub
@@ -21,6 +21,9 @@
             dgv.Rows(i).Cells(0).Style.BackColor = Color.LightGray
         Next
     End Sub
+    Public Function _get(ds As DataSet, colName As String, Optional row As Integer = 0) As Object
+        Return ds.Tables(0).Rows(row)(colName)
+    End Function
 
     ' MULTIPLE TAB OBJECT BEHAVIOR
     Public Sub UpdateObj(obj As Object, status As String, color As Color, Optional backcolor As Color = Nothing)

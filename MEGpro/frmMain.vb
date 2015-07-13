@@ -44,7 +44,7 @@ Public Class frmMain
             Dim strMin As String = getFilters(Filter.min)
             Dim strMax As String = getFilters(Filter.max)
             Dim strVolts As String = getFilters(Filter.voltage)
-            Dim query As String = "SELECT id, mfr, model, rpm, fuel, burn_type, nox, elepow100 FROM Engines WHERE "
+            Dim query As String = "SELECT id, mfr, model, rpm, fuel, burn_type, nox, elepow100, voltage FROM Engines WHERE "
             If Not String.IsNullOrEmpty(strMFR) Then query &= strMFR & vbCrLf
             If Not String.IsNullOrEmpty(strRPM) Then query &= "AND " & strRPM & vbCrLf
             If Not String.IsNullOrEmpty(strFuel) Then query &= "AND " & strFuel & vbCrLf
@@ -63,7 +63,6 @@ Public Class frmMain
                 UpdateObj(lblRecords, 0, Color.Red, Color.Gainsboro) : SQL.DBDS.Clear()
             Catch ex As Exception : End Try ' DO NOTHING
         End If
-        ColorDVG(dgvCompare)
     End Sub
 
     Private Function canQuery() As Boolean
@@ -181,6 +180,96 @@ Public Class frmMain
 #End Region
 #End Region
 
+#Region "GENSET CREATION"
+    Public Function canConstruct() As Boolean
+        Dim RangeErr As String = "percentile must be within range of 30-50..." : Dim NullErr As String = "percentile cannot be left blank..."
+        If txtMinExTemp.Text Is Nothing Then txtMinExTemp.Text = 0 : If txtSteam.Text Is Nothing Then txtSteam.Text = 0 : If txtFeed.Text Is Nothing Then txtFeed.Text = 0
+        If txtPrimaryInlet.Text Is Nothing Then txtPrimaryInlet.Text = 0 : If txtPrimaryOutlet.Text Is Nothing Then txtPrimaryInlet.Text = 0
+        If txt2ndInlet.Text Is Nothing Then txt2ndInlet.Text = 0 : If txt2ndOutlet.Text Is Nothing Then txt2ndOutlet.Text = 0
+
+        ' IF PERCENTILES ARE NULL THEN KICKBACK TO TAB 2 AND ALERT VALUES ARE NULL
+        If cbxEngCoolant.SelectedIndex > 0 AndAlso String.IsNullOrEmpty(txtEngCool.Text.ToString) Then MsgBox(String.Format("Engine Coolant {0}", NullErr)) : lblRange.ForeColor = Color.Red : Return False Else 
+        If cbxPrimaryCir.SelectedIndex > 0 AndAlso String.IsNullOrEmpty(txtPrimaryCir.Text.ToString) Then MsgBox(String.Format("Primary Circuit {0}", NullErr)) : lblRange.ForeColor = Color.Red : Return False
+        If cbx2ndCir.SelectedIndex > 0 AndAlso String.IsNullOrEmpty(txt2ndCir.Text.ToString) Then MsgBox(String.Format("Secondary Circuit {0}", NullErr)) : lblRange.ForeColor = Color.Red : Return False
+
+        ' IF PERCENTILES ARE OUT OF RANGE THEN KICKBACK TO TAB 2 AND ALERT OUT OF BOUNDS VALUES
+        If cbxEngCoolant.SelectedIndex > 0 AndAlso Not withinRange(txtEngCool) Then MsgBox(String.Format("Engine Coolant {0}", RangeErr)) : lblRange.ForeColor = Color.Red : Return False
+        If cbxPrimaryCir.SelectedIndex > 0 AndAlso Not withinRange(txtPrimaryCir) Then MsgBox(String.Format("Primary Circuit {0}", RangeErr)) : lblRange.ForeColor = Color.Red : Return False
+        If cbx2ndCir.SelectedIndex > 0 AndAlso Not withinRange(txt2ndCir) Then MsgBox(String.Format("Secondary Circuit {0}", RangeErr)) : lblRange.ForeColor = Color.Red : Return False
+        Return True
+    End Function
+
+
+    Public F1type As Integer : Public F1pct As Double
+    Public F2type As Integer : Public F2pct As Double
+    Public F3type As Integer : Public F3pct As Double
+    Public Sub SetFluids()
+        F1type = cbxEngCoolant.SelectedIndex : F2type = cbxPrimaryCir.SelectedIndex
+        If cbxEngCoolant.SelectedIndex = 0 Then F1pct = Nothing Else F1pct = txtEngCool.Text
+        If cbxPrimaryCir.SelectedIndex = 0 Then F2pct = Nothing Else F2pct = txtPrimaryCir.Text
+
+        If cbx2ndCir.SelectedIndex = -1 Then
+            F3type = 3 : F3pct = Nothing
+        Else
+            F3type = cbx2ndCir.SelectedIndex
+            If cbx2ndCir.SelectedIndex > 0 Then F3pct = txt2ndCir.Text
+        End If
+    End Sub
+
+    Private Function GetLoopCount() As Integer
+        If radSelected.Checked Then : Return 1
+        ElseIf radTop5.Checked Then : Return 5
+        ElseIf radTop10.Checked Then : Return 10
+        ElseIf radAll.Checked Then : Return SQL.RecordCount : End If
+        Return Nothing
+    End Function
+
+    Private Sub ConstructGenset()
+        Me.Cursor = Cursors.WaitCursor
+        If canConstruct() Then
+            Dim TimerStart As DateTime = Now
+            Dim TimeSpent As System.TimeSpan
+            Dim loopCount As Integer = GetLoopCount()
+            MsgBox(String.Format("Loop Count = {0}", loopCount))
+            SetFluids()
+
+            If loopCount = 1 Then
+                Index = dgvCompare.CurrentRow.Index
+                Try
+                    MyGenset = New Genset(_get(SQL.DBDS, "id", Index), _get(SQL.DBDS, "mfr", Index), _get(SQL.DBDS, "model", Index), _get(SQL.DBDS, "rpm", Index), _get(SQL.DBDS, "fuel", Index), _
+                                        _get(SQL.DBDS, "elepow100"), PowFactor, _
+                                        CDbl(txtMinExTemp.Text), CDbl(txtSteam.Text), CDbl(txtFeed.Text), CDbl(txtPrimaryInlet.Text), CDbl(txtPrimaryOutlet.Text), _
+                                        CDbl(txt2ndInlet.Text), CDbl(txt2ndOutlet.Text), chkSteam.Checked, chkEhru.Checked, radEHRUtoJW.Checked, radEHRUtoPrimary.Checked, _
+                                        chkRecoverJW.Checked, chkRecoverLT.Checked, radAddToPrimary.Checked, radAddTo2nd.Checked, F1type, F2type, F3type, F1pct, F2pct, F3pct, _
+                                         radOilToJw.Checked, radOilToIc.Checked)
+                Catch ex As Exception
+                    MsgBox(ex.Message & Environment.NewLine & ex.ToString)
+                End Try
+            Else
+                ' USE A WHILE LOOP HERE
+                'Index = 0
+                'For Each r As DataRow In SQL.DBDS.Tables(Index).Rows
+                Try
+                    MyGenset = New Genset(_get(SQL.DBDS, "id"), _get(SQL.DBDS, "mfr"), _get(SQL.DBDS, "model"), _get(SQL.DBDS, "rpm"), _get(SQL.DBDS, "fuel"), _get(SQL.DBDS, "elepow100"), PowFactor, _
+                                      CDbl(txtMinExTemp.Text), CDbl(txtSteam.Text), CDbl(txtFeed.Text), CDbl(txtPrimaryInlet.Text), CDbl(txtPrimaryOutlet.Text), _
+                                      CDbl(txt2ndInlet.Text), CDbl(txt2ndOutlet.Text), chkSteam.Checked, chkEhru.Checked, radEHRUtoJW.Checked, radEHRUtoPrimary.Checked, _
+                                      chkRecoverJW.Checked, chkRecoverLT.Checked, radAddToPrimary.Checked, radAddTo2nd.Checked, F1type, F2type, F3type, F1pct, F2pct, F3pct, _
+                                      radOilToJw.Checked, radOilToIc.Checked)
+                Catch ex As Exception
+                    MsgBox(ex.Message & Environment.NewLine & ex.ToString)
+                End Try
+                'Next
+
+            End If
+
+            TimeSpent = Now.Subtract(TimerStart) : MsgBox(String.Format("Time spent = {0:n3} seconds", TimeSpent.TotalSeconds))
+        Else
+            MsgBox("Something went wrong")
+        End If
+        Me.Cursor = Cursors.Default
+    End Sub
+#End Region
+
 #Region "FORM OBJECTS"
 #Region "TabControl \ Filter"
     Private Sub DynamicSynthQuery(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkMFgua.CheckedChanged, chkMFmtu.CheckedChanged, chkER1200.CheckedChanged, chkER1500.CheckedChanged, chkER1800.CheckedChanged, _
@@ -292,25 +381,24 @@ Public Class frmMain
     Private Sub Search(key As String, filter As String)
         'If SQL.RecordCount > 0 Then SQL.DBDS.Clear()
         SQL.AddParam("@key", String.Format("%{0}%", key))
-        SQL.ExecQuery(String.Format("SELECT id, mfr, model, rpm, fuel, burn_type, nox, elepow100 FROM Engines WHERE {0} LIKE @key ORDER BY elepow100, rpm", filter))
+        SQL.ExecQuery(String.Format("SELECT id, mfr, model, rpm, fuel, burn_type, nox, elepow100, voltage FROM Engines WHERE {0} LIKE @key ORDER BY elepow100, rpm", filter))
         If Not String.IsNullOrEmpty(SQL.Exception) Then MsgBox(SQL.Exception) : Exit Sub
-        dgvCompare.DataSource = SQL.DBDS.Tables(0) : ColorDVG(dgvCompare) : lblTotal.Text = SQL.RecordCount
+        dgvCompare.DataSource = SQL.DBDS.Tables(0) : lblTotal.Text = SQL.RecordCount
         'If GensetList.Count > 0 Then GensetList.Clear()
     End Sub
     Private Sub btnWipe_Click(sender As System.Object, e As System.EventArgs) Handles btnWipe.Click
         txtSearch.ResetText()
     End Sub
-    Private Sub dgvCompare_Sorted(sender As Object, e As System.EventArgs) Handles dgvCompare.Sorted
-        ColorDVG(dgvCompare)
-    End Sub
 
     ' BEGIN GENSET CREATION
     Private Sub btnPopulate_Click(sender As System.Object, e As System.EventArgs) Handles btnPopulate.Click
-        If SQL.RecordCount > 0 Then
-            PopulateList()
-            radGensets.Enabled = True : radGensets.Checked = True
-        End If
+        If SQL.RecordCount > 0 Then ConstructGenset()
+        'PopulateList()
+        'radGensets.Enabled = True : radGensets.Checked = True
     End Sub
+
+    
+
     Private Sub PopulateList()
         Me.Cursor = Cursors.WaitCursor
         ' MANAGE PROGRESS BAR AND TIMER
@@ -336,11 +424,11 @@ Public Class frmMain
         Dim i As Integer = 0
         For Each r As DataRow In SQL.DBDS.Tables(i).Rows
             prgMain.Value += 1
-            'MyGenset = New Genset(SQL.DBDS.Tables(0).Rows(i)("Product_ID").ToString, SQL.DBDS.Tables(0).Rows(i)("MFR").ToString, PowFactor, SQL.DBDS.Tables(0).Rows(i)("GenModel").ToString, _
-            '                      CDbl(txtMinExTemp.Text), CDbl(txtSteam.Text), CDbl(txtFeed.Text), CDbl(txtPrimaryInlet.Text), CDbl(txtPrimaryOutlet.Text), _
-            '                      CDbl(txt2ndInlet.Text), CDbl(txt2ndOutlet.Text), chkSteam.Checked, chkEhru.Checked, radEHRUtoJW.Checked, radEHRUtoPrimary.Checked, _
-            '                      chkRecoverJW.Checked, chkRecoverLT.Checked, radAddToPrimary.Checked, radAddTo2nd.Checked, F1type, F2type, F3type, F1pct, F2pct, F3pct, _
-            '                      radOilToJw.Checked, radOilToIc.Checked)
+            MyGenset = New Genset(_get(SQL.DBDS, "id"), _get(SQL.DBDS, "mfr"), _get(SQL.DBDS, "model"), _get(SQL.DBDS, "rpm"), _get(SQL.DBDS, "fuel"), _get(SQL.DBDS, "elepow100"), PowFactor, _
+                                  CDbl(txtMinExTemp.Text), CDbl(txtSteam.Text), CDbl(txtFeed.Text), CDbl(txtPrimaryInlet.Text), CDbl(txtPrimaryOutlet.Text), _
+                                  CDbl(txt2ndInlet.Text), CDbl(txt2ndOutlet.Text), chkSteam.Checked, chkEhru.Checked, radEHRUtoJW.Checked, radEHRUtoPrimary.Checked, _
+                                  chkRecoverJW.Checked, chkRecoverLT.Checked, radAddToPrimary.Checked, radAddTo2nd.Checked, F1type, F2type, F3type, F1pct, F2pct, F3pct, _
+                                  radOilToJw.Checked, radOilToIc.Checked)
             ' OUTPUT INFO
             'lblCase.Text = MyGenSet.CalcCase : PrintAllStats()
 

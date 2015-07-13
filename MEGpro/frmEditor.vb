@@ -143,7 +143,7 @@
 
 #Region "HOUSEKEEPING"
     Private Sub ToggleLock(Locked As Boolean)
-        Dim prefix As String
+        Dim prefix As String = Nothing
         Select Case _MFR
             Case "Guascor" : prefix = "txtGu"
             Case "MAN" : prefix = "txtMa"

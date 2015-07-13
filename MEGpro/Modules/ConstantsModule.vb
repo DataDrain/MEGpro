@@ -17,11 +17,9 @@
     Public Const ALL_MAN As String = STANDARD_STATS & ", engpow100, engpow75, engpow50, elepow100, elepow75, elepow50, mainheat100, mainheat75, mainheat50, " & _
                                   "exflow100, exflow75, exflow50, extemp100, extemp75, extemp50, lt_heat100, lt_heat75, lt_heat50, " & _
                                   "fuelcon100, fuelcon75, fuelcon50, heat_radiation100, heat_radiation75, heat_radiation50, link, mainheat100_u, mainheat75_u, mainheat50_u"
-
-
 #End Region
 
-#Region "CUSTOM GENSET COLUMNS"
+#Region "GENSET STRINGS"
     Public Sub FillGensetDGVCols(dgv As DataGridView)
         dgv.ColumnCount = 24
         dgv.Columns(0).Name = "Product ID" : dgv.Columns(1).Name = "MFR" : dgv.Columns(2).Name = "Model" : dgv.Columns(3).Name = "RPM"
@@ -31,6 +29,16 @@
         dgv.Columns(16).Name = "Therm_Eff" : dgv.Columns(17).Name = "Total_Eff" : dgv.Columns(18).Name = "PW_Flow" : dgv.Columns(19).Name = "PW_In"
         dgv.Columns(20).Name = "PW_Out" : dgv.Columns(21).Name = "SW_Flow" : dgv.Columns(22).Name = "SW_In" : dgv.Columns(23).Name = "SW_Out"
     End Sub
+
+    ' WHAT I ALREADY HAVE:
+    ' id, mfr, model, rpm, fuel, burn_type, nox, elepow100
+    Public Const GUASCOR_GENSET As String = "elepow80, elepow60, elepow40, jw_out, jw_flow, ic_in, ic_flow, exflow100, exflow80, exflow60, exflow40, extemp100, extemp80, extemp60, extemp40, " & _
+                                        "mainheat100_u, mainheat80_u, mainheat60_u, mainheat40_u, fuelcon100_u, fuelcon80_u, fuelcon60_u, fuelcon40_u, oil_cooler100_u, oil_cooler80_u, oil_cooler60_u, oil_cooler40_u"
+
+    Public Const MTU_GENSET As String = "elepow75, elepow50, engpow100, engpow75, engpow50, jw_in, jw_out, ic_in, ic_out, exflow100, exflow75, exflow50, " & _
+                                     "extemp100, extemp75, extemp50, fuelcon100_u, fuelcon75_u, fuelcon50_u, mainheat100_u, mainheat75_u, mainheat50_u, lt_heat100_u, lt_heat75_u, lt_heat50_u"
+
+    Public Const PAIRING_QUERY As String = "SELECT TOP(1) g.id FROM generators AS g, engines AS e WHERE e.id=@id AND e.rpm = g.rpm AND g.elepow > e.elepow100"
 #End Region
 
 #Region "MATH CONSTANTS"
