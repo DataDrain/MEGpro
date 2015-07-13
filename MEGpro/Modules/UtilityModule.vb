@@ -49,6 +49,21 @@
         If ResetText Then c1.Text = 0 : c2.Text = 0
     End Sub
 
+    Public Sub ViewMode(Multiple As String, tab As TabPage)
+        For Each c As Control In tab.Controls
+            If TypeOf c Is Label Then
+                Select Case Multiple
+                    Case "20"
+                        If c.Name.ToString.EndsWith("80") Or c.Name.ToString.EndsWith("60") Or c.Name.ToString.EndsWith("40") Then c.Visible = True
+                        If c.Name.ToString.EndsWith("75") Or c.Name.ToString.EndsWith("50") Then c.Visible = False
+                    Case "25"
+                        If c.Name.ToString.EndsWith("75") Or c.Name.ToString.EndsWith("50") Then c.Visible = True
+                        If c.Name.ToString.EndsWith("80") Or c.Name.ToString.EndsWith("60") Or c.Name.ToString.EndsWith("40") Then c.Visible = False
+                End Select
+            End If
+        Next
+    End Sub
+
     ' MAIN FORM NAVIGATION
     Public Sub Navigate(ButtonPushed As String, tc As TabControl, count As Integer)
         Select Case ButtonPushed
