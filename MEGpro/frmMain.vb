@@ -236,7 +236,7 @@ Public Class frmMain
         Else
             MsgBox("Something went wrong")
         End If
-        TimeSpent = Now.Subtract(TimerStart) : MsgBox(String.Format("Time spent = {0:n3} seconds", TimeSpent.TotalSeconds)) : Me.Cursor = Cursors.Default
+        TimeSpent = Now.Subtract(TimerStart) : lblTimer.Text = String.Format("{0:n3} sec", TimeSpent.TotalSeconds) : Me.Cursor = Cursors.Default
         PrintAllStats()
     End Sub
 

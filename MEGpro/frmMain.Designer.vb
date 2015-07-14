@@ -546,6 +546,8 @@ Partial Class frmMain
         Me.btnBack = New System.Windows.Forms.Button()
         Me.btnReset = New System.Windows.Forms.Button()
         Me.btnNext = New System.Windows.Forms.Button()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.lblTimer = New System.Windows.Forms.Label()
         Me.msMain.SuspendLayout()
         CType(Me.dgvGensets, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabView.SuspendLayout()
@@ -563,6 +565,7 @@ Partial Class frmMain
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
+        Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label64
@@ -1270,6 +1273,7 @@ Partial Class frmMain
         Me.lblQICHX75.Size = New System.Drawing.Size(152, 20)
         Me.lblQICHX75.TabIndex = 4723
         Me.lblQICHX75.Tag = "25"
+        Me.lblQICHX75.Text = "QICHX"
         Me.lblQICHX75.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'lblJWtoPrimary50
@@ -6074,11 +6078,11 @@ Partial Class frmMain
         'lblStatus
         '
         Me.lblStatus.BackColor = System.Drawing.Color.Transparent
-        Me.lblStatus.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblStatus.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStatus.ForeColor = System.Drawing.Color.Black
         Me.lblStatus.Location = New System.Drawing.Point(3, 3)
         Me.lblStatus.Name = "lblStatus"
-        Me.lblStatus.Size = New System.Drawing.Size(353, 17)
+        Me.lblStatus.Size = New System.Drawing.Size(351, 17)
         Me.lblStatus.TabIndex = 639
         Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.ToolTip.SetToolTip(Me.lblStatus, "Current Mode")
@@ -7764,11 +7768,36 @@ Partial Class frmMain
         Me.btnNext.Text = "&Next >"
         Me.btnNext.UseVisualStyleBackColor = True
         '
+        'Panel2
+        '
+        Me.Panel2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Panel2.BackColor = System.Drawing.Color.Transparent
+        Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Panel2.Controls.Add(Me.lblTimer)
+        Me.Panel2.Location = New System.Drawing.Point(921, 27)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(83, 27)
+        Me.Panel2.TabIndex = 627
+        Me.ToolTip.SetToolTip(Me.Panel2, "Current Mode")
+        '
+        'lblTimer
+        '
+        Me.lblTimer.BackColor = System.Drawing.Color.Transparent
+        Me.lblTimer.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTimer.ForeColor = System.Drawing.Color.Black
+        Me.lblTimer.Location = New System.Drawing.Point(3, 3)
+        Me.lblTimer.Name = "lblTimer"
+        Me.lblTimer.Size = New System.Drawing.Size(74, 17)
+        Me.lblTimer.TabIndex = 639
+        Me.lblTimer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ToolTip.SetToolTip(Me.lblTimer, "Current Mode")
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1008, 661)
+        Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.btnBack)
         Me.Controls.Add(Me.btnReset)
@@ -7806,6 +7835,7 @@ Partial Class frmMain
         Me.GroupBox2.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
+        Me.Panel2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -8332,4 +8362,6 @@ Partial Class frmMain
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents lblStatus As System.Windows.Forms.Label
     Friend WithEvents radTop20 As System.Windows.Forms.RadioButton
+    Friend WithEvents Panel2 As System.Windows.Forms.Panel
+    Friend WithEvents lblTimer As System.Windows.Forms.Label
 End Class

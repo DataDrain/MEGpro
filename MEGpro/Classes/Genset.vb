@@ -127,7 +127,7 @@
         If _MFR = "Guascor" Then _OilToJW = oil2jw : _OilToIC = oil2ic
         ' FLUID TYPES
         _EngCoolant_fluid = f1 : _f1pct = f1per : _PrmCir_fluid = f2 : _f2pct = f2per : _SecCir_fluid = f3 : _f3pct = f3per
-        ' ==== END IMPORTING FROM MAIN PROGRAM ====
+        ' ========    END IMPORTING FROM MAIN    ========
 
         FindCalcCase()
 
@@ -168,7 +168,6 @@
         Select Case _MFR
             Case "Guascor"
                 SQL.ExecQuery(String.Format("SELECT {0} FROM Engines WHERE id='{1}'", GUASCOR_GENSET, _EngID))
-                'MsgBox(String.Format("SELECT {0} FROM Engines WHERE id='{1}'", GUASCOR_GENSET, _EngID))
                 _Model = _get(SQL.DBDS, "model") : _RPM = _get(SQL.DBDS, "rpm") : _Fuel = _get(SQL.DBDS, "fuel") : elepow100 = _get(SQL.DBDS, "elepow100")
                 elepow80 = _get(SQL.DBDS, "elepow80") : elepow60 = _get(SQL.DBDS, "elepow60") : elepow80 = _get(SQL.DBDS, "elepow60")
                 engpow100 = _get(SQL.DBDS, "engpow100") : engpow80 = _get(SQL.DBDS, "engpow80") : engpow60 = _get(SQL.DBDS, "engpow60") : engpow40 = _get(SQL.DBDS, "engpow40")
