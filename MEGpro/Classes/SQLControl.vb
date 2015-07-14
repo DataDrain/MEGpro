@@ -1,5 +1,8 @@
-﻿Imports System.Data : Imports System.Data.SqlServerCe
+﻿Imports System.Data
+Imports System.Data.SqlServerCe
 
+' THIS CLASS IS THE WORKHORSE OF CONNECTING TO AND MANAGING A DATABASE
+' ALLOWS FOR ADVANCED SQL STATEMENTS TO BE WRITTEN AND EXECUTED AS STRINGS
 Public Class SQLControl
     ' SQL CONNECTIONS
     Private DBcon As New SqlCeConnection("Data Source=|DataDirectory|MartinEnergy.sdf;")

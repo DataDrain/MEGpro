@@ -1,4 +1,5 @@
-﻿Public Class frmEditor
+﻿'   THIS CLASS HANDLES EVERYTHING FOR THE DATABASE EDITOR FORM
+Public Class frmEditor
 #Region "DELCARATIONS"
     Private SQL As New SQLControl : Private Engine As New SQLControl
 

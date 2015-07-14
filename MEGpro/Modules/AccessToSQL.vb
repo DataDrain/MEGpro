@@ -1,5 +1,5 @@
-﻿Module AccessToSQL
-    ' THIS MODULE IS SOLELY USED TO TRANSFER DATA FROM ACCESS TO SQLce
+﻿' THIS MODULE IS SOLELY USED TO TRANSFER DATA FROM ACCESS TO SQLce
+Module AccessToSQL
     Private SQL As New SQLControl
     Private Rows As New List(Of String)
     Private TableName As String = "MAN"

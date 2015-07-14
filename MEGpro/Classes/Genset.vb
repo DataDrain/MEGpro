@@ -1,4 +1,5 @@
-﻿Public Class Genset
+﻿' THIS CLASS HANDLES THE GENSET CREATION/CALCULATION DURING RUNTIME
+Public Class Genset
     Private SQL As New SQLControl : Private _query As String = ""
 
 #Region "DECLARATIONS"

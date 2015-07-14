@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports System.Threading
 
+' THIS CLASS HANDLES THE MAIN PROGRAM
 Public Class frmMain
     Public Version As String = "1.5.0"
 #Region "DECLARATIONS"
@@ -250,7 +251,7 @@ Public Class frmMain
     Private Sub PopulateGensetDGV(i As Integer)
         With MyGenset
             dgvGensets.Rows(i).Cells(0).Value = ._EngID : dgvGensets.Rows(i).Cells(1).Value = ._MFR : dgvGensets.Rows(i).Cells(2).Value = ._Model : dgvGensets.Rows(i).Cells(3).Value = ._RPM
-            dgvGensets.Rows(i).Cells(4).Value = ._Fuel : dgvGensets.Rows(i).Cells(5).Value = .KWeOut100 : dgvGensets.Rows(i).Cells(6).Value = .lt_heat100 : dgvGensets.Rows(i).Cells(7).Value = .fuelcon100
+            dgvGensets.Rows(i).Cells(4).Value = ._Fuel : dgvGensets.Rows(i).Cells(5).Value = NoDec(.KWeOut100) : dgvGensets.Rows(i).Cells(6).Value = .lt_heat100 : dgvGensets.Rows(i).Cells(7).Value = .fuelcon100
             dgvGensets.Rows(i).Cells(8).Value = .bHPhr : dgvGensets.Rows(i).Cells(9).Value = .QSteam : dgvGensets.Rows(i).Cells(10).Value = .mainheat100 : dgvGensets.Rows(i).Cells(11).Value = .QEHRU
             dgvGensets.Rows(i).Cells(12).Value = .oilcool100 : dgvGensets.Rows(i).Cells(13).Value = .QHX : dgvGensets.Rows(i).Cells(14).Value = .QICHX : dgvGensets.Rows(i).Cells(15).Value = OneDec(.EleEff)
             dgvGensets.Rows(i).Cells(16).Value = OneDec(.ThermEff) : dgvGensets.Rows(i).Cells(17).Value = OneDec(.TotalEff) : dgvGensets.Rows(i).Cells(18).Value = .PwFlow : dgvGensets.Rows(i).Cells(19).Value = .PwInActual
