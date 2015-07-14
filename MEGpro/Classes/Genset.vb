@@ -171,7 +171,7 @@
                 _Model = _get(SQL.DBDS, "model") : _RPM = _get(SQL.DBDS, "rpm") : _Fuel = _get(SQL.DBDS, "fuel") : elepow100 = _get(SQL.DBDS, "elepow100")
                 elepow80 = _get(SQL.DBDS, "elepow80") : elepow60 = _get(SQL.DBDS, "elepow60") : elepow80 = _get(SQL.DBDS, "elepow60")
                 engpow100 = _get(SQL.DBDS, "engpow100") : engpow80 = _get(SQL.DBDS, "engpow80") : engpow60 = _get(SQL.DBDS, "engpow60") : engpow40 = _get(SQL.DBDS, "engpow40")
-                jw_out = _get(SQL.DBDS, "jw_out") : jw_flow = _get(SQL.DBDS, "jw_flow") : ic_in = _get(SQL.DBDS, "ic_in") : ic_flow = _get(SQL.DBDS, "ic_flow")
+                jw_out = _get(SQL.DBDS, "jw_out") : jw_flow = _get(SQL.DBDS, "jw_flow") : ic_out = _get(SQL.DBDS, "ic_out") : ic_flow = _get(SQL.DBDS, "ic_flow")
                 exflow100 = _get(SQL.DBDS, "exflow100") : exflow80 = _get(SQL.DBDS, "exflow80") : exflow60 = _get(SQL.DBDS, "exflow60") : exflow40 = _get(SQL.DBDS, "exflow40")
                 extemp100 = _get(SQL.DBDS, "extemp100") : extemp80 = _get(SQL.DBDS, "extemp80") : extemp60 = _get(SQL.DBDS, "extemp60") : extemp40 = _get(SQL.DBDS, "extemp40")
                 fuelcon100 = _get(SQL.DBDS, "fuelcon100_u") : fuelcon80 = _get(SQL.DBDS, "fuelcon80_u") : fuelcon60 = _get(SQL.DBDS, "fuelcon60_u") : fuelcon40 = _get(SQL.DBDS, "fuelcon40_u")
@@ -181,10 +181,10 @@
                 ' GET JW_IN & IC_OUT
                 If _OilToJW Then
                     jw_in = UberLoop("guascorInlet", jw_out, _EngCoolant_fluid, (mainheat100 + oilcool100), jw_flow)
-                    ic_out = UberLoop("guascorOutlet", ic_in, _EngCoolant_fluid, lt_heat100, ic_flow)
+                    ic_in = UberLoop("guascorOutlet", ic_out, _EngCoolant_fluid, lt_heat100, ic_flow)
                 Else
                     jw_in = UberLoop("guascorInlet", jw_out, _EngCoolant_fluid, mainheat100, jw_flow)
-                    ic_out = UberLoop("guascorOutlet", ic_in, _EngCoolant_fluid, (lt_heat100 + oilcool100), ic_flow)
+                    ic_in = UberLoop("guascorOutlet", ic_out, _EngCoolant_fluid, (lt_heat100 + oilcool100), ic_flow)
                 End If
             Case "MTU"
                 SQL.ExecQuery(String.Format("SELECT {0} FROM Engines WHERE id='{1}'", MTU_GENSET, _EngID))
@@ -523,11 +523,11 @@
 
     Public Sub CalcSWflow() ' CALC HEAT TRANSFERRED THROUGH HEAT EXCHANGER & HEAT LOST TO RADIATOR
         ' QICHX
-        QICHX = UberLoop("Q", ic_in, _SecCir_fluid, ic_out, ICMassFlow)
+        QICHX = UberLoop("Q", PostICHX, _SecCir_fluid, ic_out, ICMassFlow)
         If _MFR = "Guascor" Then
-            QICHX80 = UberLoop("Q", ic_in, _SecCir_fluid, icout80, ICMassFlow) : QICHX60 = UberLoop("Q", ic_in, _SecCir_fluid, icout60, ICMassFlow) : QICHX40 = UberLoop("Q", ic_in, _SecCir_fluid, icout40, ICMassFlow)
+            QICHX80 = UberLoop("Q", PostICHX80, _SecCir_fluid, icout80, ICMassFlow) : QICHX60 = UberLoop("Q", PostICHX60, _SecCir_fluid, icout60, ICMassFlow) : QICHX40 = UberLoop("Q", PostICHX40, _SecCir_fluid, icout40, ICMassFlow)
         Else
-            QICHX75 = UberLoop("Q", ic_in, _SecCir_fluid, icout75, ICMassFlow) : QICHX50 = UberLoop("Q", ic_in, _SecCir_fluid, icout50, ICMassFlow)
+            QICHX75 = UberLoop("Q", PostICHX75, _SecCir_fluid, icout75, ICMassFlow) : QICHX50 = UberLoop("Q", PostICHX50, _SecCir_fluid, icout50, ICMassFlow)
         End If
         'QICRAD
         QICRad = UberLoop("Q", PostICHX, _SecCir_fluid, ic_in, ICMassFlow)
@@ -684,7 +684,7 @@
                 End While
                 Return unknown
 
-            Case "Q"
+            Case "Q" ' not a loop calculation, but we use the same parameters to solve for it
                 avg = (knownTemp + knownQorTemp) \ 2
                 If fluid = FluidType.Water Then cp = GetFluidValue(fluid.ToString, avg, True, False) Else cp = GetFluidValue(fluid.ToString, avg, True, False, percent)
                 If knownTemp > knownQorTemp Then

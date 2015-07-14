@@ -39,6 +39,11 @@ Partial Class frmEditor
         Me.txtMaHT50u = New System.Windows.Forms.TextBox()
         Me.txtMaCool50u = New System.Windows.Forms.TextBox()
         Me.tabMan = New System.Windows.Forms.TabPage()
+        Me.TextBox9 = New System.Windows.Forms.TextBox()
+        Me.TextBox10 = New System.Windows.Forms.TextBox()
+        Me.TextBox11 = New System.Windows.Forms.TextBox()
+        Me.TextBox8 = New System.Windows.Forms.TextBox()
+        Me.TextBox7 = New System.Windows.Forms.TextBox()
         Me.TextBox6 = New System.Windows.Forms.TextBox()
         Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.Label50 = New System.Windows.Forms.Label()
@@ -305,11 +310,6 @@ Partial Class frmEditor
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.txtManual = New System.Windows.Forms.TextBox()
         Me.Panel3 = New System.Windows.Forms.Panel()
-        Me.TextBox7 = New System.Windows.Forms.TextBox()
-        Me.TextBox8 = New System.Windows.Forms.TextBox()
-        Me.TextBox9 = New System.Windows.Forms.TextBox()
-        Me.TextBox10 = New System.Windows.Forms.TextBox()
-        Me.TextBox11 = New System.Windows.Forms.TextBox()
         CType(Me.dgvData, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabMan.SuspendLayout()
         Me.tabMtu.SuspendLayout()
@@ -601,6 +601,69 @@ Partial Class frmEditor
         Me.tabMan.Size = New System.Drawing.Size(622, 534)
         Me.tabMan.TabIndex = 1
         Me.tabMan.Text = "MAN"
+        '
+        'TextBox9
+        '
+        Me.TextBox9.BackColor = System.Drawing.Color.Gainsboro
+        Me.TextBox9.Enabled = False
+        Me.TextBox9.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox9.Location = New System.Drawing.Point(491, 298)
+        Me.TextBox9.Name = "TextBox9"
+        Me.TextBox9.ReadOnly = True
+        Me.TextBox9.Size = New System.Drawing.Size(60, 22)
+        Me.TextBox9.TabIndex = 643
+        Me.TextBox9.Tag = "engpow50_u"
+        Me.ToolTip.SetToolTip(Me.TextBox9, "BHP")
+        '
+        'TextBox10
+        '
+        Me.TextBox10.BackColor = System.Drawing.Color.Gainsboro
+        Me.TextBox10.Enabled = False
+        Me.TextBox10.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox10.Location = New System.Drawing.Point(431, 298)
+        Me.TextBox10.Name = "TextBox10"
+        Me.TextBox10.ReadOnly = True
+        Me.TextBox10.Size = New System.Drawing.Size(60, 22)
+        Me.TextBox10.TabIndex = 642
+        Me.TextBox10.Tag = "engpow75_u"
+        Me.ToolTip.SetToolTip(Me.TextBox10, "BHP")
+        '
+        'TextBox11
+        '
+        Me.TextBox11.BackColor = System.Drawing.Color.Gainsboro
+        Me.TextBox11.Enabled = False
+        Me.TextBox11.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox11.Location = New System.Drawing.Point(371, 298)
+        Me.TextBox11.Name = "TextBox11"
+        Me.TextBox11.ReadOnly = True
+        Me.TextBox11.Size = New System.Drawing.Size(60, 22)
+        Me.TextBox11.TabIndex = 641
+        Me.TextBox11.Tag = "engpow100_u"
+        Me.ToolTip.SetToolTip(Me.TextBox11, "BHP")
+        '
+        'TextBox8
+        '
+        Me.TextBox8.BackColor = System.Drawing.Color.White
+        Me.TextBox8.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox8.Location = New System.Drawing.Point(240, 298)
+        Me.TextBox8.Name = "TextBox8"
+        Me.TextBox8.ReadOnly = True
+        Me.TextBox8.Size = New System.Drawing.Size(60, 22)
+        Me.TextBox8.TabIndex = 640
+        Me.TextBox8.Tag = "engpow50"
+        Me.ToolTip.SetToolTip(Me.TextBox8, "BTU/min")
+        '
+        'TextBox7
+        '
+        Me.TextBox7.BackColor = System.Drawing.Color.White
+        Me.TextBox7.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox7.Location = New System.Drawing.Point(180, 298)
+        Me.TextBox7.Name = "TextBox7"
+        Me.TextBox7.ReadOnly = True
+        Me.TextBox7.Size = New System.Drawing.Size(60, 22)
+        Me.TextBox7.TabIndex = 639
+        Me.TextBox7.Tag = "engpow75"
+        Me.ToolTip.SetToolTip(Me.TextBox7, "BTU/min")
         '
         'TextBox6
         '
@@ -2850,7 +2913,7 @@ Partial Class frmEditor
         Me.txtGuIc.ReadOnly = True
         Me.txtGuIc.Size = New System.Drawing.Size(118, 22)
         Me.txtGuIc.TabIndex = 7
-        Me.txtGuIc.Tag = "ic_in"
+        Me.txtGuIc.Tag = "ic_out"
         '
         'txtGuJw
         '
@@ -3336,11 +3399,11 @@ Partial Class frmEditor
         '
         Me.Label10.AutoSize = True
         Me.Label10.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label10.Location = New System.Drawing.Point(35, 150)
+        Me.Label10.Location = New System.Drawing.Point(24, 150)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(83, 16)
+        Me.Label10.Size = New System.Drawing.Size(94, 16)
         Me.Label10.TabIndex = 461
-        Me.Label10.Text = "IC Inlet Temp"
+        Me.Label10.Text = "IC Outlet Temp"
         Me.ToolTip.SetToolTip(Me.Label10, "ic_in")
         '
         'Label14
@@ -3763,69 +3826,6 @@ Partial Class frmEditor
         Me.Panel3.Name = "Panel3"
         Me.Panel3.Size = New System.Drawing.Size(132, 56)
         Me.Panel3.TabIndex = 661
-        '
-        'TextBox7
-        '
-        Me.TextBox7.BackColor = System.Drawing.Color.White
-        Me.TextBox7.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox7.Location = New System.Drawing.Point(180, 298)
-        Me.TextBox7.Name = "TextBox7"
-        Me.TextBox7.ReadOnly = True
-        Me.TextBox7.Size = New System.Drawing.Size(60, 22)
-        Me.TextBox7.TabIndex = 639
-        Me.TextBox7.Tag = "engpow75"
-        Me.ToolTip.SetToolTip(Me.TextBox7, "BTU/min")
-        '
-        'TextBox8
-        '
-        Me.TextBox8.BackColor = System.Drawing.Color.White
-        Me.TextBox8.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox8.Location = New System.Drawing.Point(240, 298)
-        Me.TextBox8.Name = "TextBox8"
-        Me.TextBox8.ReadOnly = True
-        Me.TextBox8.Size = New System.Drawing.Size(60, 22)
-        Me.TextBox8.TabIndex = 640
-        Me.TextBox8.Tag = "engpow50"
-        Me.ToolTip.SetToolTip(Me.TextBox8, "BTU/min")
-        '
-        'TextBox9
-        '
-        Me.TextBox9.BackColor = System.Drawing.Color.Gainsboro
-        Me.TextBox9.Enabled = False
-        Me.TextBox9.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox9.Location = New System.Drawing.Point(491, 298)
-        Me.TextBox9.Name = "TextBox9"
-        Me.TextBox9.ReadOnly = True
-        Me.TextBox9.Size = New System.Drawing.Size(60, 22)
-        Me.TextBox9.TabIndex = 643
-        Me.TextBox9.Tag = "engpow50_u"
-        Me.ToolTip.SetToolTip(Me.TextBox9, "BHP")
-        '
-        'TextBox10
-        '
-        Me.TextBox10.BackColor = System.Drawing.Color.Gainsboro
-        Me.TextBox10.Enabled = False
-        Me.TextBox10.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox10.Location = New System.Drawing.Point(431, 298)
-        Me.TextBox10.Name = "TextBox10"
-        Me.TextBox10.ReadOnly = True
-        Me.TextBox10.Size = New System.Drawing.Size(60, 22)
-        Me.TextBox10.TabIndex = 642
-        Me.TextBox10.Tag = "engpow75_u"
-        Me.ToolTip.SetToolTip(Me.TextBox10, "BHP")
-        '
-        'TextBox11
-        '
-        Me.TextBox11.BackColor = System.Drawing.Color.Gainsboro
-        Me.TextBox11.Enabled = False
-        Me.TextBox11.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox11.Location = New System.Drawing.Point(371, 298)
-        Me.TextBox11.Name = "TextBox11"
-        Me.TextBox11.ReadOnly = True
-        Me.TextBox11.Size = New System.Drawing.Size(60, 22)
-        Me.TextBox11.TabIndex = 641
-        Me.TextBox11.Tag = "engpow100_u"
-        Me.ToolTip.SetToolTip(Me.TextBox11, "BHP")
         '
         'frmEditor
         '

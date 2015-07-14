@@ -21,7 +21,7 @@
 
 #Region "GENSET STRINGS"
     Public Const GUASCOR_GENSET As String = "model, rpm, fuel, elepow100, " & _
-                                        "elepow80, elepow60, elepow40, engpow100, engpow80, engpow60, engpow40, jw_out, jw_flow, ic_in, ic_flow, exflow100, exflow80, exflow60, exflow40, extemp100, extemp80, extemp60, extemp40, " & _
+                                        "elepow80, elepow60, elepow40, engpow100, engpow80, engpow60, engpow40, jw_out, jw_flow, ic_out, ic_flow, exflow100, exflow80, exflow60, exflow40, extemp100, extemp80, extemp60, extemp40, " & _
                                         "mainheat100_u, mainheat80_u, mainheat60_u, mainheat40_u, lt_heat100_u, lt_heat80_u, lt_heat60_u, lt_heat40_u, fuelcon100_u, fuelcon80_u, fuelcon60_u, fuelcon40_u, oil_cooler100_u, oil_cooler80_u, oil_cooler60_u, oil_cooler40_u"
 
     Public Const MTU_GENSET As String = "model, rpm, fuel, voltage, elepow100, elepow75, elepow50, engpow100, engpow75, engpow50, jw_in, jw_out, ic_in, ic_out, exflow100, exflow75, exflow50, " & _
