@@ -1,5 +1,5 @@
 ﻿Module ConstantsModule
-#Region "STRING CONSTANTS"
+#Region "DATABASE EDITOR STRINGS"
     Private Const STANDARD_STATS As String = "id, mfr, model, rpm, fuel, burn_type, nox, comp_ratio, ignition_time, jw_flow, ic_flow"
 
     Public Const ALL_GUASCOR As String = "id, model, rpm, fuel, burn_type, nox, comp_ratio, ignition_time, jw_flow, ic_flow, dex, jw_out, ic_in, " & _
@@ -20,10 +20,11 @@
 #End Region
 
 #Region "GENSET STRINGS"
-    Public Const GUASCOR_GENSET As String = "elepow80, elepow60, elepow40, engpow100, engpow80, engpow60, engpow40, jw_out, jw_flow, ic_in, ic_flow, exflow100, exflow80, exflow60, exflow40, extemp100, extemp80, extemp60, extemp40, " & _
+    Public Const GUASCOR_GENSET As String = "model, rpm, fuel, elepow100, " & _
+                                        "elepow80, elepow60, elepow40, engpow100, engpow80, engpow60, engpow40, jw_out, jw_flow, ic_in, ic_flow, exflow100, exflow80, exflow60, exflow40, extemp100, extemp80, extemp60, extemp40, " & _
                                         "mainheat100_u, mainheat80_u, mainheat60_u, mainheat40_u, lt_heat100_u, lt_heat80_u, lt_heat60_u, lt_heat40_u, fuelcon100_u, fuelcon80_u, fuelcon60_u, fuelcon40_u, oil_cooler100_u, oil_cooler80_u, oil_cooler60_u, oil_cooler40_u"
 
-    Public Const MTU_GENSET As String = "voltage, elepow75, elepow50, engpow100, engpow75, engpow50, jw_in, jw_out, ic_in, ic_out, exflow100, exflow75, exflow50, " & _
+    Public Const MTU_GENSET As String = "model, rpm, fuel, voltage, elepow100, elepow75, elepow50, engpow100, engpow75, engpow50, jw_in, jw_out, ic_in, ic_out, exflow100, exflow75, exflow50, " & _
                                      "extemp100, extemp75, extemp50, fuelcon100_u, fuelcon75_u, fuelcon50_u, mainheat100_u, mainheat75_u, mainheat50_u, lt_heat100_u, lt_heat75_u, lt_heat50_u"
 
     Public Sub FillGensetDGVCols(dgv As DataGridView)
@@ -40,5 +41,10 @@
 #Region "MATH CONSTANTS"
     Public Const ELE_EFF_PERCENT As Double = 0.95
     Public Const ELE_CONVERSION As Double = 0.7457
+    Public Const PINCH_TEMP As Integer = 100
+    Public Const ExCp As Double = 0.265 ' EXHAUST SPECIFIC HEAT
+    Public Const CpBTU As Double = 0.85
+    Public Const ConversionRatio As Double = 8.021
+    Public Const MinApproachTemp As Double = 5
 #End Region
 End Module

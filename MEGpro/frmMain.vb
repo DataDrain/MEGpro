@@ -6,7 +6,7 @@ Public Class frmMain
 #Region "DECLARATIONS"
     Private SQL As New SQLControl
     Public PowFactor As Single = 1
-    Public Index As Integer
+    Public eng_index As Integer : Public genset_index As Integer
 
     Private MyGenset As Genset
     Private GensetList As New List(Of Genset)
@@ -17,21 +17,6 @@ Public Class frmMain
     Private Sub frmMain_Load(sender As System.Object, e As System.EventArgs) Handles MyBase.Load
         InitializeForm()
     End Sub
-
-#Region "HOUSEKEEPING & UTILITY"
-    Private Sub InitializeForm()
-        miVersion.Text = String.Format("Version: {0}", Version)
-        cbxEngCoolant.SelectedIndex = 0 : cbxPrimaryCir.SelectedIndex = 0 : cbxFilter.SelectedIndex = 0 : FillGensetDGVCols(dgvGensets)
-        Setup_DGV(dgvCompare)
-        'For Each tp As TabPage In tcMain.TabPages
-        '    If tp.Text <> "Choose Application" Then tp.Enabled = False
-        'Next
-    End Sub
-
-    Private Sub TextBox_Click_SelectAll(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtEPmin.Click, txtEPmax.Click, txtMinExTemp.Click, txtSteam.Click, txtFeed.Click, txtPrimaryInlet.Click, txtPrimaryOutlet.Click, txt2ndInlet.Click, txt2ndOutlet.Click
-        DirectCast(sender, TextBox).SelectAll()
-    End Sub
-#End Region
 
 #Region "QUERY SYNTHESIS"
     Private Sub SynthQuery()
@@ -80,6 +65,7 @@ Public Class frmMain
     Private Sub OptionsFound()
         Dim count As Integer = SQL.RecordCount
         If count > 0 Then UpdateObj(lblRecords, count, Color.LawnGreen, Color.DarkSlateGray) Else UpdateObj(lblRecords, count, Color.Red, Color.Gainsboro)
+        lblTotal.Text = SQL.RecordCount
     End Sub
 
 #Region "QUERY FILTERS"
@@ -211,62 +197,65 @@ Public Class frmMain
 
     Private Function GetLoopCount() As Integer
         If radSelected.Checked Then : Return 1
-        ElseIf radTop5.Checked Then : Return 5
-        ElseIf radTop10.Checked Then : Return 10
+        ElseIf radTop5.Checked Then : If SQL.RecordCount < 5 Then Return SQL.RecordCount Else Return 5
+        ElseIf radTop10.Checked Then : If SQL.RecordCount < 10 Then Return SQL.RecordCount Else Return 10
+        ElseIf radTop20.Checked Then : If SQL.RecordCount < 20 Then Return SQL.RecordCount Else Return 20
         ElseIf radAll.Checked Then : Return SQL.RecordCount : End If
         Return Nothing
     End Function
 
     Private Sub ConsructionProcess()
         Me.Cursor = Cursors.WaitCursor
-        Dim TimerStart As DateTime = Now
-        Dim TimeSpent As System.TimeSpan
+        Dim TimerStart As DateTime = Now : Dim TimeSpent As System.TimeSpan
+        Dim loopCount As Integer = GetLoopCount()
+        dgvGensets.Rows.Clear() : GensetList.Clear() : dgvGensets.Rows.Add(loopCount)
+
         If canConstruct() Then
-            Dim loopCount As Integer = GetLoopCount()
             SetFluids()
             If loopCount = 1 Then
-                Index = dgvCompare.CurrentRow.Index
                 Try
-                    ConstructGenset(Index)
+                    ConstructGenset(eng_index)
                 Catch ex As Exception
                     MsgBox(ex.Message & Environment.NewLine & ex.ToString)
                 End Try
+                tcMain.SelectedIndex += 1 : lblCurrent.Text = eng_index + 1 : lblTotal.Text = SQL.RecordCount
             Else
-                prgMain.Value = 0 : prgMain.Maximum = loopCount : prgMain.Visible = True
-                dgvGensets.Rows.Clear() : GensetList.Clear()
-                Index = 0
-                While Index < loopCount
+                eng_index = 0
+                While eng_index < loopCount
                     Try
-                        ConstructGenset(Index)
+                        ConstructGenset(eng_index)
                     Catch ex As Exception
                         MsgBox(ex.Message & Environment.NewLine & ex.ToString)
                     End Try
                     GensetList.Add(MyGenset)
-                    'With MyGenset
-                    '    dgvGensets.Rows(Index).Cells(0).Value = ._EngID : dgvGensets.Rows(Index).Cells(1).Value = ._MFR : dgvGensets.Rows(Index).Cells(2).Value = ._Model : dgvGensets.Rows(Index).Cells(3).Value = ._RPM
-                    '    dgvGensets.Rows(Index).Cells(4).Value = ._Fuel : dgvGensets.Rows(Index).Cells(5).Value = .KWeOut100 : dgvGensets.Rows(Index).Cells(6).Value = .lt_heat100 : dgvGensets.Rows(Index).Cells(7).Value = .fuelcon100
-                    '    dgvGensets.Rows(Index).Cells(8).Value = .bHPhr : dgvGensets.Rows(Index).Cells(9).Value = .QSteam : dgvGensets.Rows(Index).Cells(10).Value = .mainheat100 : dgvGensets.Rows(Index).Cells(11).Value = .QEHRU
-                    '    dgvGensets.Rows(Index).Cells(12).Value = .oilcool100 : dgvGensets.Rows(Index).Cells(13).Value = .QHX : dgvGensets.Rows(Index).Cells(14).Value = .QICHX : dgvGensets.Rows(Index).Cells(15).Value = String.Format("{0:n1}", .EleEff)
-                    '    dgvGensets.Rows(Index).Cells(16).Value = String.Format("{0:n1}", .ThermEff) : dgvGensets.Rows(Index).Cells(17).Value = String.Format("{0:n1}", .TotalEff) : dgvGensets.Rows(Index).Cells(18).Value = .PwFlow : dgvGensets.Rows(Index).Cells(19).Value = .PwInActual
-                    '    dgvGensets.Rows(Index).Cells(20).Value = .PwOutActual : dgvGensets.Rows(Index).Cells(21).Value = .SWFlow : dgvGensets.Rows(Index).Cells(22).Value = .SwInActual : dgvGensets.Rows(Index).Cells(23).Value = .SwOutActual
-                    'End With
-                    Index += 1
+                    PopulateGensetDGV(eng_index)
+                    eng_index += 1
                 End While
+                radGensets.Checked = True : lblCurrent.Text = dgvGensets.CurrentRow.Index + 1 : lblTotal.Text = loopCount
             End If
         Else
             MsgBox("Something went wrong")
         End If
-        prgMain.Visible = False : TimeSpent = Now.Subtract(TimerStart) : MsgBox(String.Format("Time spent = {0:n3} seconds", TimeSpent.TotalSeconds)) : Me.Cursor = Cursors.Default
-        PrintAllStats() : radGensets.Checked = True ': tcMain.SelectedIndex += 1
+        TimeSpent = Now.Subtract(TimerStart) : MsgBox(String.Format("Time spent = {0:n3} seconds", TimeSpent.TotalSeconds)) : Me.Cursor = Cursors.Default
+        PrintAllStats()
     End Sub
 
-    Private Sub ConstructGenset(index As Integer)
-        MyGenset = New Genset(_get(SQL.DBDS, "id", index), _get(SQL.DBDS, "mfr", index), _get(SQL.DBDS, "model", index), _get(SQL.DBDS, "rpm", index), _get(SQL.DBDS, "fuel", index), _
-                                        _get(SQL.DBDS, "elepow100", index), PowFactor, _
-                                        CDbl(txtMinExTemp.Text), CDbl(txtSteam.Text), CDbl(txtFeed.Text), CDbl(txtPrimaryInlet.Text), CDbl(txtPrimaryOutlet.Text), _
-                                        CDbl(txt2ndInlet.Text), CDbl(txt2ndOutlet.Text), chkSteam.Checked, chkEhru.Checked, radEHRUtoJW.Checked, radEHRUtoPrimary.Checked, _
-                                        chkRecoverJW.Checked, chkRecoverLT.Checked, radAddToPrimary.Checked, radAddTo2nd.Checked, F1type, F2type, F3type, F1pct, F2pct, F3pct, _
-                                        radOilToJw.Checked, radOilToIc.Checked)
+    Private Sub ConstructGenset(i As Integer)
+        MyGenset = New Genset(dgvCompare.Rows(i).Cells("id").Value, dgvCompare.Rows(i).Cells("mfr").Value, _
+                            CDbl(txtMinExTemp.Text), CDbl(txtSteam.Text), CDbl(txtFeed.Text), CDbl(txtPrimaryInlet.Text), CDbl(txtPrimaryOutlet.Text), _
+                            CDbl(txt2ndInlet.Text), CDbl(txt2ndOutlet.Text), chkSteam.Checked, chkEhru.Checked, radEHRUtoJW.Checked, radEHRUtoPrimary.Checked, _
+                            chkRecoverJW.Checked, chkRecoverLT.Checked, radAddToPrimary.Checked, radAddTo2nd.Checked, F1type, F2type, F3type, F1pct, F2pct, F3pct, _
+                            radOilToJw.Checked, radOilToIc.Checked)
+    End Sub
+    Private Sub PopulateGensetDGV(i As Integer)
+        With MyGenset
+            dgvGensets.Rows(i).Cells(0).Value = ._EngID : dgvGensets.Rows(i).Cells(1).Value = ._MFR : dgvGensets.Rows(i).Cells(2).Value = ._Model : dgvGensets.Rows(i).Cells(3).Value = ._RPM
+            dgvGensets.Rows(i).Cells(4).Value = ._Fuel : dgvGensets.Rows(i).Cells(5).Value = .KWeOut100 : dgvGensets.Rows(i).Cells(6).Value = .lt_heat100 : dgvGensets.Rows(i).Cells(7).Value = .fuelcon100
+            dgvGensets.Rows(i).Cells(8).Value = .bHPhr : dgvGensets.Rows(i).Cells(9).Value = .QSteam : dgvGensets.Rows(i).Cells(10).Value = .mainheat100 : dgvGensets.Rows(i).Cells(11).Value = .QEHRU
+            dgvGensets.Rows(i).Cells(12).Value = .oilcool100 : dgvGensets.Rows(i).Cells(13).Value = .QHX : dgvGensets.Rows(i).Cells(14).Value = .QICHX : dgvGensets.Rows(i).Cells(15).Value = OneDec(.EleEff)
+            dgvGensets.Rows(i).Cells(16).Value = OneDec(.ThermEff) : dgvGensets.Rows(i).Cells(17).Value = OneDec(.TotalEff) : dgvGensets.Rows(i).Cells(18).Value = .PwFlow : dgvGensets.Rows(i).Cells(19).Value = .PwInActual
+            dgvGensets.Rows(i).Cells(20).Value = .PwOutActual : dgvGensets.Rows(i).Cells(21).Value = .SWFlow : dgvGensets.Rows(i).Cells(22).Value = .SwInActual : dgvGensets.Rows(i).Cells(23).Value = .SwOutActual
+        End With
     End Sub
 #End Region
 
@@ -362,16 +351,13 @@ Public Class frmMain
 #End Region
 #Region "TabControl \ Compare"
     Private Sub EngineMode()
-        dgvGensets.Visible = False : pnlEngines.Visible = True : dgvCompare.Visible = True : UpdateObj(lblMode, "ENGINE MODE", Color.Black) : pnlMode.BackColor = Color.Transparent
+        dgvGensets.Visible = False : pnlEngines.Visible = True : dgvCompare.Visible = True : UpdateObj(lblMode, "ENGINE COMPARISON MODE", Color.Black) : pnlMode.BackColor = Color.Transparent
     End Sub
     Private Sub GensetMode()
-        dgvCompare.Visible = False : pnlEngines.Visible = False : dgvGensets.Visible = True : UpdateObj(lblMode, "GENSET MODE", Color.Chartreuse) : pnlMode.BackColor = Color.DarkSlateGray
+        dgvCompare.Visible = False : pnlEngines.Visible = False : dgvGensets.Visible = True : UpdateObj(lblMode, "GENSET COMPARISON MODE", Color.Chartreuse) : pnlMode.BackColor = Color.DarkSlateGray
     End Sub
     Private Sub radEngines_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles radEngines.CheckedChanged
         If radEngines.Checked Then EngineMode() Else GensetMode()
-    End Sub
-    Private Sub radGensets_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles radGensets.CheckedChanged
-        If radGensets.Checked = True Then GensetMode() Else EngineMode()
     End Sub
 
     ' WILDCARD SEARCH
@@ -393,174 +379,242 @@ Public Class frmMain
     ' BEGIN GENSET CREATION
     Private Sub btnPopulate_Click(sender As System.Object, e As System.EventArgs) Handles btnPopulate.Click
         If SQL.RecordCount > 0 Then ConsructionProcess()
-        'PopulateList()
-        'radGensets.Enabled = True : radGensets.Checked = True
+    End Sub
+
+    ' HANDLE INDEX CHANGES
+    Private Sub dgvCompare_SelectionChanged(sender As Object, e As System.EventArgs) Handles dgvCompare.SelectionChanged
+        GetMyEngine()
+    End Sub
+    Private Sub dgvCompare_Sorted(sender As Object, e As System.EventArgs) Handles dgvCompare.Sorted
+        dgvCompare.ClearSelection() : dgvCompare.CurrentCell = Nothing : GetMyEngine()
+    End Sub
+    Private Sub GetMyEngine()
+        Try
+            eng_index = dgvCompare.CurrentRow.Index
+        Catch ex As Exception : End Try ' DO NOTHING
+    End Sub
+
+    ' HANDLE GENSET DGV
+    Private Sub dgvGensets_SelectionChanged(sender As Object, e As System.EventArgs) Handles dgvGensets.SelectionChanged
+        GetMyGenset()
+        'MyGenset = GensetList.Find()
+    End Sub
+    Private Sub dgvGensets_Sorted(sender As Object, e As System.EventArgs) Handles dgvGensets.Sorted
+        GetMyGenset()
+    End Sub
+    Private Sub GetMyGenset()
+        Dim gensetID As String = Nothing
+        Try
+            genset_index = dgvGensets.CurrentRow.Index
+            gensetID = dgvGensets.Rows(genset_index).Cells(0).Value
+            ' SEARCH LIST OF GENSETS
+            MyGenset = GensetList.Find(Function(x) x._EngID = gensetID)
+            PrintAllStats()
+        Catch ex As Exception : End Try ' DO NOTHING
     End Sub
 #End Region
 #Region "TabControl \ View"
-    Public Sub PrintAllStats()
-        tabView.AutoScrollPosition = New Point(0, 0)
-        lblCurrent.Text = Index + 1
-        'If MyGenSet.tooHot = True Then : lblWarning.Visible = True : Else : lblWarning.Visible = False : End If
-        With MyGenSet
-            ' SET VIEW MODE (PARTIAL POWER LOADS)
-            If ._MFR = "Guascor" Then ViewMode("20", tabView) Else ViewMode("25", tabView)
-            Dim myToolTipTxt = String.Format("{0:n0}", .QHX) : ToolTip.SetToolTip(lblPrimHeat, myToolTipTxt)
-            lblCase.Text = .CalcCase
-            '============ TOP PANEL (GENERAL INFO) ========================
-            lblMFR.Text = String.Format("{0} - {1}", ._MFR, ._Model) : lblEngineID.Text = ._EngID : lblFuel.Text = ._Fuel : lblGenID.Text = ._genID
-            lblRPM.Text = ._RPM : lblKW.Text = String.Format("{0:n0} KW", .KWeOut100) : lblVolts.Text = String.Format("{0} Volts", ._genVolts) : lblPowFactor.Text = PowFactor
-            '============ ENGINE PERFORMANCE PANEL ========================
-            lblKWE100.Text = String.Format("{0:n0}", .KWeOut100)
-            lblBHP100.Text = .engpow100
-            lblExFlow100.Text = String.Format("{0:n0}", .exflow100)
-            lblExTemp100.Text = String.Format("{0:n0}", .extemp100)
-            lblHeatMain100.Text = String.Format("{0:n0}", .mainheat100)
-            lblQExAvail.Text = String.Format("{0:n0}", .QExAvail)
-            lblLTheat100.Text = String.Format("{0:n0}", .lt_heat100)
-            lblJWin.Text = String.Format("{0:n0}", .jw_in) : lblJWout.Text = .jw_out : lblJWFlowRate.Text = String.Format("{0:n0}", .jw_flow)
-            lblICin.Text = .ic_in : lblICout.Text = String.Format("{0:n0}", .ic_out) : lblICFlowRate.Text = String.Format("{0:n0}", .ic_flow)
-            lblOilCool100.Text = String.Format("{0:n0}", .oilcool100)
-            lblFuelConHr100.Text = String.Format("{0:n0}", .fuelcon100)
-            lblFuelConBhp100.Text = String.Format("{0:n0}", .bHPhr)
-            lblFuelKW100.Text = String.Format("{0:n0}", .btuKWh)
-            '============ RECOVERED HEAT PANEL ========================
-            lblJWtoPrimary100.Text = String.Format("{0:n0}", .mainheat100)
-            lblExRecov100.Text = String.Format("{0:n0}", .QEHRU)
-            If ._MFR = "Guascor" Then lblOiltoPrimary.Text = String.Format("{0:n0}", .oilcool100) Else lblOiltoPrimary.Text = 0
-            .QJWRad *= -1 : lblJWRad100.Text = String.Format("{0:n0}", .QJWRad)
-            lblPrimHeat.Text = String.Format("{0:n0}", (CInt(lblJWtoPrimary100.Text) + CInt(lblExRecov100.Text) + CInt(lblOiltoPrimary.Text) + CInt(lblJWRad100.Text)))
-            If Math.Abs(CDbl(lblPrimHeat.Text) - .QHX) > 5000 Then MsgBox("Total Primary Heat was rounded, QHX is approx +/- 5,000.  NOTE: Oil Cooler heat was probably added to Intercooler")
-            lblQICHX100.Text = String.Format("{0:n0}", .QICHX)
-            .QICRad *= -1 : lblICRad100.Text = String.Format("{0:n0}", .QICRad)
-            lblSecHeat100.Text = String.Format("{0:n0}", CDbl(lblQICHX100.Text) + CDbl(lblICRad100.Text))
-            lblEleEff100.Text = String.Format("{0:n1}", .EleEff)
-            lblThermEff100.Text = String.Format("{0:n1}", .ThermEff)
-            lblTotalEff100.Text = String.Format("{0:n1}", .TotalEff)
-            '============ PRIMARY CIRCUIT PANEL ========================
-            lblPWFlow100.Text = String.Format("{0:n0}", .PwFlow)
-            lblPwInAct100.Text = String.Format("{0:n0}", .PwInActual)
-            lblPwOutAct100.Text = String.Format("{0:n0}", .PwOutActual)
-            lblFluid2Type.Text = ._PrmCir_fluid.ToString : lblFluid2Percent.Text = String.Format("{0}%", ._f2pct)
-            '============ SECONDARY CIRCUIT PANEL ========================
-            lblSWFlow100.Text = String.Format("{0:n0}", .SWFlow)
-            lblSwInAct100.Text = String.Format("{0:n0}", .SwInActual)
-            lblSwOutAct100.Text = String.Format("{0:n0}", .SwOutActual)
-            lblFluid3Type.Text = ._SecCir_fluid.ToString : lblFluid3Percent.Text = String.Format("{0}%", ._f3pct)
-            '============ STEAM PANEL ========================
-            lblQsteam100.Text = String.Format("{0:n0}", .QSteam)
-            lblSteamProd100.Text = String.Format("{0:n0}", .SteamProduction)
-            lblSteamPress.Text = String.Format("{0:n0}", ._user_StmPress)
-            Select Case ._MFR '============ PARTIAL PANELS ========================
-                Case "MTU"
-                    '============ ENGINE PERFORMANCE PANEL ========================
-                    lblKWE75.Text = String.Format("{0:n0}", .KWeOut75) : lblKWE50.Text = String.Format("{0:n0}", .KWeOut50)
-                    lblBHP75.Text = .engpow75 : lblBHP50.Text = .engpow50
-                    lblExFlow75.Text = String.Format("{0:n0}", .exflow75) : lblExFlow50.Text = String.Format("{0:n0}", .exflow50)
-                    lblExTemp75.Text = String.Format("{0:n0}", .extemp75) : lblExTemp50.Text = String.Format("{0:n0}", .extemp50)
-                    lblHeatMain75.Text = String.Format("{0:n0}", .mainheat75) : lblHeatMain50.Text = String.Format("{0:n0}", .mainheat50)
-                    lblQExAvail75.Text = String.Format("{0:n0}", .QExAvail75) : lblQExAvail50.Text = String.Format("{0:n0}", .QExAvail50)
-                    lblLTheat75.Text = String.Format("{0:n0}", .lt_heat75) : lblLTheat50.Text = String.Format("{0:n0}", .lt_heat50)
-                    lblOilCool75.Text = 0 : lblOilCool50.Text = 0 ' set to 0 because this is guascor only
-                    lblJWin75.Text = .jw_in : lblJWin50.Text = .jw_in
-                    lblJwOut75.Text = String.Format("{0:n0}", .jwout75) : lblJwOut50.Text = String.Format("{0:n0}", .jwout50)
-                    lblJWFlowRate75.Text = String.Format("{0:n0}", .jw_flow) : lblJWFlowRate50.Text = String.Format("{0:n0}", .jw_flow)
-                    lblICin75.Text = .ic_in : lblICin50.Text = .ic_in
-                    lblICout75.Text = String.Format("{0:n0}", .icout75) : lblICout50.Text = String.Format("{0:n0}", .icout50)
-                    lblICFlowRate75.Text = String.Format("{0:n0}", .ic_flow) : lblICFlowRate50.Text = String.Format("{0:n0}", .ic_flow)
-                    lblFuelConHr75.Text = String.Format("{0:n0}", .fuelcon75) : lblFuelConHr50.Text = String.Format("{0:n0}", .fuelcon50)
-                    lblFuelConBhp75.Text = String.Format("{0:n0}", .bHPhr75) : lblFuelConBhp50.Text = String.Format("{0:n0}", .bHPhr50)
-                    lblFuelKW75.Text = String.Format("{0:n0}", .btuKWh75) : lblFuelKW50.Text = String.Format("{0:n0}", .btuKW50)
-                    '============ RECOVERED HEAT PANEL ========================
-                    lblJWtoPrimary75.Text = String.Format("{0:n0}", .mainheat75) : lblJWtoPrimary50.Text = String.Format("{0:n0}", .mainheat50)
-                    lblExRecov75.Text = String.Format("{0:n0}", .QEHRU75) : lblExRecov50.Text = String.Format("{0:n0}", .QEHRU50)
-                    .QJWRad75 *= -1 : lblJWRad75.Text = String.Format("{0:n0}", .QJWRad75) : .QJWRad50 *= -1 : lblJWRad50.Text = String.Format("{0:n0}", .QJWRad50)
-                    lblPrimHeat75.Text = String.Format("{0:n0}", CDbl(lblJWtoPrimary75.Text) + CDbl(lblExRecov75.Text) + CDbl(lblOilCool75.Text) + CDbl(lblJWRad75.Text))
-                    lblPrimHeat50.Text = String.Format("{0:n0}", CDbl(lblJWtoPrimary50.Text) + CDbl(lblExRecov50.Text) + CDbl(lblOilCool50.Text) + CDbl(lblJWRad50.Text))
-                    lblQICHX75.Text = String.Format("{0:n0}", .QICHX75) : lblQICHX50.Text = String.Format("{0:n0}", .QICHX50)
-                    .QICRad75 *= -1 : lblICRad75.Text = String.Format("{0:n0}", .QICRad75) : .QICRad50 *= -1 : lblICRad50.Text = String.Format("{0:n0}", .QICRad50)
-                    lblSecHeat75.Text = String.Format("{0:n0}", CDbl(lblQICHX75.Text) + CDbl(lblICRad75.Text)) : lblSecHeat50.Text = String.Format("{0:n0}", CDbl(lblQICHX50.Text) + CDbl(lblICRad50.Text))
-                    lblEleEff75.Text = String.Format("{0:n1}", .EleEff75) : lblEleEff50.Text = String.Format("{0:n1}", .EleEff50)
-                    lblThermEff75.Text = String.Format("{0:n1}", .ThermEff75) : lblThermEff50.Text = String.Format("{0:n1}", .ThermEff50)
-                    lblTotalEff75.Text = String.Format("{0:n1}", .TotalEff75) : lblTotalEff50.Text = String.Format("{0:n1}", .TotalEff50)
-                    '============ PRIMARY CIRCUIT PANEL ========================
-                    lblPWFlow75.Text = String.Format("{0:n0}", .PwFlow75) : lblPWFlow50.Text = String.Format("{0:n0}", .PwFlow50)
-                    lblPwInAct75.Text = String.Format("{0:n0}", .PwInActual75) : lblPwInAct50.Text = String.Format("{0:n0}", .PwInActual50)
-                    lblPwOutAct75.Text = String.Format("{0:n0}", .PwOutActual75) : lblPwOut50.Text = String.Format("{0:n0}", .PwOutActual50)
-                    lblJWRad75.Text = String.Format("{0:n0}", .QJWRad75) : lblJWRad50.Text = String.Format("{0:n0}", .QJWRad50)
-                    '============ SECONDARY CIRCUIT PANEL ========================
-                    lblSWFlow75.Text = String.Format("{0:n0}", .SwFlow75) : lblSWFlow50.Text = String.Format("{0:n0}", .SwFlow50)
-                    lblSwInAct75.Text = String.Format("{0:n0}", .SwInActual75) : lblSwInAct50.Text = String.Format("{0:n0}", .SwInActual50)
-                    lblSwOutAct75.Text = String.Format("{0:n0}", .SwOutActual75) : lblSwOutAct50.Text = String.Format("{0:n0}", .SwOutActual50)
-                    lblICRad75.Text = String.Format("{0:n0}", .QICRad75) : lblICRad50.Text = String.Format("{0:n0}", .QICRad50)
-                    '============ STEAM PANEL ========================
-                    lblQsteam75.Text = String.Format("{0:n0}", .QSteam75) : lblQsteam50.Text = String.Format("{0:n0}", .QSteam50)
-                    lblSteamProd75.Text = String.Format("{0:n0}", .SteamProd75) : lblSteamProd50.Text = String.Format("{0:n0}", .SteamProd50)
-                Case "MAN"
-                Case "Guascor"
-                    '============ ENGINE PERFORMANCE PANEL ========================
-                    lblKWE80.Text = String.Format("{0:n0}", .KWeOut80) : lblKWE60.Text = String.Format("{0:n0}", .KWeOut60) : lblKWE40.Text = String.Format("{0:n0}", .KWeOut40)
-                    lblBHP80.Text = .engpow80 : lblBHP60.Text = .engpow60 : lblBHP40.Text = .engpow40
-                    lblExFlow80.Text = String.Format("{0:n0}", .exflow80) : lblExFlow60.Text = String.Format("{0:n0}", .exflow60) : lblExFlow40.Text = String.Format("{0:n0}", .exflow40)
-                    lblExTemp80.Text = String.Format("{0:n0}", .extemp80) : lblExTemp60.Text = String.Format("{0:n0}", .extemp60) : lblExTemp40.Text = String.Format("{0:n0}", .extemp40)
-                    lblHeatMain80.Text = String.Format("{0:n0}", .mainheat80) : lblHeatMain60.Text = String.Format("{0:n0}", .mainheat60) : lblHeatMain40.Text = String.Format("{0:n0}", .mainheat40)
-                    lblQExAvail80.Text = String.Format("{0:n0}", .QExAvail80) : lblQExAvail60.Text = String.Format("{0:n0}", .QExAvail60) : lblQExAvail40.Text = String.Format("{0:n0}", .QExAvail40)
-                    lblLTheat80.Text = String.Format("{0:n0}", .lt_heat80) : lblLTheat60.Text = String.Format("{0:n0}", .lt_heat60) : lblLTheat40.Text = String.Format("{0:n0}", .lt_heat40)
-                    lblOilCool100.Text = String.Format("{0:n0}", .oilcool100) : lblOilCool80.Text = String.Format("{0:n0}", .oilcool80) : lblOilCool60.Text = String.Format("{0:n0}", .oilcool60) : lblOilCool40.Text = String.Format("{0:n0}", .oilcool40)
-                    lblJWin80.Text = String.Format("{0:n0}", .jwin80) : lblJWin60.Text = String.Format("{0:n0}", .jwin60) : lblJWin40.Text = String.Format("{0:n0}", .jwin40)
-                    lblJWout80.Text = .jw_out : lblJWout60.Text = .jw_out : lblJWout40.Text = .jw_out
-                    lblJWFlowRate80.Text = .jw_flow : lblJWFlowRate60.Text = .jw_flow : lblJWFlowRate40.Text = .jw_flow
-                    lblICin80.Text = .ic_in : lblICin60.Text = .ic_in : lblICin40.Text = .ic_in
-                    lblICout80.Text = String.Format("{0:n0}", .icout80) : lblICout60.Text = String.Format("{0:n0}", .icout60) : lblICout40.Text = String.Format("{0:n0}", .icout40)
-                    lblICFlowRate80.Text = .ic_flow : lblICFlowRate60.Text = .ic_flow : lblICFlowRate40.Text = .ic_flow
-                    lblFuelConHr80.Text = String.Format("{0:n0}", .fuelcon80) : lblFuelConHr60.Text = String.Format("{0:n0}", .fuelcon60) : lblFuelConHr40.Text = String.Format("{0:n0}", .fuelcon40)
-                    lblFuelConBhp80.Text = String.Format("{0:n0}", .bHPhr80) : lblFuelConBhp60.Text = String.Format("{0:n0}", .bHPhr60) : lblFuelConBhp40.Text = String.Format("{0:n0}", .bHPhr40)
-                    lblFuelKW80.Text = String.Format("{0:n0}", .btuKWh80) : lblFuelKW60.Text = String.Format("{0:n0}", .btuKWh60) : lblFuelKW40.Text = String.Format("{0:n0}", .btuKWh40)
-                    '============ RECOVERED HEAT PANEL ========================
-                    lblJWtoPrimary80.Text = String.Format("{0:n0}", .mainheat80) : lblJWtoPrimary60.Text = String.Format("{0:n0}", .mainheat60) : lblJWtoPrimary40.Text = String.Format("{0:n0}", .mainheat40)
-                    lblExRecov80.Text = String.Format("{0:n0}", .QEHRU80) : lblExRecov60.Text = String.Format("{0:n0}", .QEHRU60) : lblExRecov40.Text = String.Format("{0:n0}", .QEHRU40)
-                    lblOiltoPrimary.Text = String.Format("{0:n0}", .oilcool100) : lblOiltoPrimary80.Text = String.Format("{0:n0}", .oilcool80) : lblOiltoPrimary60.Text = String.Format("{0:n0}", .oilcool60) : lblOiltoPrimary40.Text = String.Format("{0:n0}", .oilcool40)
-                    .QJWRad80 *= -1 : lblJWRad80.Text = String.Format("{0:n0}", .QJWRad80) : .QJWRad60 *= -1 : lblJWRad60.Text = String.Format("{0:n0}", .QJWRad60) : .QJWRad40 *= -1 : lblJWRad40.Text = String.Format("{0:n0}", .QJWRad40)
-                    lblPrimHeat80.Text = String.Format("{0:n0}", (CInt(lblJWtoPrimary80.Text) + CInt(lblExRecov80.Text) + CInt(lblOiltoPrimary80.Text) + CInt(lblJWRad80.Text)))
-                    lblPrimHeat60.Text = String.Format("{0:n0}", (CInt(lblJWtoPrimary60.Text) + CInt(lblExRecov60.Text) + CInt(lblOiltoPrimary60.Text) + CInt(lblJWRad60.Text)))
-                    lblPrimHeat40.Text = String.Format("{0:n0}", (CInt(lblJWtoPrimary40.Text) + CInt(lblExRecov40.Text) + CInt(lblOiltoPrimary40.Text) + CInt(lblJWRad40.Text)))
-                    lblQICHX80.Text = String.Format("{0:n0}", .QICHX80) : lblQICHX60.Text = String.Format("{0:n0}", .QICHX60) : lblQICHX40.Text = String.Format("{0:n0}", .QICHX40)
-                    .QICRad80 *= -1 : lblICRad80.Text = String.Format("{0:n0}", .QICRad80) : .QICRad60 *= -1 : lblICRad60.Text = String.Format("{0:n0}", .QICRad60) : .QICRad40 *= -1 : lblICRad40.Text = String.Format("{0:n0}", .QICRad40)
-                    lblSecHeat80.Text = String.Format("{0:n0}", CDbl(lblQICHX80.Text) + CDbl(lblICRad80.Text))
-                    lblSecHeat60.Text = String.Format("{0:n0}", CDbl(lblQICHX60.Text) + CDbl(lblICRad60.Text))
-                    lblSecHeat40.Text = String.Format("{0:n0}", CDbl(lblQICHX40.Text) + CDbl(lblICRad40.Text))
-                    lblEleEff80.Text = String.Format("{0:n1}", .EleEff80) : lblEleEff60.Text = String.Format("{0:n1}", .EleEff60) : lblEleEff40.Text = String.Format("{0:n1}", .EleEff40)
-                    lblThermEff80.Text = String.Format("{0:n1}", .ThermEff80) : lblThermEff60.Text = String.Format("{0:n1}", .ThermEff60) : lblThermEff40.Text = String.Format("{0:n1}", .ThermEff40)
-                    lblTotalEff80.Text = String.Format("{0:n1}", .TotalEff80) : lblTotalEff60.Text = String.Format("{0:n1}", .TotalEff60) : lblTotalEff40.Text = String.Format("{0:n1}", .TotalEff40)
-                    '============ PRIMARY CIRCUIT PANEL ========================
-                    lblPWFlow80.Text = String.Format("{0:n0}", .PwFlow80) : lblPWFlow60.Text = String.Format("{0:n0}", .PwFlow60) : lblPWFlow40.Text = String.Format("{0:n0}", .PwFlow40)
-                    lblPwInAct80.Text = String.Format("{0:n0}", .PwInActual80) : lblPwInAct60.Text = String.Format("{0:n0}", .PwInActual60) : lblPwInAct40.Text = String.Format("{0:n0}", .PwInActual40)
-                    lblPwOutAct80.Text = String.Format("{0:n0}", .PwOutActual80) : lblPwOutAct60.Text = String.Format("{0:n0}", .PwOutActual60) : lblPwOutAct40.Text = String.Format("{0:n0}", .PwOutActual40)
-                    lblFluid2Type.Text = ._PrmCir_fluid.ToString : lblFluid2Percent.Text = String.Format("{0}%", ._f2pct)
-                    '============ SECONDARY CIRCUIT PANEL ========================
-                    lblSWFlow80.Text = String.Format("{0:n0}", .SwFlow80) : lblSWFlow60.Text = String.Format("{0:n0}", .SwFlow60) : lblSWFlow40.Text = String.Format("{0:n0}", .SwFlow40)
-                    lblSwInAct80.Text = String.Format("{0:n0}", .SwInActual80) : lblSwInAct60.Text = String.Format("{0:n0}", .SwInActual60) : lblSwInAct40.Text = String.Format("{0:n0}", .SwInActual40)
-                    lblSwOutAct80.Text = String.Format("{0:n0}", .SwOutActual80) : lblSwOutAct60.Text = String.Format("{0:n0}", .SwOutActual60) : lblSwOutAct40.Text = String.Format("{0:n0}", .SwOutActual40)
-                    lblFluid3Type.Text = ._SecCir_fluid.ToString : lblFluid3Percent.Text = String.Format("{0}%", ._f3pct)
-                    '============ STEAM PANEL ========================
-                    lblQsteam80.Text = String.Format("{0:n0}", .QSteam80) : lblQsteam60.Text = String.Format("{0:n0}", .QSteam60) : lblQsteam40.Text = String.Format("{0:n0}", .QSteam40)
-                    lblSteamProd80.Text = String.Format("{0:n0}", .SteamProd80) : lblSteamProd60.Text = String.Format("{0:n0}", .SteamProd60) : lblSteamProd40.Text = String.Format("{0:n0}", .SteamProd40)
+    Private Sub btnRight_Click(sender As System.Object, e As System.EventArgs) Handles btnRight.Click
+        NaviageGensetSpecs("next")
+    End Sub
+    Private Sub btnLeft_Click(sender As System.Object, e As System.EventArgs) Handles btnLeft.Click
+        NaviageGensetSpecs("prev")
+    End Sub
+    Private Sub NaviageGensetSpecs(direction As String)
+        Dim listPos As Integer = GensetList.IndexOf(MyGenSet)
+        If GensetList.Count > 0 Then
+            Select Case direction
+                Case "prev"
+                    If listPos = 0 Then listPos = GensetList.Count - 1 Else listPos -= 1
+                Case "next"
+                    If listPos = GensetList.Count - 1 Then listPos = 0 Else listPos += 1
             End Select
-        End With
+            MyGenSet = GensetList(listPos)
+            PrintAllStats()
+            lblCurrent.Text = listPos + 1
+        Else
+            MsgBox("There is not a list of Gensets created yet...")
+        End If
     End Sub
 #End Region
 #Region "TabControl \ Final"
 
 #End Region
-#Region "Buttons"
-    Private Sub NavButtons_Click(sender As System.Object, e As System.EventArgs) Handles btnNext.Click, btnBack.Click
-        Navigate(DirectCast(sender, Button).Name, tcMain, lblRecords.Text)
-    End Sub
-#End Region
+
 #Region "Menu Strip"
     Private Sub miDB_Click(sender As System.Object, e As System.EventArgs) Handles miDB.Click
         Dim EditDB As New frmEditor : EditDB.Show()
     End Sub
 #End Region
+#End Region
+
+#Region "HOUSEKEEPING & UTILITY"
+    Private Sub InitializeForm()
+        miVersion.Text = String.Format("Version: {0}", Version)
+        cbxEngCoolant.SelectedIndex = 0 : cbxPrimaryCir.SelectedIndex = 0 : cbxFilter.SelectedIndex = 0 : FillGensetDGVCols(dgvGensets)
+        Setup_DGV(dgvCompare)
+        'For Each tp As TabPage In tcMain.TabPages
+        '    If tp.Text <> "Choose Application" Then tp.Enabled = False
+        'Next
+    End Sub
+
+    Private Sub TextBox_Click_SelectAll(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtEPmin.Click, txtEPmax.Click, txtMinExTemp.Click, txtSteam.Click, txtFeed.Click, txtPrimaryInlet.Click, txtPrimaryOutlet.Click, txt2ndInlet.Click, txt2ndOutlet.Click
+        DirectCast(sender, TextBox).SelectAll()
+    End Sub
+
+    Private Sub NavButtons_Click(sender As System.Object, e As System.EventArgs) Handles btnNext.Click, btnBack.Click
+        Navigate(DirectCast(sender, Button).Name, tcMain, lblRecords.Text)
+    End Sub
+
+    Public Sub PrintAllStats()
+        Try
+            tabView.AutoScrollPosition = New Point(0, 0)
+            'If MyGenSet.tooHot = True Then : lblWarning.Visible = True : Else : lblWarning.Visible = False : End If
+            With MyGenset
+                ' SET VIEW MODE (PARTIAL POWER LOADS)
+                If ._MFR = "Guascor" Then ViewMode("20", tabView) Else ViewMode("25", tabView)
+                Dim myToolTipTxt = NoDec(.QHX) : ToolTip.SetToolTip(lblPrimHeat, myToolTipTxt) : lblCase.Text = .CalcCase
+                '============ TOP PANEL (GENERAL INFO) ========================
+                lblMFR.Text = String.Format("{0} - {1}", ._MFR, ._Model) : lblEngineID.Text = ._EngID : lblFuel.Text = ._Fuel : lblGenID.Text = ._genID
+                lblRPM.Text = ._RPM : lblKW.Text = String.Format("{0:n0} KW", .KWeOut100) : lblVolts.Text = String.Format("{0} Volts", ._genVolts) : lblPowFactor.Text = PowFactor
+                '============ ENGINE PERFORMANCE PANEL ========================
+                lblKWE100.Text = NoDec(.KWeOut100)
+                lblBHP100.Text = .engpow100
+                lblExFlow100.Text = NoDec(.exflow100)
+                lblExTemp100.Text = NoDec(.extemp100)
+                lblHeatMain100.Text = NoDec(.mainheat100)
+                lblQExAvail.Text = NoDec(.QExAvail)
+                lblLTheat100.Text = NoDec(.lt_heat100)
+                lblJWin.Text = NoDec(.jw_in) : lblJWout.Text = .jw_out : lblJWFlowRate.Text = NoDec(.jw_flow)
+                lblICin.Text = .ic_in : lblICout.Text = NoDec(.ic_out) : lblICFlowRate.Text = NoDec(.ic_flow)
+                lblOilCool100.Text = NoDec(.oilcool100)
+                lblFuelConHr100.Text = NoDec(.fuelcon100)
+                lblFuelConBhp100.Text = NoDec(.bHPhr)
+                lblFuelKW100.Text = NoDec(.btuKWh)
+                '============ RECOVERED HEAT PANEL ========================
+                lblJWtoPrimary100.Text = NoDec(.mainheat100)
+                lblExRecov100.Text = NoDec(.QEHRU)
+                If ._MFR = "Guascor" Then lblOiltoPrimary.Text = NoDec(.oilcool100) Else lblOiltoPrimary.Text = 0
+                .QJWRad *= -1 : lblJWRad100.Text = NoDec(.QJWRad)
+                lblPrimHeat.Text = NoDec((CInt(lblJWtoPrimary100.Text) + CInt(lblExRecov100.Text) + CInt(lblOiltoPrimary.Text) + CInt(lblJWRad100.Text)))
+                If Math.Abs(CDbl(lblPrimHeat.Text) - .QHX) > 5000 Then lblStatus.Text = "Total Primary Heat was adjusted, QHX greater than +/- 5,000." Else lblStatus.Text = ""
+                lblQICHX100.Text = NoDec(.QICHX)
+                .QICRad *= -1 : lblICRad100.Text = NoDec(.QICRad)
+                lblSecHeat100.Text = NoDec(CDbl(lblQICHX100.Text) + CDbl(lblICRad100.Text))
+                lblEleEff100.Text = OneDec(.EleEff)
+                lblThermEff100.Text = OneDec(.ThermEff)
+                lblTotalEff100.Text = OneDec(.TotalEff)
+                '============ PRIMARY CIRCUIT PANEL ========================
+                lblPWFlow100.Text = NoDec(.PwFlow)
+                lblPwInAct100.Text = NoDec(.PwInActual)
+                lblPwOutAct100.Text = NoDec(.PwOutActual)
+                lblFluid2Type.Text = ._PrmCir_fluid.ToString : lblFluid2Percent.Text = String.Format("{0}%", ._f2pct)
+                '============ SECONDARY CIRCUIT PANEL ========================
+                lblSWFlow100.Text = NoDec(.SWFlow)
+                lblSwInAct100.Text = NoDec(.SwInActual)
+                lblSwOutAct100.Text = NoDec(.SwOutActual)
+                lblFluid3Type.Text = ._SecCir_fluid.ToString : lblFluid3Percent.Text = String.Format("{0}%", ._f3pct)
+                '============ STEAM PANEL ========================
+                lblQsteam100.Text = NoDec(.QSteam)
+                lblSteamProd100.Text = NoDec(.SteamProduction)
+                lblSteamPress.Text = NoDec(._user_StmPress)
+                Select Case ._MFR '============ PARTIAL PANELS ========================
+                    Case "MTU"
+                        '============ ENGINE PERFORMANCE PANEL ========================
+                        lblKWE75.Text = NoDec(.KWeOut75) : lblKWE50.Text = NoDec(.KWeOut50)
+                        lblBHP75.Text = .engpow75 : lblBHP50.Text = .engpow50
+                        lblExFlow75.Text = NoDec(.exflow75) : lblExFlow50.Text = NoDec(.exflow50)
+                        lblExTemp75.Text = NoDec(.extemp75) : lblExTemp50.Text = NoDec(.extemp50)
+                        lblHeatMain75.Text = NoDec(.mainheat75) : lblHeatMain50.Text = NoDec(.mainheat50)
+                        lblQExAvail75.Text = NoDec(.QExAvail75) : lblQExAvail50.Text = NoDec(.QExAvail50)
+                        lblLTheat75.Text = NoDec(.lt_heat75) : lblLTheat50.Text = NoDec(.lt_heat50)
+                        lblOilCool75.Text = 0 : lblOilCool50.Text = 0 ' set to 0 because this is guascor only
+                        lblJWin75.Text = .jw_in : lblJWin50.Text = .jw_in
+                        lblJwOut75.Text = NoDec(.jwout75) : lblJwOut50.Text = NoDec(.jwout50)
+                        lblJWFlowRate75.Text = NoDec(.jw_flow) : lblJWFlowRate50.Text = NoDec(.jw_flow)
+                        lblICin75.Text = .ic_in : lblICin50.Text = .ic_in
+                        lblICout75.Text = NoDec(.icout75) : lblICout50.Text = NoDec(.icout50)
+                        lblICFlowRate75.Text = NoDec(.ic_flow) : lblICFlowRate50.Text = NoDec(.ic_flow)
+                        lblFuelConHr75.Text = NoDec(.fuelcon75) : lblFuelConHr50.Text = NoDec(.fuelcon50)
+                        lblFuelConBhp75.Text = NoDec(.bHPhr75) : lblFuelConBhp50.Text = NoDec(.bHPhr50)
+                        lblFuelKW75.Text = NoDec(.btuKWh75) : lblFuelKW50.Text = NoDec(.btuKW50)
+                        '============ RECOVERED HEAT PANEL ========================
+                        lblJWtoPrimary75.Text = NoDec(.mainheat75) : lblJWtoPrimary50.Text = NoDec(.mainheat50)
+                        lblExRecov75.Text = NoDec(.QEHRU75) : lblExRecov50.Text = NoDec(.QEHRU50)
+                        .QJWRad75 *= -1 : lblJWRad75.Text = NoDec(.QJWRad75) : .QJWRad50 *= -1 : lblJWRad50.Text = NoDec(.QJWRad50)
+                        lblPrimHeat75.Text = NoDec(CDbl(lblJWtoPrimary75.Text) + CDbl(lblExRecov75.Text) + CDbl(lblOilCool75.Text) + CDbl(lblJWRad75.Text))
+                        lblPrimHeat50.Text = NoDec(CDbl(lblJWtoPrimary50.Text) + CDbl(lblExRecov50.Text) + CDbl(lblOilCool50.Text) + CDbl(lblJWRad50.Text))
+                        lblQICHX75.Text = NoDec(.QICHX75) : lblQICHX50.Text = NoDec(.QICHX50)
+                        .QICRad75 *= -1 : lblICRad75.Text = NoDec(.QICRad75) : .QICRad50 *= -1 : lblICRad50.Text = NoDec(.QICRad50)
+                        lblSecHeat75.Text = NoDec(CDbl(lblQICHX75.Text) + CDbl(lblICRad75.Text)) : lblSecHeat50.Text = NoDec(CDbl(lblQICHX50.Text) + CDbl(lblICRad50.Text))
+                        lblEleEff75.Text = OneDec(.EleEff75) : lblEleEff50.Text = OneDec(.EleEff50)
+                        lblThermEff75.Text = OneDec(.ThermEff75) : lblThermEff50.Text = OneDec(.ThermEff50)
+                        lblTotalEff75.Text = OneDec(.TotalEff75) : lblTotalEff50.Text = OneDec(.TotalEff50)
+                        '============ PRIMARY CIRCUIT PANEL ========================
+                        lblPWFlow75.Text = NoDec(.PwFlow75) : lblPWFlow50.Text = NoDec(.PwFlow50)
+                        lblPwInAct75.Text = NoDec(.PwInActual75) : lblPwInAct50.Text = NoDec(.PwInActual50)
+                        lblPwOutAct75.Text = NoDec(.PwOutActual75) : lblPwOut50.Text = NoDec(.PwOutActual50)
+                        lblJWRad75.Text = NoDec(.QJWRad75) : lblJWRad50.Text = NoDec(.QJWRad50)
+                        '============ SECONDARY CIRCUIT PANEL ========================
+                        lblSWFlow75.Text = NoDec(.SwFlow75) : lblSWFlow50.Text = NoDec(.SwFlow50)
+                        lblSwInAct75.Text = NoDec(.SwInActual75) : lblSwInAct50.Text = NoDec(.SwInActual50)
+                        lblSwOutAct75.Text = NoDec(.SwOutActual75) : lblSwOutAct50.Text = NoDec(.SwOutActual50)
+                        lblICRad75.Text = NoDec(.QICRad75) : lblICRad50.Text = NoDec(.QICRad50)
+                        '============ STEAM PANEL ========================
+                        lblQsteam75.Text = NoDec(.QSteam75) : lblQsteam50.Text = NoDec(.QSteam50)
+                        lblSteamProd75.Text = NoDec(.SteamProd75) : lblSteamProd50.Text = NoDec(.SteamProd50)
+                    Case "MAN"
+                    Case "Guascor"
+                        '============ ENGINE PERFORMANCE PANEL ========================
+                        lblKWE80.Text = NoDec(.KWeOut80) : lblKWE60.Text = NoDec(.KWeOut60) : lblKWE40.Text = NoDec(.KWeOut40)
+                        lblBHP80.Text = .engpow80 : lblBHP60.Text = .engpow60 : lblBHP40.Text = .engpow40
+                        lblExFlow80.Text = NoDec(.exflow80) : lblExFlow60.Text = NoDec(.exflow60) : lblExFlow40.Text = NoDec(.exflow40)
+                        lblExTemp80.Text = NoDec(.extemp80) : lblExTemp60.Text = NoDec(.extemp60) : lblExTemp40.Text = NoDec(.extemp40)
+                        lblHeatMain80.Text = NoDec(.mainheat80) : lblHeatMain60.Text = NoDec(.mainheat60) : lblHeatMain40.Text = NoDec(.mainheat40)
+                        lblQExAvail80.Text = NoDec(.QExAvail80) : lblQExAvail60.Text = NoDec(.QExAvail60) : lblQExAvail40.Text = NoDec(.QExAvail40)
+                        lblLTheat80.Text = NoDec(.lt_heat80) : lblLTheat60.Text = NoDec(.lt_heat60) : lblLTheat40.Text = NoDec(.lt_heat40)
+                        lblOilCool100.Text = NoDec(.oilcool100) : lblOilCool80.Text = NoDec(.oilcool80) : lblOilCool60.Text = NoDec(.oilcool60) : lblOilCool40.Text = NoDec(.oilcool40)
+                        lblJWin80.Text = NoDec(.jwin80) : lblJWin60.Text = NoDec(.jwin60) : lblJWin40.Text = NoDec(.jwin40)
+                        lblJWout80.Text = .jw_out : lblJWout60.Text = .jw_out : lblJWout40.Text = .jw_out
+                        lblJWFlowRate80.Text = .jw_flow : lblJWFlowRate60.Text = .jw_flow : lblJWFlowRate40.Text = .jw_flow
+                        lblICin80.Text = .ic_in : lblICin60.Text = .ic_in : lblICin40.Text = .ic_in
+                        lblICout80.Text = NoDec(.icout80) : lblICout60.Text = NoDec(.icout60) : lblICout40.Text = NoDec(.icout40)
+                        lblICFlowRate80.Text = .ic_flow : lblICFlowRate60.Text = .ic_flow : lblICFlowRate40.Text = .ic_flow
+                        lblFuelConHr80.Text = NoDec(.fuelcon80) : lblFuelConHr60.Text = NoDec(.fuelcon60) : lblFuelConHr40.Text = NoDec(.fuelcon40)
+                        lblFuelConBhp80.Text = NoDec(.bHPhr80) : lblFuelConBhp60.Text = NoDec(.bHPhr60) : lblFuelConBhp40.Text = NoDec(.bHPhr40)
+                        lblFuelKW80.Text = NoDec(.btuKWh80) : lblFuelKW60.Text = NoDec(.btuKWh60) : lblFuelKW40.Text = NoDec(.btuKWh40)
+                        '============ RECOVERED HEAT PANEL ========================
+                        lblJWtoPrimary80.Text = NoDec(.mainheat80) : lblJWtoPrimary60.Text = NoDec(.mainheat60) : lblJWtoPrimary40.Text = NoDec(.mainheat40)
+                        lblExRecov80.Text = NoDec(.QEHRU80) : lblExRecov60.Text = NoDec(.QEHRU60) : lblExRecov40.Text = NoDec(.QEHRU40)
+                        lblOiltoPrimary.Text = NoDec(.oilcool100) : lblOiltoPrimary80.Text = NoDec(.oilcool80) : lblOiltoPrimary60.Text = NoDec(.oilcool60) : lblOiltoPrimary40.Text = NoDec(.oilcool40)
+                        .QJWRad80 *= -1 : lblJWRad80.Text = NoDec(.QJWRad80) : .QJWRad60 *= -1 : lblJWRad60.Text = NoDec(.QJWRad60) : .QJWRad40 *= -1 : lblJWRad40.Text = NoDec(.QJWRad40)
+                        lblPrimHeat80.Text = NoDec((CInt(lblJWtoPrimary80.Text) + CInt(lblExRecov80.Text) + CInt(lblOiltoPrimary80.Text) + CInt(lblJWRad80.Text)))
+                        lblPrimHeat60.Text = NoDec((CInt(lblJWtoPrimary60.Text) + CInt(lblExRecov60.Text) + CInt(lblOiltoPrimary60.Text) + CInt(lblJWRad60.Text)))
+                        lblPrimHeat40.Text = NoDec((CInt(lblJWtoPrimary40.Text) + CInt(lblExRecov40.Text) + CInt(lblOiltoPrimary40.Text) + CInt(lblJWRad40.Text)))
+                        lblQICHX80.Text = NoDec(.QICHX80) : lblQICHX60.Text = NoDec(.QICHX60) : lblQICHX40.Text = NoDec(.QICHX40)
+                        .QICRad80 *= -1 : lblICRad80.Text = NoDec(.QICRad80) : .QICRad60 *= -1 : lblICRad60.Text = NoDec(.QICRad60) : .QICRad40 *= -1 : lblICRad40.Text = NoDec(.QICRad40)
+                        lblSecHeat80.Text = NoDec(CDbl(lblQICHX80.Text) + CDbl(lblICRad80.Text))
+                        lblSecHeat60.Text = NoDec(CDbl(lblQICHX60.Text) + CDbl(lblICRad60.Text))
+                        lblSecHeat40.Text = NoDec(CDbl(lblQICHX40.Text) + CDbl(lblICRad40.Text))
+                        lblEleEff80.Text = OneDec(.EleEff80) : lblEleEff60.Text = OneDec(.EleEff60) : lblEleEff40.Text = OneDec(.EleEff40)
+                        lblThermEff80.Text = OneDec(.ThermEff80) : lblThermEff60.Text = OneDec(.ThermEff60) : lblThermEff40.Text = OneDec(.ThermEff40)
+                        lblTotalEff80.Text = OneDec(.TotalEff80) : lblTotalEff60.Text = OneDec(.TotalEff60) : lblTotalEff40.Text = OneDec(.TotalEff40)
+                        '============ PRIMARY CIRCUIT PANEL ========================
+                        lblPWFlow80.Text = NoDec(.PwFlow80) : lblPWFlow60.Text = NoDec(.PwFlow60) : lblPWFlow40.Text = NoDec(.PwFlow40)
+                        lblPwInAct80.Text = NoDec(.PwInActual80) : lblPwInAct60.Text = NoDec(.PwInActual60) : lblPwInAct40.Text = NoDec(.PwInActual40)
+                        lblPwOutAct80.Text = NoDec(.PwOutActual80) : lblPwOutAct60.Text = NoDec(.PwOutActual60) : lblPwOutAct40.Text = NoDec(.PwOutActual40)
+                        lblFluid2Type.Text = ._PrmCir_fluid.ToString : lblFluid2Percent.Text = String.Format("{0}%", ._f2pct)
+                        '============ SECONDARY CIRCUIT PANEL ========================
+                        lblSWFlow80.Text = NoDec(.SwFlow80) : lblSWFlow60.Text = NoDec(.SwFlow60) : lblSWFlow40.Text = NoDec(.SwFlow40)
+                        lblSwInAct80.Text = NoDec(.SwInActual80) : lblSwInAct60.Text = NoDec(.SwInActual60) : lblSwInAct40.Text = NoDec(.SwInActual40)
+                        lblSwOutAct80.Text = NoDec(.SwOutActual80) : lblSwOutAct60.Text = NoDec(.SwOutActual60) : lblSwOutAct40.Text = NoDec(.SwOutActual40)
+                        lblFluid3Type.Text = ._SecCir_fluid.ToString : lblFluid3Percent.Text = String.Format("{0}%", ._f3pct)
+                        '============ STEAM PANEL ========================
+                        lblQsteam80.Text = NoDec(.QSteam80) : lblQsteam60.Text = NoDec(.QSteam60) : lblQsteam40.Text = NoDec(.QSteam40)
+                        lblSteamProd80.Text = NoDec(.SteamProd80) : lblSteamProd60.Text = NoDec(.SteamProd60) : lblSteamProd40.Text = NoDec(.SteamProd40)
+                End Select
+            End With
+        Catch ex As Exception : End Try ' DO NOTHING
+    End Sub
 #End Region
 End Class

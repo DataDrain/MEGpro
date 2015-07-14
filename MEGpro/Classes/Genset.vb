@@ -2,7 +2,7 @@
     Private SQL As New SQLControl : Private _query As String = ""
 
 #Region "DECLARATIONS"
-#Region "  engine stats"
+#Region "--> Engine"
     ' STANDARD STATS
     Public avg As Integer ' <-- this is an integer to prevent query errors when looking for decimals
     Public jw_in As Integer : Public jw_out As Integer : Public jw_flow As Double
@@ -25,7 +25,7 @@
     Public _MixHT100u As Integer : Public _MixHT75u As Integer : Public _MixHT50u As Integer
     Public _Radiation100u As Integer : Public _Radiation75u As Integer : Public _Radiation50u As Integer
 #End Region
-#Region "  generator stats"
+#Region "--> Generator"
     Public _genID As String : Public _genMFR As String : Public _genRPM As Integer : Public _genKW As Double : Public _genKVA As Double : Public _genVolts As Integer
     Public x6 As Double : Public x5 As Double : Public x4 As Double : Public x3 As Double : Public x2 As Double : Public x1 As Double : Public x0 As Double
 
@@ -34,7 +34,7 @@
     Public KWeOut As Double : Public KWeOut100 As Double : Public KWeOut80 As Double : Public KWeOut75 As Double : Public KWeOut60 As Double : Public KWeOut50 As Double : Public KWeOut40 As Double
     Public loopCount As Integer = 0
 #End Region
-#Region "  calculation vars"
+#Region "--> Calculation Vars"
     ' Q's
     Public QExAvail As Double : Public QExAvail80 As Double : Public QExAvail75 As Double : Public QExAvail60 As Double : Public QExAvail50 As Double : Public QExAvail40 As Double
     Public QEHRU As Double : Public QEHRU80 As Double : Public QEHRU75 As Double : Public QEHRU60 As Double : Public QEHRU50 As Double : Public QEHRU40 As Double
@@ -46,13 +46,6 @@
     Public JWMassFlow As Double : Public JWdensity As Double : Public JWCp As Double
     Public ICMassFlow As Double : Public ICdensity As Double : Public ICcp As Double
     Public icout80 As Double : Public icout75 As Double : Public icout60 As Double : Public icout50 As Double : Public icout40 As Double
-
-    ' CONSTANTS
-    Public Const PINCH_TEMP As Integer = 100
-    Public Const ExCp As Double = 0.265 ' EX SPECIFIC HEAT
-    Public Const CpBTU As Double = 0.85
-    Public Const ConversionRatio As Double = 8.021
-    Public Const MinApproachTemp As Double = 5
 
     ' CASE CALCULATIONS (PRIMARY)
     Public PwInActual As Double : Public PwInActual80 As Double : Public PwInActual75 As Double : Public PwInActual60 As Double : Public PwInActual50 As Double : Public PwInActual40 As Double
@@ -100,7 +93,7 @@
         SW_Out
     End Enum
 #End Region
-#Region "  from constructor"
+#Region "--> Constructor"
     Public _EngID As String : Public _MFR As String : Public _Model As String : Public _Fuel As String : Public _BurnType As String : Public _RPM As Integer : Public _PF As Decimal
     Private _user_MinExTemp As Integer : Public _user_StmPress As Integer : Private _user_Feed_H2O As Integer
     Public _user_PWin As Integer : Private _user_PWout As Integer : Private _user_SWin As Integer : Private _user_SWout As Integer
@@ -122,15 +115,11 @@
 
 #Region "CONSTRUCTOR"
     ' SET INFORMATION FROM MAIN FORM
-    Public Sub New(eID As String, mfr As String, model As String, rpm As Integer, fuel As String, elepow As Double, pf As Single, _
-                   minEx As Integer, stmPressure As Integer, feed As Integer, _
-                   ppwIn As Integer, ppwOut As Integer, spwIn As Integer, spwOut As Integer, _
-                   steam As Boolean, ehru As Boolean, eh2jw As Boolean, eh2primary As Boolean, _
-                   jw As Boolean, lt As Boolean, lt2primary As Boolean, lt2second As Boolean, _
-                   f1 As Integer, f2 As Integer, f3 As Integer, _
-                   f1per As Integer, f2per As Integer, f3per As Integer, oil2jw As Boolean, oil2ic As Boolean)
+    Public Sub New(eID As String, mfr As String, minEx As Integer, stmPressure As Integer, feed As Integer, ppwIn As Integer, ppwOut As Integer, spwIn As Integer, spwOut As Integer, _
+                   steam As Boolean, ehru As Boolean, eh2jw As Boolean, eh2primary As Boolean, jw As Boolean, lt As Boolean, lt2primary As Boolean, lt2second As Boolean, _
+                   f1 As Integer, f2 As Integer, f3 As Integer, f1per As Integer, f2per As Integer, f3per As Integer, oil2jw As Boolean, oil2ic As Boolean)
         ' BASICS
-        _EngID = eID : _MFR = mfr : _Model = model : _RPM = rpm : _Fuel = fuel : elepow100 = elepow : _PF = pf
+        _EngID = eID : _MFR = mfr : _PF = frmMain.PowFactor
         ' USER INPUTS
         _user_MinExTemp = minEx : _user_StmPress = stmPressure : _user_Feed_H2O = feed : _user_PWin = ppwIn : _user_PWout = ppwOut : _user_SWin = spwIn : _user_SWout = spwOut
         ' BOOLEANS
@@ -139,7 +128,6 @@
         ' FLUID TYPES
         _EngCoolant_fluid = f1 : _f1pct = f1per : _PrmCir_fluid = f2 : _f2pct = f2per : _SecCir_fluid = f3 : _f3pct = f3per
         ' ==== END IMPORTING FROM MAIN PROGRAM ====
-        '=============================================
 
         FindCalcCase()
 
@@ -180,10 +168,12 @@
         Select Case _MFR
             Case "Guascor"
                 SQL.ExecQuery(String.Format("SELECT {0} FROM Engines WHERE id='{1}'", GUASCOR_GENSET, _EngID))
+                'MsgBox(String.Format("SELECT {0} FROM Engines WHERE id='{1}'", GUASCOR_GENSET, _EngID))
+                _Model = _get(SQL.DBDS, "model") : _RPM = _get(SQL.DBDS, "rpm") : _Fuel = _get(SQL.DBDS, "fuel") : elepow100 = _get(SQL.DBDS, "elepow100")
                 elepow80 = _get(SQL.DBDS, "elepow80") : elepow60 = _get(SQL.DBDS, "elepow60") : elepow80 = _get(SQL.DBDS, "elepow60")
                 engpow100 = _get(SQL.DBDS, "engpow100") : engpow80 = _get(SQL.DBDS, "engpow80") : engpow60 = _get(SQL.DBDS, "engpow60") : engpow40 = _get(SQL.DBDS, "engpow40")
                 jw_out = _get(SQL.DBDS, "jw_out") : jw_flow = _get(SQL.DBDS, "jw_flow") : ic_in = _get(SQL.DBDS, "ic_in") : ic_flow = _get(SQL.DBDS, "ic_flow")
-                exflow100 = _get(SQL.DBDS, "exflow100") : exflow80 = _get(SQL.DBDS, "exflow80") : exflow60 = _get(SQL.DBDS, "exflow60") : extemp40 = _get(SQL.DBDS, "exflow40")
+                exflow100 = _get(SQL.DBDS, "exflow100") : exflow80 = _get(SQL.DBDS, "exflow80") : exflow60 = _get(SQL.DBDS, "exflow60") : exflow40 = _get(SQL.DBDS, "exflow40")
                 extemp100 = _get(SQL.DBDS, "extemp100") : extemp80 = _get(SQL.DBDS, "extemp80") : extemp60 = _get(SQL.DBDS, "extemp60") : extemp40 = _get(SQL.DBDS, "extemp40")
                 fuelcon100 = _get(SQL.DBDS, "fuelcon100_u") : fuelcon80 = _get(SQL.DBDS, "fuelcon80_u") : fuelcon60 = _get(SQL.DBDS, "fuelcon60_u") : fuelcon40 = _get(SQL.DBDS, "fuelcon40_u")
                 mainheat100 = _get(SQL.DBDS, "mainheat100_u") : mainheat80 = _get(SQL.DBDS, "mainheat80_u") : mainheat60 = _get(SQL.DBDS, "mainheat60_u") : mainheat40 = _get(SQL.DBDS, "mainheat40_u")
@@ -199,7 +189,8 @@
                 End If
             Case "MTU"
                 SQL.ExecQuery(String.Format("SELECT {0} FROM Engines WHERE id='{1}'", MTU_GENSET, _EngID))
-                KWeOut100 = elepow100 : KWeOut75 = _get(SQL.DBDS, "elepow75") : KWeOut50 = _get(SQL.DBDS, "elepow50") : _genVolts = _get(SQL.DBDS, "voltage")
+                _Model = _get(SQL.DBDS, "model") : _RPM = _get(SQL.DBDS, "rpm") : _Fuel = _get(SQL.DBDS, "fuel")
+                KWeOut100 = _get(SQL.DBDS, "elepow100") : KWeOut75 = _get(SQL.DBDS, "elepow75") : KWeOut50 = _get(SQL.DBDS, "elepow50") : _genVolts = _get(SQL.DBDS, "voltage")
                 engpow100 = _get(SQL.DBDS, "engpow100") : engpow75 = _get(SQL.DBDS, "engpow75") : engpow50 = _get(SQL.DBDS, "engpow50")
                 jw_in = _get(SQL.DBDS, "jw_in") : jw_out = _get(SQL.DBDS, "jw_out") : ic_in = _get(SQL.DBDS, "ic_in") : ic_out = _get(SQL.DBDS, "ic_out")
                 exflow100 = _get(SQL.DBDS, "exflow100") : exflow75 = _get(SQL.DBDS, "exflow75") : exflow50 = _get(SQL.DBDS, "exflow50")
@@ -208,6 +199,7 @@
                 mainheat100 = _get(SQL.DBDS, "mainheat100_u") : mainheat75 = _get(SQL.DBDS, "mainheat75_u") : mainheat50 = _get(SQL.DBDS, "mainheat50_u")
                 lt_heat100 = _get(SQL.DBDS, "lt_heat100_u") : lt_heat75 = _get(SQL.DBDS, "lt_heat75_u") : lt_heat50 = _get(SQL.DBDS, "lt_heat50_u")
         End Select
+        If Not String.IsNullOrEmpty(SQL.Exception) Then MsgBox(SQL.Exception)
     End Sub
 #End Region
 #Region "--> Generator Stats"
@@ -305,7 +297,7 @@
 #End Region
 
 #Region "CALCULATION SUBS"
-#Region "  calc cases"
+#Region "--> Calc Cases"
     Public Sub FindCalcCase()
         If _wantLT = False Then
             If _EHRUtoJW = True Or _wantEHRU = False Then
@@ -349,7 +341,7 @@
         End Select
     End Sub
 #End Region
-#Region "  primary pw"
+#Region "--> Primary PW"
     Public Sub DeterminePWtemps()
         If _MFR = "Guascor" Then ' inlet will vary, JWout is constant
             If _OilToJW Then
@@ -479,7 +471,7 @@
         End If
     End Sub
 #End Region
-#Region "  secondary pw"
+#Region "--> 2nd PW"
     Public Sub DetermineSWtemps()
         If _MFR = "Guascor" Then
             icout80 = UberLoop("outlet", ic_in, _SecCir_fluid, lt_heat80, ICMassFlow) : icout60 = UberLoop("outlet", ic_in, _SecCir_fluid, lt_heat60, ICMassFlow) : icout40 = UberLoop("outlet", ic_in, _SecCir_fluid, lt_heat40, ICMassFlow)
@@ -649,7 +641,7 @@
         End If
     End Sub
 #End Region
-#Region "  uber loop"
+#Region "--> Uber Loop"
     Public Function UberLoop(solveFor As String, knownTemp As Double, fluid As FluidType, knownQorTemp As Double, knownGPM As Double) As Double
         ' T_in unknown && T_out known then subtract || T_in known && T_out unknown then add
         Dim counter As Integer = 0
@@ -743,7 +735,7 @@
     End Function
 #End Region
 
-#Region "  gpm's"
+#Region "--> GPM's"
     Public Sub GetGPMs() ' THESE WILL REMAIN CONSTANT, NO PARTIALS!!
         avg = ((jw_in + jw_out) / 2)
         ' CP
@@ -779,7 +771,7 @@
         End If
     End Sub
 #End Region
-#Region "  steam"
+#Region "--> Steam"
     Public Sub CalcSteam()
         ' STEAM RECOVERED
         SQL.AddParam("@psig", _user_StmPress)
@@ -818,7 +810,7 @@
         End If
     End Sub
 #End Region
-#Region "  efficiency calcs"
+#Region "--> Efficiency/Fuelcon Calcs"
     Public Sub EfficiencyAndFuelConCalcs()
         ' FUEL CONSUMPTIONS
         btuKWh = fuelcon100 \ KWeOut100

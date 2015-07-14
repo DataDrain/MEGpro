@@ -26,7 +26,6 @@ Partial Class frmMain
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
         Me.Label64 = New System.Windows.Forms.Label()
         Me.btnLeft = New System.Windows.Forms.Button()
-        Me.btnRight = New System.Windows.Forms.Button()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label57 = New System.Windows.Forms.Label()
         Me.lblSteamPress = New System.Windows.Forms.Label()
@@ -102,8 +101,8 @@ Partial Class frmMain
         Me.lblTotalEff50 = New System.Windows.Forms.Label()
         Me.Label124 = New System.Windows.Forms.Label()
         Me.dgvGensets = New System.Windows.Forms.DataGridView()
-        Me.prgMain = New System.Windows.Forms.ProgressBar()
         Me.tabView = New System.Windows.Forms.TabPage()
+        Me.btnRight = New System.Windows.Forms.Button()
         Me.lblSecHeat50 = New System.Windows.Forms.Label()
         Me.lblSecHeat100 = New System.Windows.Forms.Label()
         Me.lblSecHeat75 = New System.Windows.Forms.Label()
@@ -391,7 +390,6 @@ Partial Class frmMain
         Me.lblChk = New System.Windows.Forms.Label()
         Me.cbxFilter = New System.Windows.Forms.ComboBox()
         Me.txtSearch = New System.Windows.Forms.ComboBox()
-        Me.btnWipe = New System.Windows.Forms.Button()
         Me.pnlMode = New System.Windows.Forms.Panel()
         Me.lblMode = New System.Windows.Forms.Label()
         Me.radEngines = New System.Windows.Forms.RadioButton()
@@ -403,6 +401,13 @@ Partial Class frmMain
         Me.radTop10 = New System.Windows.Forms.RadioButton()
         Me.radAll = New System.Windows.Forms.RadioButton()
         Me.Label33 = New System.Windows.Forms.Label()
+        Me.tabCompare = New System.Windows.Forms.TabPage()
+        Me.pnlEngines = New System.Windows.Forms.Panel()
+        Me.radTop20 = New System.Windows.Forms.RadioButton()
+        Me.lbl10 = New System.Windows.Forms.Label()
+        Me.btnWipe = New System.Windows.Forms.Button()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.lblStatus = New System.Windows.Forms.Label()
         Me.txtPrepare = New System.Windows.Forms.TextBox()
         Me.txtProjName = New System.Windows.Forms.TextBox()
         Me.btnFinal = New System.Windows.Forms.Button()
@@ -414,8 +419,6 @@ Partial Class frmMain
         Me.lblPrepare = New System.Windows.Forms.Label()
         Me.lblProjName = New System.Windows.Forms.Label()
         Me.Label72 = New System.Windows.Forms.Label()
-        Me.pnlEngines = New System.Windows.Forms.Panel()
-        Me.lbl10 = New System.Windows.Forms.Label()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
@@ -539,7 +542,6 @@ Partial Class frmMain
         Me.Label67 = New System.Windows.Forms.Label()
         Me.Label66 = New System.Windows.Forms.Label()
         Me.Label18 = New System.Windows.Forms.Label()
-        Me.tabCompare = New System.Windows.Forms.TabPage()
         Me.sfdSaveFile = New System.Windows.Forms.SaveFileDialog()
         Me.btnBack = New System.Windows.Forms.Button()
         Me.btnReset = New System.Windows.Forms.Button()
@@ -549,17 +551,18 @@ Partial Class frmMain
         Me.tabView.SuspendLayout()
         CType(Me.dgvCompare, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlMode.SuspendLayout()
+        Me.tabCompare.SuspendLayout()
+        Me.pnlEngines.SuspendLayout()
+        Me.Panel1.SuspendLayout()
         Me.tabDrawing.SuspendLayout()
         CType(Me.picTest, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabPrint.SuspendLayout()
-        Me.pnlEngines.SuspendLayout()
         Me.tabFilter.SuspendLayout()
         Me.tcMain.SuspendLayout()
         Me.tabHeat.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
-        Me.tabCompare.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label64
@@ -579,20 +582,12 @@ Partial Class frmMain
         'btnLeft
         '
         Me.btnLeft.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnLeft.Image = Global.MEGpro.My.Resources.Resources.Prev
         Me.btnLeft.Location = New System.Drawing.Point(22, 120)
         Me.btnLeft.Name = "btnLeft"
         Me.btnLeft.Size = New System.Drawing.Size(28, 26)
         Me.btnLeft.TabIndex = 4823
         Me.btnLeft.UseVisualStyleBackColor = True
-        '
-        'btnRight
-        '
-        Me.btnRight.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.btnRight.Location = New System.Drawing.Point(51, 120)
-        Me.btnRight.Name = "btnRight"
-        Me.btnRight.Size = New System.Drawing.Size(28, 26)
-        Me.btnRight.TabIndex = 4822
-        Me.btnRight.UseVisualStyleBackColor = True
         '
         'Label11
         '
@@ -1559,7 +1554,6 @@ Partial Class frmMain
         Me.dgvGensets.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.dgvGensets.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.dgvGensets.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvGensets.GridColor = System.Drawing.Color.White
         Me.dgvGensets.Location = New System.Drawing.Point(8, 55)
         Me.dgvGensets.MultiSelect = False
         Me.dgvGensets.Name = "dgvGensets"
@@ -1570,18 +1564,6 @@ Partial Class frmMain
         Me.dgvGensets.TabIndex = 402
         Me.ToolTip.SetToolTip(Me.dgvGensets, "Gensets")
         Me.dgvGensets.Visible = False
-        '
-        'prgMain
-        '
-        Me.prgMain.BackColor = System.Drawing.Color.White
-        Me.prgMain.ForeColor = System.Drawing.Color.White
-        Me.prgMain.Location = New System.Drawing.Point(41, 334)
-        Me.prgMain.Name = "prgMain"
-        Me.prgMain.Size = New System.Drawing.Size(132, 19)
-        Me.prgMain.Step = 1
-        Me.prgMain.Style = System.Windows.Forms.ProgressBarStyle.Continuous
-        Me.prgMain.TabIndex = 406
-        Me.prgMain.Visible = False
         '
         'tabView
         '
@@ -1941,6 +1923,16 @@ Partial Class frmMain
         Me.tabView.TabIndex = 3
         Me.tabView.Tag = ""
         Me.tabView.Text = "View Performance"
+        '
+        'btnRight
+        '
+        Me.btnRight.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnRight.Image = Global.MEGpro.My.Resources.Resources._Next
+        Me.btnRight.Location = New System.Drawing.Point(51, 120)
+        Me.btnRight.Name = "btnRight"
+        Me.btnRight.Size = New System.Drawing.Size(28, 26)
+        Me.btnRight.TabIndex = 4822
+        Me.btnRight.UseVisualStyleBackColor = True
         '
         'lblSecHeat50
         '
@@ -5858,21 +5850,6 @@ Partial Class frmMain
         Me.txtSearch.Tag = "id"
         Me.ToolTip.SetToolTip(Me.txtSearch, "Filter Search Bar")
         '
-        'btnWipe
-        '
-        Me.btnWipe.BackColor = System.Drawing.Color.Transparent
-        Me.btnWipe.FlatAppearance.BorderSize = 0
-        Me.btnWipe.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.GradientInactiveCaption
-        Me.btnWipe.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnWipe.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnWipe.Image = Global.MEGpro.My.Resources.Resources.X
-        Me.btnWipe.Location = New System.Drawing.Point(196, 70)
-        Me.btnWipe.Name = "btnWipe"
-        Me.btnWipe.Size = New System.Drawing.Size(24, 24)
-        Me.btnWipe.TabIndex = 407
-        Me.ToolTip.SetToolTip(Me.btnWipe, "Clear Filter and Refresh Results")
-        Me.btnWipe.UseVisualStyleBackColor = False
-        '
         'pnlMode
         '
         Me.pnlMode.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -5895,11 +5872,11 @@ Partial Class frmMain
         Me.lblMode.BackColor = System.Drawing.Color.Transparent
         Me.lblMode.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblMode.ForeColor = System.Drawing.Color.Black
-        Me.lblMode.Location = New System.Drawing.Point(432, 4)
+        Me.lblMode.Location = New System.Drawing.Point(407, 4)
         Me.lblMode.Name = "lblMode"
-        Me.lblMode.Size = New System.Drawing.Size(146, 20)
+        Me.lblMode.Size = New System.Drawing.Size(243, 20)
         Me.lblMode.TabIndex = 637
-        Me.lblMode.Text = "ENGINE MODE"
+        Me.lblMode.Text = "ENGINE COMPARISON MODE"
         Me.lblMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.ToolTip.SetToolTip(Me.lblMode, "Current Mode")
         '
@@ -5945,7 +5922,7 @@ Partial Class frmMain
         'btnPopulate
         '
         Me.btnPopulate.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPopulate.Location = New System.Drawing.Point(71, 264)
+        Me.btnPopulate.Location = New System.Drawing.Point(71, 288)
         Me.btnPopulate.Name = "btnPopulate"
         Me.btnPopulate.Size = New System.Drawing.Size(76, 62)
         Me.btnPopulate.TabIndex = 404
@@ -5991,7 +5968,7 @@ Partial Class frmMain
         'radAll
         '
         Me.radAll.AutoSize = True
-        Me.radAll.Location = New System.Drawing.Point(71, 231)
+        Me.radAll.Location = New System.Drawing.Point(71, 256)
         Me.radAll.Name = "radAll"
         Me.radAll.Size = New System.Drawing.Size(87, 20)
         Me.radAll.TabIndex = 666
@@ -6009,6 +5986,102 @@ Partial Class frmMain
         Me.Label33.TabIndex = 667
         Me.Label33.Text = "Choose which engines to convert:"
         Me.ToolTip.SetToolTip(Me.Label33, "Genset conversion selection")
+        '
+        'tabCompare
+        '
+        Me.tabCompare.BackColor = System.Drawing.SystemColors.Control
+        Me.tabCompare.Controls.Add(Me.pnlMode)
+        Me.tabCompare.Controls.Add(Me.dgvCompare)
+        Me.tabCompare.Controls.Add(Me.pnlEngines)
+        Me.tabCompare.Controls.Add(Me.dgvGensets)
+        Me.tabCompare.Location = New System.Drawing.Point(4, 25)
+        Me.tabCompare.Name = "tabCompare"
+        Me.tabCompare.Size = New System.Drawing.Size(998, 543)
+        Me.tabCompare.TabIndex = 2
+        Me.tabCompare.Text = "Compare Models"
+        Me.ToolTip.SetToolTip(Me.tabCompare, "View Engines Only (Engine Mode)")
+        '
+        'pnlEngines
+        '
+        Me.pnlEngines.BackColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.pnlEngines.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.pnlEngines.Controls.Add(Me.radTop20)
+        Me.pnlEngines.Controls.Add(Me.Label33)
+        Me.pnlEngines.Controls.Add(Me.radAll)
+        Me.pnlEngines.Controls.Add(Me.radTop10)
+        Me.pnlEngines.Controls.Add(Me.radTop5)
+        Me.pnlEngines.Controls.Add(Me.radSelected)
+        Me.pnlEngines.Controls.Add(Me.Label10)
+        Me.pnlEngines.Controls.Add(Me.lbl10)
+        Me.pnlEngines.Controls.Add(Me.txtSearch)
+        Me.pnlEngines.Controls.Add(Me.cbxFilter)
+        Me.pnlEngines.Controls.Add(Me.btnWipe)
+        Me.pnlEngines.Controls.Add(Me.btnPopulate)
+        Me.pnlEngines.Location = New System.Drawing.Point(8, 55)
+        Me.pnlEngines.Name = "pnlEngines"
+        Me.pnlEngines.Size = New System.Drawing.Size(234, 371)
+        Me.pnlEngines.TabIndex = 412
+        '
+        'radTop20
+        '
+        Me.radTop20.AutoSize = True
+        Me.radTop20.Location = New System.Drawing.Point(71, 231)
+        Me.radTop20.Name = "radTop20"
+        Me.radTop20.Size = New System.Drawing.Size(64, 20)
+        Me.radTop20.TabIndex = 668
+        Me.radTop20.Text = "Top 20"
+        Me.ToolTip.SetToolTip(Me.radTop20, "Convert first 10 of the datagrid")
+        Me.radTop20.UseVisualStyleBackColor = True
+        '
+        'lbl10
+        '
+        Me.lbl10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.lbl10.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbl10.Location = New System.Drawing.Point(-1, 0)
+        Me.lbl10.Name = "lbl10"
+        Me.lbl10.Size = New System.Drawing.Size(232, 24)
+        Me.lbl10.TabIndex = 413
+        Me.lbl10.Text = "Engine Toolbox"
+        Me.lbl10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'btnWipe
+        '
+        Me.btnWipe.BackColor = System.Drawing.Color.Transparent
+        Me.btnWipe.FlatAppearance.BorderSize = 0
+        Me.btnWipe.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.GradientInactiveCaption
+        Me.btnWipe.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnWipe.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnWipe.Image = Global.MEGpro.My.Resources.Resources.X
+        Me.btnWipe.Location = New System.Drawing.Point(196, 70)
+        Me.btnWipe.Name = "btnWipe"
+        Me.btnWipe.Size = New System.Drawing.Size(24, 24)
+        Me.btnWipe.TabIndex = 407
+        Me.ToolTip.SetToolTip(Me.btnWipe, "Clear Filter and Refresh Results")
+        Me.btnWipe.UseVisualStyleBackColor = False
+        '
+        'Panel1
+        '
+        Me.Panel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Panel1.BackColor = System.Drawing.Color.Transparent
+        Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Panel1.Controls.Add(Me.lblStatus)
+        Me.Panel1.Location = New System.Drawing.Point(13, 628)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(362, 27)
+        Me.Panel1.TabIndex = 626
+        Me.ToolTip.SetToolTip(Me.Panel1, "Current Mode")
+        '
+        'lblStatus
+        '
+        Me.lblStatus.BackColor = System.Drawing.Color.Transparent
+        Me.lblStatus.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblStatus.ForeColor = System.Drawing.Color.Black
+        Me.lblStatus.Location = New System.Drawing.Point(3, 3)
+        Me.lblStatus.Name = "lblStatus"
+        Me.lblStatus.Size = New System.Drawing.Size(353, 17)
+        Me.lblStatus.TabIndex = 639
+        Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ToolTip.SetToolTip(Me.lblStatus, "Current Mode")
         '
         'txtPrepare
         '
@@ -6137,38 +6210,6 @@ Partial Class frmMain
         Me.Label72.Size = New System.Drawing.Size(949, 455)
         Me.Label72.TabIndex = 511
         Me.Label72.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'pnlEngines
-        '
-        Me.pnlEngines.BackColor = System.Drawing.SystemColors.GradientActiveCaption
-        Me.pnlEngines.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pnlEngines.Controls.Add(Me.Label33)
-        Me.pnlEngines.Controls.Add(Me.radAll)
-        Me.pnlEngines.Controls.Add(Me.radTop10)
-        Me.pnlEngines.Controls.Add(Me.radTop5)
-        Me.pnlEngines.Controls.Add(Me.radSelected)
-        Me.pnlEngines.Controls.Add(Me.Label10)
-        Me.pnlEngines.Controls.Add(Me.lbl10)
-        Me.pnlEngines.Controls.Add(Me.txtSearch)
-        Me.pnlEngines.Controls.Add(Me.cbxFilter)
-        Me.pnlEngines.Controls.Add(Me.btnWipe)
-        Me.pnlEngines.Controls.Add(Me.btnPopulate)
-        Me.pnlEngines.Controls.Add(Me.prgMain)
-        Me.pnlEngines.Location = New System.Drawing.Point(8, 55)
-        Me.pnlEngines.Name = "pnlEngines"
-        Me.pnlEngines.Size = New System.Drawing.Size(234, 371)
-        Me.pnlEngines.TabIndex = 412
-        '
-        'lbl10
-        '
-        Me.lbl10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lbl10.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl10.Location = New System.Drawing.Point(-1, 0)
-        Me.lbl10.Name = "lbl10"
-        Me.lbl10.Size = New System.Drawing.Size(232, 24)
-        Me.lbl10.TabIndex = 413
-        Me.lbl10.Text = "Engine Toolbox"
-        Me.lbl10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Label6
         '
@@ -7689,20 +7730,6 @@ Partial Class frmMain
         Me.Label18.Text = "%"
         Me.Label18.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'tabCompare
-        '
-        Me.tabCompare.BackColor = System.Drawing.SystemColors.Control
-        Me.tabCompare.Controls.Add(Me.pnlMode)
-        Me.tabCompare.Controls.Add(Me.dgvCompare)
-        Me.tabCompare.Controls.Add(Me.pnlEngines)
-        Me.tabCompare.Controls.Add(Me.dgvGensets)
-        Me.tabCompare.Location = New System.Drawing.Point(4, 25)
-        Me.tabCompare.Name = "tabCompare"
-        Me.tabCompare.Size = New System.Drawing.Size(998, 543)
-        Me.tabCompare.TabIndex = 2
-        Me.tabCompare.Text = "Compare Models"
-        Me.ToolTip.SetToolTip(Me.tabCompare, "View Engines Only (Engine Mode)")
-        '
         'btnBack
         '
         Me.btnBack.Anchor = System.Windows.Forms.AnchorStyles.Bottom
@@ -7742,6 +7769,7 @@ Partial Class frmMain
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1008, 661)
+        Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.btnBack)
         Me.Controls.Add(Me.btnReset)
         Me.Controls.Add(Me.btnNext)
@@ -7759,12 +7787,14 @@ Partial Class frmMain
         CType(Me.dgvCompare, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlMode.ResumeLayout(False)
         Me.pnlMode.PerformLayout()
+        Me.tabCompare.ResumeLayout(False)
+        Me.pnlEngines.ResumeLayout(False)
+        Me.pnlEngines.PerformLayout()
+        Me.Panel1.ResumeLayout(False)
         Me.tabDrawing.ResumeLayout(False)
         CType(Me.picTest, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabPrint.ResumeLayout(False)
         Me.tabPrint.PerformLayout()
-        Me.pnlEngines.ResumeLayout(False)
-        Me.pnlEngines.PerformLayout()
         Me.tabFilter.ResumeLayout(False)
         Me.tabFilter.PerformLayout()
         Me.tcMain.ResumeLayout(False)
@@ -7776,7 +7806,6 @@ Partial Class frmMain
         Me.GroupBox2.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
-        Me.tabCompare.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -7860,7 +7889,6 @@ Partial Class frmMain
     Friend WithEvents Label124 As System.Windows.Forms.Label
     Friend WithEvents dgvGensets As System.Windows.Forms.DataGridView
     Friend WithEvents ToolTip As System.Windows.Forms.ToolTip
-    Friend WithEvents prgMain As System.Windows.Forms.ProgressBar
     Friend WithEvents tabView As System.Windows.Forms.TabPage
     Friend WithEvents lblSecHeat50 As System.Windows.Forms.Label
     Friend WithEvents lblSecHeat100 As System.Windows.Forms.Label
@@ -8301,4 +8329,7 @@ Partial Class frmMain
     Friend WithEvents radTop10 As System.Windows.Forms.RadioButton
     Friend WithEvents radTop5 As System.Windows.Forms.RadioButton
     Friend WithEvents radSelected As System.Windows.Forms.RadioButton
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents lblStatus As System.Windows.Forms.Label
+    Friend WithEvents radTop20 As System.Windows.Forms.RadioButton
 End Class

@@ -64,6 +64,14 @@
         Next
     End Sub
 
+    ' FORMATTING
+    Public Function NoDec(value As Object) As Object
+        Return String.Format("{0:n0}", value)
+    End Function
+    Public Function OneDec(value As Object) As Object
+        Return String.Format("{0:n1}", value)
+    End Function
+
     ' MAIN FORM NAVIGATION
     Public Sub Navigate(ButtonPushed As String, tc As TabControl, count As Integer)
         Select Case ButtonPushed
