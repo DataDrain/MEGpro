@@ -14,7 +14,7 @@ Module UtilityModule
     ' ==================
     ' DGV SETUP / UTLITY
     Public Sub Setup_DGV(dgv As DataGridView)
-        dgv.Font = New Font("Arial", 9) : dgv.ColumnHeadersDefaultCellStyle.Font = New Font("Arial", 9, FontStyle.Bold)
+        dgv.Font = New Font("Arial", 9.5) : dgv.ColumnHeadersDefaultCellStyle.Font = New Font("Arial", 9, FontStyle.Bold)
     End Sub
     Public Sub ColorDVG(dgv As DataGridView)
         For i As Integer = 0 To dgv.Rows.Count - 1

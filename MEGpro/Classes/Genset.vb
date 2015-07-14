@@ -211,8 +211,7 @@ Public Class Genset
         _genID = _get(SQL.DBDS, "id")
         ' GET GENERATOR STATS ACCORDING TO PAIRED ID
         SQL.AddParam("@gen", _genID)
-        _query = "SELECT * FROM Generators WHERE id=@gen"
-        SQL.ExecQuery(_query)
+        SQL.ExecQuery("SELECT * FROM Generators WHERE id=@gen")
         If String.IsNullOrEmpty(SQL.Exception) Then
             _genMFR = SQL.DBDS.Tables(0).Rows(0)("mfr")
             _genKW = SQL.DBDS.Tables(0).Rows(0)("elepow")
@@ -775,8 +774,7 @@ Public Class Genset
     Public Sub CalcSteam()
         ' STEAM RECOVERED
         SQL.AddParam("@psig", _user_StmPress)
-        _query = ("SELECT TOP(1) * FROM WaterPressure WHERE pressure>=@psig")
-        SQL.ExecQuery(_query)
+        SQL.ExecQuery("SELECT TOP(1) * FROM WaterPressure WHERE pressure>=@psig")
         If String.IsNullOrEmpty(SQL.Exception) Then
             SteamTemp = _get(SQL.DBDS, "temp") : VaporEnth = _get(SQL.DBDS, "vapor_enth")
         End If
@@ -797,8 +795,7 @@ Public Class Genset
         End If
         ' STEAM PRODUCTION
         SQL.AddParam("@feed", _user_Feed_H2O)
-        _query = ("SELECT TOP(1) * FROM WaterTemp WHERE Temp>=@feed")
-        SQL.ExecQuery(_query)
+        SQL.ExecQuery("SELECT TOP(1) * FROM WaterTemp WHERE Temp>=@feed")
         If String.IsNullOrEmpty(SQL.Exception) Then
             SatLiq = _get(SQL.DBDS, "sat_liq")
         End If

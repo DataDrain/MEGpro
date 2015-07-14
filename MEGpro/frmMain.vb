@@ -237,7 +237,7 @@ Public Class frmMain
         Else
             MsgBox("Something went wrong")
         End If
-        TimeSpent = Now.Subtract(TimerStart) : lblTimer.Text = String.Format("{0:n3} sec", TimeSpent.TotalSeconds) : Me.Cursor = Cursors.Default
+        TimeSpent = Now.Subtract(TimerStart) : lblTimer.Text = String.Format("T = {0:n2}s", TimeSpent.TotalSeconds) : Me.Cursor = Cursors.Default
         PrintAllStats()
     End Sub
 
@@ -251,11 +251,11 @@ Public Class frmMain
     Private Sub PopulateGensetDGV(i As Integer)
         With MyGenset
             dgvGensets.Rows(i).Cells(0).Value = ._EngID : dgvGensets.Rows(i).Cells(1).Value = ._MFR : dgvGensets.Rows(i).Cells(2).Value = ._Model : dgvGensets.Rows(i).Cells(3).Value = ._RPM
-            dgvGensets.Rows(i).Cells(4).Value = ._Fuel : dgvGensets.Rows(i).Cells(5).Value = NoDec(.KWeOut100) : dgvGensets.Rows(i).Cells(6).Value = .lt_heat100 : dgvGensets.Rows(i).Cells(7).Value = .fuelcon100
-            dgvGensets.Rows(i).Cells(8).Value = .bHPhr : dgvGensets.Rows(i).Cells(9).Value = .QSteam : dgvGensets.Rows(i).Cells(10).Value = .mainheat100 : dgvGensets.Rows(i).Cells(11).Value = .QEHRU
-            dgvGensets.Rows(i).Cells(12).Value = .oilcool100 : dgvGensets.Rows(i).Cells(13).Value = .QHX : dgvGensets.Rows(i).Cells(14).Value = .QICHX : dgvGensets.Rows(i).Cells(15).Value = OneDec(.EleEff)
+            dgvGensets.Rows(i).Cells(4).Value = ._Fuel : dgvGensets.Rows(i).Cells(5).Value = NoDec(.KWeOut100) : dgvGensets.Rows(i).Cells(6).Value = NoDec(.lt_heat100) : dgvGensets.Rows(i).Cells(7).Value = NoDec(.fuelcon100)
+            dgvGensets.Rows(i).Cells(8).Value = NoDec(.bHPhr) : dgvGensets.Rows(i).Cells(9).Value = NoDec(.QSteam) : dgvGensets.Rows(i).Cells(10).Value = NoDec(.mainheat100) : dgvGensets.Rows(i).Cells(11).Value = NoDec(.QEHRU)
+            dgvGensets.Rows(i).Cells(12).Value = NoDec(.oilcool100) : dgvGensets.Rows(i).Cells(13).Value = NoDec(.QHX) : dgvGensets.Rows(i).Cells(14).Value = .QICHX : dgvGensets.Rows(i).Cells(15).Value = OneDec(.EleEff)
             dgvGensets.Rows(i).Cells(16).Value = OneDec(.ThermEff) : dgvGensets.Rows(i).Cells(17).Value = OneDec(.TotalEff) : dgvGensets.Rows(i).Cells(18).Value = .PwFlow : dgvGensets.Rows(i).Cells(19).Value = .PwInActual
-            dgvGensets.Rows(i).Cells(20).Value = .PwOutActual : dgvGensets.Rows(i).Cells(21).Value = .SWFlow : dgvGensets.Rows(i).Cells(22).Value = .SwInActual : dgvGensets.Rows(i).Cells(23).Value = .SwOutActual
+            dgvGensets.Rows(i).Cells(20).Value = .PwOutActual : dgvGensets.Rows(i).Cells(21).Value = NoDec(.SWFlow) : dgvGensets.Rows(i).Cells(22).Value = .SwInActual : dgvGensets.Rows(i).Cells(23).Value = .SwOutActual
         End With
     End Sub
 #End Region
@@ -352,7 +352,7 @@ Public Class frmMain
 #End Region
 #Region "TabControl \ Compare"
     Private Sub EngineMode()
-        dgvGensets.Visible = False : pnlEngines.Visible = True : dgvCompare.Visible = True : UpdateObj(lblMode, "ENGINE COMPARISON MODE", Color.Black) : pnlMode.BackColor = Color.Transparent
+        dgvGensets.Visible = False : pnlEngines.Visible = True : dgvCompare.Visible = True : UpdateObj(lblMode, "ENGINE COMPARISON MODE", Color.White) : pnlMode.BackColor = Color.SlateGray
     End Sub
     Private Sub GensetMode()
         dgvCompare.Visible = False : pnlEngines.Visible = False : dgvGensets.Visible = True : UpdateObj(lblMode, "GENSET COMPARISON MODE", Color.Chartreuse) : pnlMode.BackColor = Color.DarkSlateGray
@@ -453,7 +453,7 @@ Public Class frmMain
     Private Sub InitializeForm()
         miVersion.Text = String.Format("Version: {0}", Version)
         cbxEngCoolant.SelectedIndex = 0 : cbxPrimaryCir.SelectedIndex = 0 : cbxFilter.SelectedIndex = 0 : FillGensetDGVCols(dgvGensets)
-        Setup_DGV(dgvCompare)
+        Setup_DGV(dgvCompare) : Setup_DGV(dgvGensets)
         'For Each tp As TabPage In tcMain.TabPages
         '    If tp.Text <> "Choose Application" Then tp.Enabled = False
         'Next

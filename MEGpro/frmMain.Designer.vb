@@ -408,6 +408,8 @@ Partial Class frmMain
         Me.btnWipe = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.lblStatus = New System.Windows.Forms.Label()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.lblTimer = New System.Windows.Forms.Label()
         Me.txtPrepare = New System.Windows.Forms.TextBox()
         Me.txtProjName = New System.Windows.Forms.TextBox()
         Me.btnFinal = New System.Windows.Forms.Button()
@@ -546,8 +548,6 @@ Partial Class frmMain
         Me.btnBack = New System.Windows.Forms.Button()
         Me.btnReset = New System.Windows.Forms.Button()
         Me.btnNext = New System.Windows.Forms.Button()
-        Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.lblTimer = New System.Windows.Forms.Label()
         Me.msMain.SuspendLayout()
         CType(Me.dgvGensets, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabView.SuspendLayout()
@@ -556,6 +556,7 @@ Partial Class frmMain
         Me.tabCompare.SuspendLayout()
         Me.pnlEngines.SuspendLayout()
         Me.Panel1.SuspendLayout()
+        Me.Panel2.SuspendLayout()
         Me.tabDrawing.SuspendLayout()
         CType(Me.picTest, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.tabPrint.SuspendLayout()
@@ -565,7 +566,6 @@ Partial Class frmMain
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
-        Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label64
@@ -5858,7 +5858,7 @@ Partial Class frmMain
         '
         Me.pnlMode.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pnlMode.BackColor = System.Drawing.SystemColors.Control
+        Me.pnlMode.BackColor = System.Drawing.Color.SlateGray
         Me.pnlMode.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.pnlMode.Controls.Add(Me.lblMode)
         Me.pnlMode.Controls.Add(Me.radEngines)
@@ -5873,24 +5873,25 @@ Partial Class frmMain
         '
         Me.lblMode.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblMode.AutoSize = True
         Me.lblMode.BackColor = System.Drawing.Color.Transparent
-        Me.lblMode.Font = New System.Drawing.Font("Arial", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMode.ForeColor = System.Drawing.Color.Black
-        Me.lblMode.Location = New System.Drawing.Point(407, 4)
+        Me.lblMode.Font = New System.Drawing.Font("Arial Black", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMode.ForeColor = System.Drawing.Color.White
+        Me.lblMode.Location = New System.Drawing.Point(248, 2)
         Me.lblMode.Name = "lblMode"
-        Me.lblMode.Size = New System.Drawing.Size(243, 20)
+        Me.lblMode.Size = New System.Drawing.Size(253, 22)
         Me.lblMode.TabIndex = 637
         Me.lblMode.Text = "ENGINE COMPARISON MODE"
         Me.lblMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.ToolTip.SetToolTip(Me.lblMode, "Current Mode")
+        Me.ToolTip.SetToolTip(Me.lblMode, "Current Mode (change mode by selecting buttons to left)")
         '
         'radEngines
         '
         Me.radEngines.AutoSize = True
         Me.radEngines.Checked = True
         Me.radEngines.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.radEngines.ForeColor = System.Drawing.Color.Black
-        Me.radEngines.Location = New System.Drawing.Point(29, 4)
+        Me.radEngines.ForeColor = System.Drawing.Color.White
+        Me.radEngines.Location = New System.Drawing.Point(29, 3)
         Me.radEngines.Name = "radEngines"
         Me.radEngines.Size = New System.Drawing.Size(76, 20)
         Me.radEngines.TabIndex = 409
@@ -5903,8 +5904,8 @@ Partial Class frmMain
         '
         Me.radGensets.AutoSize = True
         Me.radGensets.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.radGensets.ForeColor = System.Drawing.Color.Black
-        Me.radGensets.Location = New System.Drawing.Point(109, 4)
+        Me.radGensets.ForeColor = System.Drawing.Color.White
+        Me.radGensets.Location = New System.Drawing.Point(109, 3)
         Me.radGensets.Name = "radGensets"
         Me.radGensets.Size = New System.Drawing.Size(76, 20)
         Me.radGensets.TabIndex = 410
@@ -6086,6 +6087,30 @@ Partial Class frmMain
         Me.lblStatus.TabIndex = 639
         Me.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.ToolTip.SetToolTip(Me.lblStatus, "Current Mode")
+        '
+        'Panel2
+        '
+        Me.Panel2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Panel2.BackColor = System.Drawing.Color.Transparent
+        Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Panel2.Controls.Add(Me.lblTimer)
+        Me.Panel2.Location = New System.Drawing.Point(921, 27)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(83, 27)
+        Me.Panel2.TabIndex = 627
+        Me.ToolTip.SetToolTip(Me.Panel2, "Current Mode")
+        '
+        'lblTimer
+        '
+        Me.lblTimer.BackColor = System.Drawing.Color.Transparent
+        Me.lblTimer.Font = New System.Drawing.Font("Arial", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTimer.ForeColor = System.Drawing.Color.Black
+        Me.lblTimer.Location = New System.Drawing.Point(3, 3)
+        Me.lblTimer.Name = "lblTimer"
+        Me.lblTimer.Size = New System.Drawing.Size(74, 17)
+        Me.lblTimer.TabIndex = 639
+        Me.lblTimer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.ToolTip.SetToolTip(Me.lblTimer, "Current Mode")
         '
         'txtPrepare
         '
@@ -7768,30 +7793,6 @@ Partial Class frmMain
         Me.btnNext.Text = "&Next >"
         Me.btnNext.UseVisualStyleBackColor = True
         '
-        'Panel2
-        '
-        Me.Panel2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Panel2.BackColor = System.Drawing.Color.Transparent
-        Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.Panel2.Controls.Add(Me.lblTimer)
-        Me.Panel2.Location = New System.Drawing.Point(921, 27)
-        Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(83, 27)
-        Me.Panel2.TabIndex = 627
-        Me.ToolTip.SetToolTip(Me.Panel2, "Current Mode")
-        '
-        'lblTimer
-        '
-        Me.lblTimer.BackColor = System.Drawing.Color.Transparent
-        Me.lblTimer.Font = New System.Drawing.Font("Arial", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTimer.ForeColor = System.Drawing.Color.Black
-        Me.lblTimer.Location = New System.Drawing.Point(3, 3)
-        Me.lblTimer.Name = "lblTimer"
-        Me.lblTimer.Size = New System.Drawing.Size(74, 17)
-        Me.lblTimer.TabIndex = 639
-        Me.lblTimer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.ToolTip.SetToolTip(Me.lblTimer, "Current Mode")
-        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7820,6 +7821,7 @@ Partial Class frmMain
         Me.pnlEngines.ResumeLayout(False)
         Me.pnlEngines.PerformLayout()
         Me.Panel1.ResumeLayout(False)
+        Me.Panel2.ResumeLayout(False)
         Me.tabDrawing.ResumeLayout(False)
         CType(Me.picTest, System.ComponentModel.ISupportInitialize).EndInit()
         Me.tabPrint.ResumeLayout(False)
@@ -7835,7 +7837,6 @@ Partial Class frmMain
         Me.GroupBox2.PerformLayout()
         Me.GroupBox3.ResumeLayout(False)
         Me.GroupBox3.PerformLayout()
-        Me.Panel2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
