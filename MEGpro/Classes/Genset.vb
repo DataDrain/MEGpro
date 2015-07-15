@@ -29,7 +29,6 @@ Public Class Genset
 #Region "--> Generator"
     Public _genID As String : Public _genMFR As String : Public _genRPM As Integer : Public _genKW As Double : Public _genKVA As Double : Public _genVolts As Integer
     Public x6 As Double : Public x5 As Double : Public x4 As Double : Public x3 As Double : Public x2 As Double : Public x1 As Double : Public x0 As Double
-
     ' VARS TO FIND TRUE GEN EFFICIENCY
     Public genEff As Double : Public genLoad As Double
     Public KWeOut As Double : Public KWeOut100 As Double : Public KWeOut80 As Double : Public KWeOut75 As Double : Public KWeOut60 As Double : Public KWeOut50 As Double : Public KWeOut40 As Double
@@ -117,8 +116,8 @@ Public Class Genset
 #Region "CONSTRUCTOR"
     ' SET INFORMATION FROM MAIN FORM
     Public Sub New(eID As String, mfr As String, minEx As Integer, stmPressure As Integer, feed As Integer, ppwIn As Integer, ppwOut As Integer, spwIn As Integer, spwOut As Integer, _
-                   steam As Boolean, ehru As Boolean, eh2jw As Boolean, eh2primary As Boolean, jw As Boolean, lt As Boolean, lt2primary As Boolean, lt2second As Boolean, _
-                   f1 As Integer, f2 As Integer, f3 As Integer, f1per As Integer, f2per As Integer, f3per As Integer, oil2jw As Boolean, oil2ic As Boolean)
+                  steam As Boolean, ehru As Boolean, eh2jw As Boolean, eh2primary As Boolean, jw As Boolean, lt As Boolean, lt2primary As Boolean, lt2second As Boolean, _
+                  f1 As Integer, f2 As Integer, f3 As Integer, f1per As Integer, f2per As Integer, f3per As Integer, oil2jw As Boolean, oil2ic As Boolean)
         ' BASICS
         _EngID = eID : _MFR = mfr : _PF = frmMain.PowFactor
         ' USER INPUTS

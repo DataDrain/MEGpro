@@ -5827,6 +5827,7 @@ Partial Class frmMain
         Me.lblChk.Text = "Choose at least one MFR before continuing"
         Me.lblChk.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.ToolTip.SetToolTip(Me.lblChk, "Current Mode")
+        Me.lblChk.Visible = False
         '
         'cbxFilter
         '
@@ -6110,7 +6111,7 @@ Partial Class frmMain
         Me.lblTimer.Size = New System.Drawing.Size(74, 17)
         Me.lblTimer.TabIndex = 639
         Me.lblTimer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.ToolTip.SetToolTip(Me.lblTimer, "Current Mode")
+        Me.ToolTip.SetToolTip(Me.lblTimer, "Genset Creation Timer")
         '
         'txtPrepare
         '

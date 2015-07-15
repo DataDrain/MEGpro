@@ -1,4 +1,4 @@
-﻿' THIS MODULE STORES ALL CONSTANT VALUES FOR CLASSES TO ACCESS
+﻿' THIS MODULE STORES ALL CONSTANT VALUES FOR CLASSES
 Module ConstantsModule
 #Region "DATABASE EDITOR STRINGS"
     Private Const STANDARD_STATS As String = "id, mfr, model, rpm, fuel, burn_type, nox, comp_ratio, ignition_time, jw_flow, ic_flow"
